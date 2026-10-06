@@ -1,14 +1,13 @@
-export function Footer() {
-  const currentYear = new Date().getFullYear();
+import { Link } from 'react-router-dom';
+import { profile } from '../data/profile';
 
+export function Footer() {
   return (
-    <footer style={{ backgroundColor: 'var(--header-bg)' }} className="py-6">
-      <div className="container mx-auto px-4">
-        <div className="text-center">
-          <p className="text-white text-sm">
-            © {currentYear} Salim Saay. All Rights Reserved.
-          </p>
-        </div>
+    <footer className="site-footer">
+      <div className="container">
+        <span>© 2026 {profile.name} · Portfolio version 1.0</span>
+        <span>CS5709 Software Engineering Evolution, University of Limerick</span>
+        <Link to="/readme">How this site is built</Link>
       </div>
     </footer>
   );
