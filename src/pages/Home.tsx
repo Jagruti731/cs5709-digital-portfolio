@@ -11,7 +11,7 @@ export default function Home() {
       <section className="hero">
         <div className="container">
           <div>
-            <p className="hello">Software engineer · Nashik → Limerick</p>
+            <p className="hello">Software engineer and MSc student</p>
             <h1>{profile.name}</h1>
             <p className="intro">{profile.intro}</p>
             <ul className="quick-facts">

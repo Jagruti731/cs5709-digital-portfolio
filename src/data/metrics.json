@@ -13,9 +13,9 @@
     "ref": "HEAD",
     "commit": "v1.0",
     "filesInRepository": 90,
-    "trackedMB": 1.4,
+    "trackedMB": 1.3,
     "sourceFiles": 42,
-    "sourceLines": 4043,
-    "runtimeDependencies": 8
+    "sourceLines": 4334,
+    "runtimeDependencies": 6
   }
 }
