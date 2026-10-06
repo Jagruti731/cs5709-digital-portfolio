@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface CommentItem {
   id: string;
@@ -49,20 +49,15 @@ const postsSlice = createSlice({
         p.comments.push(comment);
       }
     },
-    toggleLike(state, action: PayloadAction<{ postId: string; author?: string }>) {
+    toggleLike(state, action: PayloadAction<{ postId: string; author: string }>) {
+      // A like always has an author; the starter pushed the string 'anon'.
       const { postId, author } = action.payload;
       const p = state.items.find((x) => x.id === postId);
       if (!p) return;
       p.likedBy = p.likedBy || [];
-      if (author) {
-        const i = p.likedBy.indexOf(author);
-        if (i === -1) p.likedBy.push(author);
-        else p.likedBy.splice(i, 1);
-      } else {
-        // anonymous increment (store as number in a special place)
-        // to keep shape simple we'll push a placeholder
-        p.likedBy.push('anon');
-      }
+      const i = p.likedBy.indexOf(author);
+      if (i === -1) p.likedBy.push(author);
+      else p.likedBy.splice(i, 1);
     },
   },
 });

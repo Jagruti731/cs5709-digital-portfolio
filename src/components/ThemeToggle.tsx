@@ -10,9 +10,7 @@ export function ThemeToggle() {
   useEffect(() => {
     if (theme) document.documentElement.setAttribute('data-theme', theme);
     else document.documentElement.removeAttribute('data-theme');
-    // Legacy pages from the starter still read the Tailwind "dark" class.
-    document.documentElement.classList.toggle('dark', isDark);
-  }, [theme, isDark]);
+  }, [theme]);
 
   return (
     <button className="icon-btn" type="button" onClick={() => setTheme(isDark ? 'light' : 'dark')}>
