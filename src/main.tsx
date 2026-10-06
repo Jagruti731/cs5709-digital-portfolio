@@ -1,7 +1,12 @@
 
   import { createRoot } from "react-dom/client";
   import App from "./App.tsx";
-  import "./index.css";
+  import "@fontsource/libre-caslon-display/400.css";
+  import "@fontsource/karla/400.css";
+  import "@fontsource/karla/500.css";
+  import "@fontsource/karla/700.css";
+  import "@fontsource/courier-prime/400.css";
+  import "./styles/global.css";
   import { Provider } from 'react-redux';
   import { store } from './store/store';
   import { setPosts as setPostsAction } from './store/postsSlice';
