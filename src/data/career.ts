@@ -1,0 +1,39 @@
+import type { TimelineItem } from '../components/Timeline';
+
+/** The short career path on the Home page. */
+export const careerPath = [
+  { when: '2018', title: 'Digital marketing', text: 'Web content, Brain Checker India' },
+  { when: 'Mar 2020', title: 'Intern', text: 'Winjit Technologies, Nashik' },
+  { when: '2021', title: 'Software Engineer', text: '.NET APIs and Angular apps' },
+  { when: '2024', title: 'Senior Software Engineer', text: 'OCR, credit systems, presales' },
+  { when: '2026', title: 'Team Lead → MSc', text: 'Project Engineer, then UL' },
+];
+
+/** Full work history on the About page. */
+export const experience: TimelineItem[] = [
+  {
+    when: 'From Apr 2026',
+    title: 'Project Engineer & Team Lead, Winjit Technologies',
+    text: 'Led the team on a consumer vehicle loan origination platform. Supported presales with credit workflow documents and case studies.',
+  },
+  {
+    when: '2024 – 2026',
+    title: 'Senior Software Engineer, Winjit Technologies',
+    text: 'Built the bank statement OCR pipeline and payslip extraction. Worked on credit decisioning services and legacy modernisation.',
+  },
+  {
+    when: 'Jan 2021 – 2024',
+    title: 'Software Engineer, Winjit Technologies',
+    text: '.NET Core APIs, Angular front ends, and integrations such as Sage with IBM Maximo.',
+  },
+  {
+    when: 'Mar 2020 – Dec 2020',
+    title: 'Software Engineering Intern, Winjit Technologies',
+    text: 'Started on .NET and Angular during my final year of engineering.',
+  },
+  {
+    when: '2018 – 2019',
+    title: 'Digital Marketing Executive (web content), Brain Checker India',
+    text: 'Wrote web content and helped run digital campaigns.',
+  },
+];
