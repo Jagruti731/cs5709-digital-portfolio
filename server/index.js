@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { nanoid } = require('nanoid');
 
 const app = express();
@@ -63,6 +64,27 @@ function writeSessions(sessions) {
   fs.writeFileSync(SESSIONS_PATH, JSON.stringify(sessions, null, 2), 'utf8');
 }
 
+// Passwords are stored as salted scrypt hashes, never in plain text (CR-07).
+function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
+  const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+  return `${salt}:${hash}`;
+}
+
+function checkPassword(password, stored) {
+  const [salt, hash] = String(stored || '').split(':');
+  if (!salt || !hash) return false;
+  const candidate = crypto.scryptSync(password, salt, 64);
+  const expected = Buffer.from(hash, 'hex');
+  return expected.length === candidate.length && crypto.timingSafeEqual(candidate, expected);
+}
+
+// Returns the username for a valid "Authorization: Bearer <token>" header, or null.
+function userFromRequest(req) {
+  const header = (req.get('authorization') || '').trim();
+  if (!header.startsWith('Bearer ')) return null;
+  return readSessions()[header.slice(7)] || null;
+}
+
 app.get('/posts', (req, res) => {
   const posts = readDB();
   // ensure posts have expected fields and return latest first
@@ -80,15 +102,8 @@ app.get('/posts', (req, res) => {
 
 app.post('/posts', (req, res) => {
   // require authentication to post
-  const authHeader = (req.get('authorization') || '').trim();
-  let authorFromToken = null;
-  if (authHeader.startsWith('Bearer ')) {
-    const token = authHeader.slice(7);
-    const sessions = readSessions();
-    if (sessions[token]) authorFromToken = sessions[token];
-  }
-
-  const { author = 'Anonymous', content, image } = req.body;
+  const authorFromToken = userFromRequest(req);
+  const { content, image } = req.body || {};
   if (!authorFromToken) {
     return res.status(401).json({ error: 'authentication required to create posts' });
   }
@@ -110,23 +125,25 @@ app.post('/posts', (req, res) => {
   res.status(201).json(post);
 });
 
+// Only the signed-in author of a post may delete it. The starter allowed anyone (CR-07).
 app.delete('/posts/:id', (req, res) => {
-  const id = req.params.id;
-  let posts = readDB();
-  const before = posts.length;
-  posts = posts.filter((p) => p.id !== id);
-  if (posts.length === before) return res.status(404).json({ error: 'not found' });
-  writeDB(posts);
+  const user = userFromRequest(req);
+  if (!user) return res.status(401).json({ error: 'authentication required' });
+  const posts = readDB();
+  const post = posts.find((p) => p.id === req.params.id);
+  if (!post) return res.status(404).json({ error: 'not found' });
+  if (post.author !== user) return res.status(403).json({ error: 'only the author can delete this post' });
+  writeDB(posts.filter((p) => p.id !== post.id));
   res.json({ success: true });
 });
 
-// Register user (simple, stores username+password in users.json) - NOT for production
+// Register a user. Development server: data lives in JSON files.
 app.post('/auth/register', (req, res) => {
   const { username, password } = req.body || {};
   if (!username || !password) return res.status(400).json({ error: 'username and password required' });
   const users = readUsers();
   if (users.find((u) => u.username === username)) return res.status(400).json({ error: 'username taken' });
-  const user = { id: nanoid(), username, password };
+  const user = { id: nanoid(), username, passwordHash: hashPassword(password) };
   users.push(user);
   writeUsers(users);
   // create session token and return it so client can auto-login
@@ -142,7 +159,7 @@ app.post('/auth/login', (req, res) => {
   const { username, password } = req.body || {};
   if (!username || !password) return res.status(400).json({ error: 'username and password required' });
   const users = readUsers();
-  const user = users.find((u) => u.username === username && u.password === password);
+  const user = users.find((u) => u.username === username && checkPassword(password, u.passwordHash));
   if (!user) return res.status(401).json({ error: 'invalid credentials' });
   const token = nanoid();
   const sessions = readSessions();
