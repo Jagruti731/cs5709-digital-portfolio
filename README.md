@@ -1,151 +1,54 @@
-# Digital Portfolio - Salim Saay
+# Digital Portfolio – Jagruti Badgujar
 
-A component-based digital portfolio built with React, TypeScript, Vite, and Redux Toolkit.
+CS5709 Software Engineering Evolution, University of Limerick · Assessment 1 (Phase 1).
 
-This project presents academic profile, publications, projects, media, and an interactive post feed with optional backend support.
+This repository is the lecturer's starter portfolio ([saaysalim/Salim-Saay](https://github.com/saaysalim/Salim-Saay))
+**evolved in place** into my own portfolio. The starter's history is kept; every change since is a separate
+commit named with its maintenance type.
 
-## Live Site
-- GitHub Pages: https://saaysalim.github.io/Salim-Saay/
-
-## Project Goals
-- Present a professional and academic profile in a modern web UI.
-- Keep content modular using reusable React components.
-- Support both static hosting and richer local mode with a Node.js API.
-- Maintain a clean structure that can grow over time.
-
-## Tech Stack
-- Frontend: React 18, TypeScript, Vite 6
-- State management: Redux Toolkit, React Redux
-- UI primitives: Radix UI + utility UI components
-- Styling: utility-first class approach with shared global styles
-- Icons: Lucide React
-- Optional backend: Node.js + Express (JSON-file persistence)
-
-## Features
-- Multi-section portfolio navigation (single-page app behavior)
-- About, Education, Projects, Publications, Contact, Gallery, Video Gallery sections
-- Post feed with likes, comments, image support, and local fallback
-- Simple auth flow for posting when backend is running
-- Responsive header navigation with mobile menu
-
-## Component-Based Architecture
-The app is built around isolated feature components composed by a single root container.
-
-- App shell:
-  - Header (navigation)
-  - Main content (page-level feature component rendered by current route state)
-  - Footer
-- Feature components:
-  - About, Projects, Contact, Education, Publications, Gallery, VideoGallery, Blog, PostFeed
-- Shared UI layer:
-  - Reusable primitives from src/components/ui (card, button, dialog, input, etc.)
-- State layer:
-  - Redux store with auth and posts slices
-
-A detailed architecture document is available at:
-- ARCHITECTURE.md
-
-## Folder Structure
-
-```text
-.
-|-- src/
-|   |-- App.tsx
-|   |-- main.tsx
-|   |-- components/
-|   |   |-- Header.tsx
-|   |   |-- Footer.tsx
-|   |   |-- About.tsx
-|   |   |-- Projects.tsx
-|   |   |-- Contact.tsx
-|   |   |-- Education.tsx
-|   |   |-- Publications.tsx
-|   |   |-- Gallery.tsx
-|   |   |-- VideoGallery.tsx
-|   |   |-- Blog.tsx
-|   |   |-- PostFeed.tsx
-|   |   |-- ui/
-|   |   `-- figma/
-|   |-- store/
-|   |   |-- store.ts
-|   |   |-- postsSlice.ts
-|   |   `-- authSlice.ts
-|   |-- styles/
-|   `-- assets/
-|-- server/
-|   |-- index.js
-|   |-- posts.json
-|   |-- users.json
-|   `-- sessions.json
-|-- build/
-|-- vite.config.ts
-`-- package.json
+```
+git log --oneline v0-starter..v1.0     # the nine changes of Phase 1
 ```
 
-## Local Development
+| Tag | Meaning |
+| --- | --- |
+| `v0-starter` | The starter exactly as downloaded (233176a, 15 Sep 2026) |
+| `v1.0-iteration1` | Iteration 1: dead weight removed, URL routing, Home + four pages |
+| `v1.0` | Iteration 2: stylesheet, remaining pages, type checking, security and deploy fixes, documentation |
 
-### 1) Install frontend dependencies
+## Pages
 
-```powershell
+Home · About · Education · Professional Knowledge · Pictures · Videos · Blog (articles + community feed) ·
+Messages (instant messaging) · Readme (structure and evolution report) · Search · Not found.
+
+## Run it
+
+```bash
 npm install
+npm run dev          # http://localhost:3000
+npm run build        # strict TypeScript check, then build/ (static files, relative paths)
+npm run deploy       # publish build/ to the gh-pages branch
 ```
 
-### 2) Run frontend (Vite)
+The site works on any static host. The community feed keeps posts in the visitor's browser unless the site
+is built with `VITE_API_URL`, in which case it uses the API server:
 
-```powershell
-npm run dev
+```bash
+cd server && npm install && npm start                 # http://localhost:5000
+VITE_API_URL=http://localhost:5000 npm run build
 ```
 
-By default, Vite is configured to run on port 3000.
+## Checks
 
-### 3) Build frontend
-
-```powershell
-npm run build
+```bash
+npm run typecheck                                      # strict TypeScript
+node tools/metrics.mjs v0-starter HEAD                 # size of the system, writes src/data/metrics.json
+npx vite preview --port 4173 &                         # serve the build
+node tools/browser-test.mjs http://localhost:4173/     # Playwright smoke test
+tools/api-test.sh                                      # API security checks with curl
 ```
 
-Output is generated in build/.
+## Stack
 
-## Optional Backend (Post Feed API)
-The frontend can run without the backend, but PostFeed gets full functionality when server is running.
-
-### Start backend
-
-```powershell
-cd server
-npm install
-npm start
-```
-
-Server runs on http://localhost:5000.
-
-### API Endpoints
-- GET /posts
-- POST /posts
-- DELETE /posts/:id
-- POST /posts/:id/comments
-- POST /posts/:id/likes
-- POST /auth/register
-- POST /auth/login
-
-## Deployment
-This project is configured for GitHub Pages with:
-- Vite base path: /Salim-Saay/
-- Build output folder: build/
-
-Deployment references:
-- README-DEPLOY.md
-- DEPLOY_TO_GITHUB_PAGES.md
-
-## Known Notes
-- If backend is unavailable, PostFeed falls back to localStorage.
-- Current backend auth and persistence are for development/demo use only.
-
-## Recommended Next Improvements
-- Add a client-side router for URL-based navigation.
-- Move static content into structured JSON or CMS source.
-- Add automated tests for PostFeed reducers and API behavior.
-- Harden backend auth and password storage for production readiness.
-
-## Author
-Salim Saay
+React 18, TypeScript (strict), Vite 6, React Router 6 (HashRouter), Redux Toolkit, one hand-written CSS file,
+self-hosted fonts (@fontsource). Optional Node.js + Express API. See [ARCHITECTURE.md](ARCHITECTURE.md).
