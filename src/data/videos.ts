@@ -11,7 +11,7 @@ export const videos: Video[] = [
     id: 'portfolio-evolution',
     title: 'This portfolio: version 0 to 1.0',
     description: "The commits that turned the lecturer's starter into this site, played back as a change log.",
-    duration: '0:14',
+    duration: '0:15',
   },
   {
     id: 'ocr-pipeline-walkthrough',

@@ -7,14 +7,14 @@ This repository is the lecturer's starter portfolio ([saaysalim/Salim-Saay](http
 commit named with its maintenance type.
 
 ```
-git log --oneline v0-starter..v1.0     # the nine changes of Phase 1
+git log --oneline v0-starter..v1.0     # the ten changes of Phase 1
 ```
 
 | Tag | Meaning |
 | --- | --- |
 | `v0-starter` | The starter exactly as downloaded (233176a, 15 Sep 2026) |
 | `v1.0-iteration1` | Iteration 1: dead weight removed, URL routing, Home + four pages |
-| `v1.0` | Iteration 2: stylesheet, remaining pages, type checking, security and deploy fixes, documentation |
+| `v1.0` | Iteration 2: stylesheet, remaining pages, type checking, security and deploy fixes, documentation, visual theme |
 
 ## Pages
 
@@ -50,5 +50,5 @@ tools/api-test.sh                                      # API security checks wit
 
 ## Stack
 
-React 18, TypeScript (strict), Vite 6, React Router 6 (HashRouter), Redux Toolkit, one hand-written CSS file,
-self-hosted fonts (@fontsource). Optional Node.js + Express API. See [ARCHITECTURE.md](ARCHITECTURE.md).
+React 18, TypeScript (strict), Vite 6, React Router 6 (HashRouter), Redux Toolkit, one hand-written CSS file
+(theme: charcoal + electric blue), Calibri with Carlito as the self-hosted fallback (@fontsource/carlito). Optional Node.js + Express API. See [ARCHITECTURE.md](ARCHITECTURE.md).

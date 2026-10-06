@@ -132,7 +132,7 @@ export default function Readme() {
             <p>
               This is Phase 1 of my CS5709 Software Engineering Evolution project. I treated the portfolio provided by the lecturer (
               <a href="https://github.com/saaysalim/Salim-Saay">saaysalim/Salim-Saay</a>) as an existing system: I analysed its code and its history,
-              then fixed, restructured and extended it into my own portfolio in nine typed commits. It is a React 18 + TypeScript single-page
+              then fixed, restructured and extended it into my own portfolio in ten typed commits. It is a React 18 + TypeScript single-page
               application built with Vite, routed with React Router, with Redux Toolkit for the community feed and an optional Express API.
             </p>
             <p>
@@ -271,33 +271,23 @@ export default function Readme() {
               </ol>
             </div>
             <div className="panel">
-              <h3>Visual scheme: "field notebook"</h3>
-              <p>Libre Caslon Display for headings, Karla for text, Courier Prime for labels; ruled lines instead of boxes.</p>
+              <h3>Visual scheme: charcoal + electric blue</h3>
+              <p>One plain typeface, Calibri (with Carlito, its open metric-compatible twin, where Calibri is not installed). Charcoal navigation and banners; light grey pages with white cards; electric blue for links and actions. No gradients or decorative effects.</p>
               <ul className="swatches">
-                <li>
-                  <i style={{ background: '#E9E7E0' }} />
-                  paper
-                  <br />
-                  #E9E7E0
-                </li>
-                <li>
-                  <i style={{ background: '#1D1C19' }} />
-                  ink
-                  <br />
-                  #1D1C19
-                </li>
-                <li>
-                  <i style={{ background: '#3F5236' }} />
-                  moss
-                  <br />
-                  #3F5236
-                </li>
-                <li>
-                  <i style={{ background: '#BEB9AD' }} />
-                  rule
-                  <br />
-                  #BEB9AD
-                </li>
+                {[
+                  ['charcoal', '#1C1F26'],
+                  ['electric blue', '#2563EB'],
+                  ['page grey', '#F4F5F7'],
+                  ['card white', '#FFFFFF'],
+                  ['muted text', '#5B6270'],
+                ].map(([name, hex]) => (
+                  <li key={hex}>
+                    <i style={{ background: hex }} />
+                    {name}
+                    <br />
+                    {hex}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -418,7 +408,7 @@ export default function Readme() {
               ['900–1200px', 'Menu folds behind a Menu button; Search moves into it'],
               ['Below 900px', 'Case studies, timelines, video and chat stack into one column'],
               ['Below 720px / 420px', 'Tighter spacing; key numbers stack / logo mark hidden'],
-              ['Dark setting or toggle', 'Colour variables switch; choice saved in this browser'],
+              ['Dark setting or toggle', 'Colour variables switch to a near-black palette with lighter blue; choice saved in this browser'],
               ['Print', 'Navigation and forms hidden'],
             ]}
           />
