@@ -1,14 +1,15 @@
 import type { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pages, type PageMeta, type PageType } from './lib/navigation';
-// Iteration 1, step 1: the starter's page components are kept and given URLs.
-import { About } from './components/About';
+import About from './pages/About';
+import Education from './pages/Education';
+import Gallery from './pages/Gallery';
+import Home from './pages/Home';
+import Knowledge from './pages/Knowledge';
+// Starter pages still to be evolved in iteration 2:
 import { Blog } from './components/Blog';
 import { Contact } from './components/Contact';
-import { Education } from './components/Education';
-import { Gallery } from './components/Gallery';
 import { PostFeed } from './components/PostFeed';
-import { Projects } from './components/Projects';
 import { Search } from './components/Search';
 import { VideoGallery } from './components/VideoGallery';
 
@@ -23,10 +24,10 @@ function LegacySearch() {
 }
 
 const elements: Record<string, ReactElement> = {
-  home: <PostFeed />,
+  home: <Home />,
   about: <About />,
   education: <Education />,
-  knowledge: <Projects />,
+  knowledge: <Knowledge />,
   gallery: <Gallery />,
   videos: <VideoGallery />,
   blog: <Blog />,
