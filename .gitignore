@@ -13,3 +13,7 @@ npm-debug.log
 yarn-error.log
 public/build/
 /*.zip
+# API server data: created at runtime, never committed
+server/users.json
+server/sessions.json
+server/posts.json
