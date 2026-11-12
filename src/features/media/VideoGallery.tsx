@@ -1,14 +1,14 @@
 /**
- * @file Videos page: a player with a playlist of local MP4 files and their poster frames. Content: public/data/videos.json.
+ * @file VideoGallery: a player with a playlist of local MP4 files and their poster frames. Content: public/data/videos.json.
  */
 import { useRef, useState } from 'react';
-import { PageHeader } from '../components/PageHeader';
-import { Section } from '../components/Section';
-import { LoadState } from '../components/LoadState';
-import { useContent } from '../hooks/useContent';
-import { videoFile } from '../lib/assets';
+import { Section } from '../../components/Section';
+import { LoadState } from '../../components/LoadState';
+import { useContent } from '../../hooks/useContent';
+import { videoFile } from '../../lib/assets';
 
-export default function Videos() {
+/** Videos tab of the Gallery page. */
+export function VideoGallery() {
   const { data: videos, status, error, retry } = useContent('videos');
   const [current, setCurrent] = useState(0);
   const player = useRef<HTMLVideoElement>(null);
@@ -21,7 +21,6 @@ export default function Videos() {
 
   return (
     <>
-      <PageHeader title="Video gallery" crumb="Videos" intro="Short films about my work and about software evolution." />
       <Section>
         <div className="video-layout">
           <figure className="player">

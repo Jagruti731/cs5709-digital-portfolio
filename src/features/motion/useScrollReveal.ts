@@ -10,8 +10,7 @@ import { useEffect, type RefObject } from 'react';
 import { loadMotion, MOTION, reducedMotion } from './gsap';
 
 /** The blocks that are revealed. Anything else on the page is never hidden. */
-export const REVEAL_SELECTOR =
-  '.card, .work-card, .case, .timeline li, .shot, .article, .numbers > div, .path li, .extras li, .repo, .metric';
+export const REVEAL_SELECTOR = '.card, .work-card, .case, .shot, .repo';
 
 export function useScrollReveal(root: RefObject<HTMLElement>) {
   useEffect(() => {

@@ -18,6 +18,15 @@ export default function Blog() {
   const tags = useMemo(() => ['all', ...new Set((articles ?? []).flatMap((a) => a.tags))], [articles]);
   const [tag, setTag] = useState('all');
   const target = useSearchParams()[0].get('article');
+  // Articles show their first paragraph only; "Read more" opens the rest (CR-30). A deep-linked article starts open.
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(target ? [target] : []));
+  const toggle = (id: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
   // Deep link from Search: /blog?article=<id> scrolls to that article.
   useEffect(() => {
@@ -30,11 +39,7 @@ export default function Blog() {
 
   return (
     <>
-      <PageHeader
-        title="Blog"
-        crumb="Blog"
-        intro="Notes on keeping real systems alive, and on the MSc. Below the articles, anyone can post, like and comment."
-      />
+      <PageHeader title="Blog" crumb="Blog" intro="Short notes on real systems, AI at work and the MSc. Anyone can post below." />
       <Section title="Articles">
         <div className="filters" role="group" aria-label="Filter articles by tag">
           {tags.map((t) => (
@@ -49,13 +54,18 @@ export default function Blog() {
               {longDate(a.date)} · {a.tags.map((t) => `#${t}`).join(' ')}
             </p>
             <h3>{a.title}</h3>
-            {a.body.map((p) => (
+            {(expanded.has(a.id) ? a.body : a.body.slice(0, 1)).map((p) => (
               <p key={p.slice(0, 24)}>{p}</p>
             ))}
+            {a.body.length > 1 && (
+              <button className="text-btn" type="button" aria-expanded={expanded.has(a.id)} onClick={() => toggle(a.id)}>
+                {expanded.has(a.id) ? 'Show less' : `Read more (${a.body.length - 1} more paragraphs)`}
+              </button>
+            )}
           </article>
         ))}
       </Section>
-      <Section title="Community feed" intro="Share a thought or a question. Posts support an image, likes and replies." alt>
+      <Section title="Community feed" alt>
         <CommunityFeed />
       </Section>
     </>
