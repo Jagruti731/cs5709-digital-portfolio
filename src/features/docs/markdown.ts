@@ -37,6 +37,8 @@ export function renderMarkdown(source: string): { html: string; headings: Headin
     renderer: {
       heading({ tokens, depth }) {
         const text = this.parser.parseInline(tokens);
+        // The page banner already shows the title, and a page must have only one h1.
+        if (depth === 1) return '';
         const id = slug(text);
         if (depth === 2 || depth === 3) headings.push({ id, text: text.replace(/<[^>]+>/g, ''), level: depth });
         return `<h${depth} id="${id}">${text}</h${depth}>\n`;

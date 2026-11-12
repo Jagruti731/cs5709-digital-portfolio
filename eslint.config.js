@@ -31,5 +31,8 @@ export default tseslint.config(
   },
   { files: ['server/**/*.js'], languageOptions: { sourceType: 'commonjs' } },
   // Playwright evaluates these callbacks inside the browser page.
-  { files: ['tools/browser-test.mjs', 'tools/walkthrough.mjs', 'tools/render-diagrams.mjs'], languageOptions: { globals: { ...globals.node, ...globals.browser } } },
+  {
+    files: ['tools/browser-test.mjs', 'tools/walkthrough.mjs', 'tools/render-diagrams.mjs'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
 );

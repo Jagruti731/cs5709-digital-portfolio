@@ -260,7 +260,7 @@
       "name": "Unit, component, API and browser tests in CI",
       "group": "Quality",
       "phase": 2,
-      "status": "partial"
+      "status": "done"
     },
     {
       "id": "F25",
@@ -281,7 +281,7 @@
       "name": "CI/CD pipeline with GitHub Actions and deployment to GitHub Pages",
       "group": "DevOps",
       "phase": 2,
-      "status": "planned"
+      "status": "done"
     },
     {
       "id": "F28",

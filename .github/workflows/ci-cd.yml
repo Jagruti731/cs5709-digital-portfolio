@@ -1,0 +1,130 @@
+# CI/CD pipeline for the portfolio (CR-18, Phase 2 iteration 4).
+#
+# Every push and pull request runs the checks. A push to main that passes
+# every check is built once and deployed to GitHub Pages automatically:
+#
+#   quality ──┐
+#             ├──> build + browser test ──> deploy (main only)
+#   api ──────┘
+#
+# One-time setup in the repository: Settings > Pages > Source: "GitHub Actions".
+name: CI/CD
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Least privilege: jobs read the code; only the deploy job may write to Pages.
+permissions:
+  contents: read
+
+# A newer push to the same branch cancels the older run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  quality:
+    name: Lint, format, types and unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: ESLint (zero warnings)
+        run: npm run lint
+      - name: Prettier
+        run: npm run format:check
+      - name: TypeScript (strict)
+        run: npm run typecheck
+      - name: Unit and component tests with coverage
+        run: npm run test:coverage
+      - name: Keep the test and coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-reports
+          path: coverage/
+          retention-days: 14
+
+  api:
+    name: API server tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+        working-directory: server
+      - name: 16 asserted API checks on a temporary data folder
+        run: npm run test:api
+
+  build:
+    name: Build and browser walkthrough
+    needs: [quality, api]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history: the quality report measures it
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Build the static site
+        run: npm run build
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Browser walkthrough of the built site
+        run: |
+          npm run preview &
+          npx --yes wait-on@8 http://localhost:4173 --timeout 30000
+          npm run test:e2e -- http://localhost:4173/
+      - name: Keep the browser test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-report
+          path: coverage/e2e-results.json
+          retention-days: 14
+      - name: Upload the site for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    name: Deploy to GitHub Pages
+    # Only main is published; other branches and pull requests are checked but not deployed.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    # A deployment that has started is never cancelled half-way.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
