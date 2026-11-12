@@ -4,7 +4,13 @@
 import { describe, expect, it } from 'vitest';
 import reducer, { addComment, addPost, setPosts, toggleLike, updatePost, type PostItem } from './postsSlice';
 
-const post = (id: string, extra: Partial<PostItem> = {}): PostItem => ({ id, author: 'ann', content: `post ${id}`, createdAt: '2026-11-01T10:00:00Z', ...extra });
+const post = (id: string, extra: Partial<PostItem> = {}): PostItem => ({
+  id,
+  author: 'ann',
+  content: `post ${id}`,
+  createdAt: '2026-11-01T10:00:00Z',
+  ...extra,
+});
 const start = () => reducer(undefined, setPosts([post('a'), post('b')]));
 
 describe('postsSlice', () => {

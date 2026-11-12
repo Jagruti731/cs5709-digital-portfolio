@@ -1,4 +1,4 @@
-// Measures the size of the system at two git refs and writes src/data/metrics.json.
+// Measures the size of the system at two git refs and writes public/data/metrics.json.
 // Usage: node tools/metrics.mjs [oldRef=v0-starter] [newRef=HEAD]
 import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
@@ -30,5 +30,5 @@ function measure(ref) {
 }
 
 const result = { measuredOn: new Date().toISOString().slice(0, 10), before: measure(oldRef), after: measure(newRef) };
-writeFileSync(new URL('../src/data/metrics.json', import.meta.url), JSON.stringify(result, null, 2) + '\n');
+writeFileSync(new URL('../public/data/metrics.json', import.meta.url), JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result, null, 2));

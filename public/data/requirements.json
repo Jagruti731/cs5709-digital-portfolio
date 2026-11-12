@@ -30,98 +30,67 @@
       "id": "US1",
       "persona": "P1",
       "story": "As a hiring manager, I want to see projects first, so that I can judge skills fast.",
-      "features": [
-        "F01",
-        "F04"
-      ]
+      "features": ["F01", "F04"]
     },
     {
       "id": "US2",
       "persona": "P1",
       "story": "As a hiring manager, I want to filter work by technology, so that I only read what matches the role.",
-      "features": [
-        "F04",
-        "F29"
-      ]
+      "features": ["F04", "F29"]
     },
     {
       "id": "US3",
       "persona": "P1",
       "story": "As a hiring manager, I want to see recent GitHub activity, so that I know the skills are current.",
-      "features": [
-        "F22"
-      ]
+      "features": ["F22"]
     },
     {
       "id": "US4",
       "persona": "P2",
       "story": "As the assessor, I want a Readme page that explains the structure, so that I can mark without reading every file.",
-      "features": [
-        "F17",
-        "F33"
-      ]
+      "features": ["F17", "F33"]
     },
     {
       "id": "US5",
       "persona": "P2",
       "story": "As the assessor, I want every change linked to a commit and a review point, so that I can verify the work.",
-      "features": [
-        "F17",
-        "F27"
-      ]
+      "features": ["F17", "F27"]
     },
     {
       "id": "US6",
       "persona": "P2",
       "story": "As the assessor, I want to see that tests run automatically on every push, so that I can trust the quality.",
-      "features": [
-        "F24",
-        "F27",
-        "F31"
-      ]
+      "features": ["F24", "F27", "F31"]
     },
     {
       "id": "US7",
       "persona": "P2",
       "story": "As the assessor, I want to find any topic with one search, so that I can check a rubric item quickly.",
-      "features": [
-        "F10",
-        "F29"
-      ]
+      "features": ["F10", "F29"]
     },
     {
       "id": "US8",
       "persona": "P3",
       "story": "As a student, I want to ask a question and get an instant answer, so that I do not wait for an email.",
-      "features": [
-        "F09"
-      ]
+      "features": ["F09"]
     },
     {
       "id": "US9",
       "persona": "P3",
       "story": "As a student, I want to comment on a post, so that I can share my own tips.",
-      "features": [
-        "F07",
-        "F08"
-      ]
+      "features": ["F07", "F08"]
     },
     {
       "id": "US10",
       "persona": "P3",
       "story": "As a student on the move, I want the site to open without a connection, so that I can re-read posts on the bus.",
-      "features": [
-        "F30"
-      ]
+      "features": ["F30"]
     },
     {
       "id": "US11",
       "persona": "P1",
       "story": "As a visitor on a slow phone, I want pages to load fast and move smoothly, so that the site feels professional.",
-      "features": [
-        "F26",
-        "F28"
-      ]
+      "features": ["F26", "F28"]
     }
   ],
   "features": [

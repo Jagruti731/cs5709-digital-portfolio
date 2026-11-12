@@ -78,5 +78,61 @@
     "closes": "—",
     "commit": "d753d3c",
     "phase": 1
+  },
+  {
+    "id": "CR-11",
+    "change": "ESLint, Prettier and Vitest tooling; whole codebase formatted",
+    "type": "preventive",
+    "closes": "Peer review",
+    "commit": "0c2a7b8",
+    "phase": 2
+  },
+  {
+    "id": "CR-12",
+    "change": "All page content moved to JSON files, loaded at run time and cached in a Redux content slice",
+    "type": "perfective",
+    "closes": "Brief: dynamic data",
+    "commit": "900222c",
+    "phase": 2
+  },
+  {
+    "id": "CR-13",
+    "change": "Community feed and chat split into hooks and small components; named constants; JSDoc header on every file",
+    "type": "preventive",
+    "closes": "Peer review, lecturer",
+    "commit": "35f0e33",
+    "phase": 2
+  },
+  {
+    "id": "CR-14",
+    "change": "API: comment and like author from the token, safe reads and atomic writes, 2 MB body limit; skip link fixed; API tests with assertions on a temp folder",
+    "type": "corrective",
+    "closes": "Peer review Table 3",
+    "commit": "2cb444f",
+    "phase": 2
+  },
+  {
+    "id": "CR-15",
+    "change": "Personas, scenarios and user stories traced to every feature",
+    "type": "perfective",
+    "closes": "Lecturer, peer review",
+    "commit": "b2c8135",
+    "phase": 2
+  },
+  {
+    "id": "CR-16",
+    "change": "Unit and component tests with Vitest and coverage thresholds",
+    "type": "preventive",
+    "closes": "Peer review",
+    "commit": "5c2545d",
+    "phase": 2
+  },
+  {
+    "id": "CR-17",
+    "change": "README rewritten as the single source of documentation; Readme page renders it, with Requirements and Change log tabs; Phase 2 diagrams",
+    "type": "preventive",
+    "closes": "Peer review",
+    "commit": "this commit",
+    "phase": 2
   }
 ]

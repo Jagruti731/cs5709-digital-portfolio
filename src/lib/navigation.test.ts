@@ -11,5 +11,6 @@ it('has unique ids and paths', () => {
 
 it('includes every page the brief asks for, in the menu', () => {
   const inMenu = pages.filter((p) => p.inNav).map((p) => p.id);
-  for (const id of ['home', 'about', 'education', 'knowledge', 'gallery', 'videos', 'blog', 'messages', 'readme']) expect(inMenu).toContain(id);
+  for (const id of ['home', 'about', 'education', 'knowledge', 'gallery', 'videos', 'blog', 'messages', 'readme'])
+    expect(inMenu).toContain(id);
 });

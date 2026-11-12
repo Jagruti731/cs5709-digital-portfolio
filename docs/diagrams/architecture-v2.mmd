@@ -1,0 +1,31 @@
+flowchart LR
+  subgraph DEV["Developer"]
+    code["src/ (React + TypeScript)"]
+    json["public/data/*.json<br/>content"]
+    readme["README.md<br/>single source of docs"]
+  end
+  subgraph CI["GitHub Actions"]
+    checks["lint · format · types<br/>tests · API tests"]
+    build["vite build<br/>+ quality report"]
+  end
+  subgraph HOST["GitHub Pages"]
+    site["static site<br/>index.html · JS chunks · data · quality.json"]
+  end
+  subgraph BROWSER["Visitor's browser"]
+    router["HashRouter<br/>lazy pages"]
+    store["Redux store<br/>content · posts · auth · github"]
+    sw["service worker<br/>offline cache"]
+    ls["localStorage<br/>feed · chat · theme"]
+  end
+  gh["GitHub REST API<br/>repos · workflow runs"]
+  api["optional Express API<br/>(VITE_API_URL)"]
+  code --> checks
+  json --> checks
+  readme --> build
+  checks --> build --> site
+  site --> sw --> router
+  router --> store
+  store -- fetch JSON --> site
+  store -- fetch --> gh
+  store -. posts .-> api
+  store --> ls

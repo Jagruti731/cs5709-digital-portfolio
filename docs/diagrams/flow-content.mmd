@@ -1,0 +1,20 @@
+flowchart TD
+  A["Page calls useContent('projects')"] --> B{"status in Redux store?"}
+  B -- ready --> R["render the page with cached data"]
+  B -- loading --> S["show LoadState skeleton"]
+  B -- idle or error --> D["dispatch fetchContent('projects')"]
+  D --> S
+  D --> F["contentApi: fetch ./data/projects.json"]
+  F --> G{"HTTP 200?"}
+  G -- no --> E["ContentError: 'the server returned 404'"]
+  G -- yes --> H{"valid JSON?"}
+  H -- no --> E2["ContentError: 'not valid JSON'"]
+  H -- yes --> V{"shape rule passes?"}
+  V -- no --> E3["ContentError: 'caseStudies: item 2 needs ...'"]
+  V -- yes --> OK["status = ready, data cached"]
+  OK --> R
+  E --> X["status = error"]
+  E2 --> X
+  E3 --> X
+  X --> L["LoadState shows the reason and a Try again button"]
+  L -- click --> D

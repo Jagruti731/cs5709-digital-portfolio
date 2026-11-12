@@ -1950,3 +1950,145 @@ body {
 main:focus {
   outline: none;
 }
+
+/* ---------- Phase 2: Readme page (CR-17) ---------- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 24px;
+}
+.tabs button {
+  border: 0;
+  background: none;
+  padding: 10px 16px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+.tabs button[aria-selected='true'] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.readme-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+.readme-toc {
+  position: sticky;
+  top: 84px;
+  max-height: calc(100vh - 110px);
+  overflow: auto;
+  font-size: 0.92rem;
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+}
+.readme-toc ol {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+.readme-toc li {
+  margin: 4px 0;
+}
+.readme-toc li.l3 {
+  padding-left: 14px;
+  font-size: 0.88rem;
+}
+.readme-toc a {
+  color: var(--text);
+  text-decoration: none;
+}
+.readme-toc a:hover {
+  color: var(--accent);
+}
+.markdown {
+  min-width: 0;
+  line-height: 1.6;
+}
+.markdown h1 {
+  display: none; /* the page banner already shows the title */
+}
+.markdown h2 {
+  margin-top: 2.2em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 80px;
+}
+.markdown h3 {
+  margin-top: 1.6em;
+  scroll-margin-top: 80px;
+}
+.markdown img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+}
+.markdown table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 0.94rem;
+  display: block;
+  overflow-x: auto;
+}
+.markdown th,
+.markdown td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.markdown th {
+  background: var(--bg-alt);
+}
+.markdown pre {
+  background: var(--primary);
+  color: var(--bg);
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.88rem;
+}
+.markdown code {
+  font-family: var(--code);
+  font-size: 0.92em;
+}
+.markdown :not(pre) > code {
+  background: var(--bg-alt);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+.requirements h2 {
+  margin-top: 1.6em;
+}
+.status {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.status.done {
+  color: var(--ok);
+}
+.status.partial {
+  color: var(--clay);
+}
+.status.planned {
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .readme-layout {
+    grid-template-columns: 1fr;
+  }
+  .readme-toc {
+    position: static;
+    max-height: none;
+  }
+}
