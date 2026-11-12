@@ -150,5 +150,13 @@
     "closes": "Brief: lazy loading",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-20",
+    "change": "GSAP interactivity: page entrance, scroll reveals, count-up numbers, Flip-animated filters; technology and text filter for case studies; reduced motion respected and GSAP lazy-loaded",
+    "type": "perfective",
+    "closes": "Brief: GSAP, search and filter",
+    "commit": "this commit",
+    "phase": 2
   }
 ]

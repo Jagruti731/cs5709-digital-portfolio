@@ -1,11 +1,13 @@
 /**
  * @file Pictures page: a filterable picture grid with a full-size viewer. Content: public/data/gallery.json.
+ * Changing the filter animates the pictures to their new places with GSAP Flip (CR-20).
  */
 import { useCallback, useRef, useState } from 'react';
 import { Lightbox } from '../components/Lightbox';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { LoadState } from '../components/LoadState';
+import { useFlip } from '../features/motion/useFlip';
 import { useContent } from '../hooks/useContent';
 import { imagePath } from '../lib/assets';
 import type { PictureCategory } from '../types/content';
@@ -15,6 +17,7 @@ export default function Gallery() {
   const [filter, setFilter] = useState<'all' | PictureCategory>('all');
   const [open, setOpen] = useState<number | null>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
+  const flip = useFlip<HTMLDivElement>('.shot');
 
   // Return focus to the picture that opened the viewer.
   const close = useCallback(() => {
@@ -41,17 +44,19 @@ export default function Gallery() {
               type="button"
               className="chip"
               aria-pressed={filter === f.value}
-              onClick={() => {
-                setFilter(f.value);
-                setOpen(null);
-              }}
+              onClick={() =>
+                flip.run(() => {
+                  setFilter(f.value);
+                  setOpen(null);
+                })
+              }
             >
               {f.label}
               {f.value === 'all' ? ` (${pictures.length})` : ''}
             </button>
           ))}
         </div>
-        <div className="masonry">
+        <div className="masonry" ref={flip.ref}>
           {shown.map((p, i) => (
             <figure className="shot" key={p.file}>
               <button

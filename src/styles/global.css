@@ -2089,3 +2089,32 @@ main:focus {
     max-height: none;
   }
 }
+
+/* ---------- Phase 2: filter bar (CR-20) ---------- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.filter-bar .filters {
+  margin: 0;
+}
+.filter-search {
+  display: grid;
+  gap: 4px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  min-width: 240px;
+}
+.filter-search input {
+  font: inherit;
+  font-weight: 400;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--text);
+}

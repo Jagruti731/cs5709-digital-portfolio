@@ -2,9 +2,11 @@
  * @file Home page: introduction, key numbers, three featured projects, career path and other work.
  * Content: profile.json, projects.json and career.json.
  */
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { LoadState } from '../components/LoadState';
 import { Section } from '../components/Section';
+import { useCountUp } from '../features/motion/useCountUp';
 import { useContent } from '../hooks/useContent';
 import { imagePath } from '../lib/assets';
 
@@ -13,6 +15,8 @@ export default function Home() {
   const projectsFile = useContent('projects');
   const careerFile = useContent('career');
   const profile = profileFile.data;
+  const numbersRef = useRef<HTMLDivElement>(null);
+  useCountUp(numbersRef, Boolean(profile && projectsFile.data && careerFile.data));
   if (!profile || !projectsFile.data || !careerFile.data) {
     const failed = [profileFile, projectsFile, careerFile].find((f) => f.status === 'error');
     return <LoadState status={failed ? 'error' : 'loading'} error={failed?.error} retry={failed?.retry} />;
@@ -48,10 +52,10 @@ export default function Home() {
       </section>
 
       <Section alt>
-        <div className="numbers">
+        <div className="numbers" ref={numbersRef}>
           {profile.numbers.map((n) => (
             <div key={n.label}>
-              <b>{n.value}</b>
+              <b data-count={n.value}>{n.value}</b>
               <span>{n.label}</span>
             </div>
           ))}
