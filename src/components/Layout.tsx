@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { profile } from '../data/profile';
+import { SITE } from '../config/site';
 import { pages } from '../lib/navigation';
 import { Footer } from './Footer';
 import { Navbar } from './Navbar';
@@ -11,7 +11,7 @@ export function Layout() {
 
   useEffect(() => {
     const page = pages.find((p) => p.path === pathname);
-    document.title = page && page.path !== '/' ? `${page.title} | ${profile.name}` : `${profile.name} | Portfolio`;
+    document.title = page && page.path !== '/' ? `${page.title} | ${SITE.owner}` : `${SITE.owner} | Portfolio`;
     window.scrollTo(0, 0);
   }, [pathname]);
 

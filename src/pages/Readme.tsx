@@ -1,6 +1,6 @@
 import type { MouseEvent, ReactNode } from 'react';
 import { PageHeader } from '../components/PageHeader';
-import { changes } from '../data/changelog';
+import changes from '../../public/data/changelog.json';
 import metrics from '../data/metrics.json';
 import { pages } from '../lib/navigation';
 

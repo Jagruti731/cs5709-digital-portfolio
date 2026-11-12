@@ -2,20 +2,26 @@ import { useCallback, useRef, useState } from 'react';
 import { Lightbox } from '../components/Lightbox';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { pictureFilters, pictures, type PictureCategory } from '../data/gallery';
-import { imagePath } from '../data/projects';
+import { LoadState } from '../components/LoadState';
+import { useContent } from '../hooks/useContent';
+import { imagePath } from '../lib/assets';
+import type { PictureCategory } from '../types/content';
 
 export default function Gallery() {
+  const { data, status, error, retry } = useContent('gallery');
   const [filter, setFilter] = useState<'all' | PictureCategory>('all');
   const [open, setOpen] = useState<number | null>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
-  const shown = pictures.filter((p) => filter === 'all' || p.category === filter);
 
   // Return focus to the picture that opened the viewer.
   const close = useCallback(() => {
     setOpen(null);
     opener.current?.focus();
   }, []);
+
+  if (!data) return <LoadState status={status} error={error} retry={retry} />;
+  const { pictures, filters: pictureFilters } = data;
+  const shown = pictures.filter((p) => filter === 'all' || p.category === filter);
 
   return (
     <>

@@ -1918,3 +1918,30 @@ body {
 .bubble time {
   font-size: 12px !important;
 }
+
+/* ---------- Phase 2: loading placeholders (CR-12) ---------- */
+.skeleton span {
+  display: block;
+  height: 14px;
+  margin: 10px 0;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--border) 25%, transparent 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.2s linear infinite;
+}
+.skeleton span:nth-child(2) {
+  width: 80%;
+}
+.skeleton span:nth-child(3) {
+  width: 60%;
+}
+@keyframes skeleton {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton span {
+    animation: none;
+  }
+}

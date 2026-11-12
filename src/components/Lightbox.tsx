@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import type { Picture } from '../data/gallery';
-import { imagePath } from '../data/projects';
+import { imagePath } from '../lib/assets';
+import type { Picture } from '../types/content';
 
 interface LightboxProps {
   pictures: Picture[];

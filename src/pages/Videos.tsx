@@ -1,11 +1,15 @@
 import { useRef, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { videoFile, videos } from '../data/videos';
+import { LoadState } from '../components/LoadState';
+import { useContent } from '../hooks/useContent';
+import { videoFile } from '../lib/assets';
 
 export default function Videos() {
+  const { data: videos, status, error, retry } = useContent('videos');
   const [current, setCurrent] = useState(0);
   const player = useRef<HTMLVideoElement>(null);
+  if (!videos) return <LoadState status={status} error={error} retry={retry} />;
   const video = videos[current];
   const choose = (i: number) => {
     setCurrent(i);

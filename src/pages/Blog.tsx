@@ -2,14 +2,17 @@ import { useMemo, useState } from 'react';
 import { CommunityFeed } from '../components/CommunityFeed';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { articles } from '../data/blog';
+import { LoadState } from '../components/LoadState';
+import { useContent } from '../hooks/useContent';
 
 const longDate = (iso: string) =>
   new Date(iso + 'T12:00:00').toLocaleDateString('en-IE', { day: 'numeric', month: 'long', year: 'numeric' });
 
 export default function Blog() {
-  const tags = useMemo(() => ['all', ...new Set(articles.flatMap((a) => a.tags))], []);
+  const { data: articles, status, error, retry } = useContent('blog');
+  const tags = useMemo(() => ['all', ...new Set((articles ?? []).flatMap((a) => a.tags))], [articles]);
   const [tag, setTag] = useState('all');
+  if (!articles) return <LoadState status={status} error={error} retry={retry} />;
   const shown = articles.filter((a) => tag === 'all' || a.tags.includes(tag));
 
   return (
