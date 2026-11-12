@@ -277,6 +277,27 @@ check(
   `${noOverflow + (menuOpen ? 1 : 0) + (menuClosed ? 1 : 0)}/6`,
 );
 
+// 11. Installable offline app (CR-23): a manifest, a service worker, and pages that open with no network.
+const appContext = await browser.newContext();
+const app = await appContext.newPage();
+await app.goto(base);
+await app.evaluate(() => navigator.serviceWorker.ready);
+await app.waitForTimeout(1500);
+const manifest = await app.evaluate(async () => (await fetch(document.querySelector('link[rel=manifest]').href)).json());
+await appContext.setOffline(true);
+await app.reload();
+await app.goto(`${base}#/education`);
+await app.waitForTimeout(800);
+const offlinePage = (await app.locator('.timeline li').count()) > 0;
+const offlineNotice = (await app.locator('.toast', { hasText: 'You are offline' }).count()) === 1;
+await appContext.close();
+const pwaParts = [manifest.icons.length >= 2, manifest.display === 'standalone', offlinePage, offlineNotice];
+check(
+  'Installable app: manifest, offline Education page from the cache, offline notice',
+  pwaParts.every(Boolean),
+  `${pwaParts.filter(Boolean).length}/4`,
+);
+
 check('No JavaScript errors in the console during the run', errors.length === 0, errors.join(' | '));
 await browser.close();
 

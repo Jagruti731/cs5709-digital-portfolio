@@ -2,6 +2,7 @@
  * @file Vite build and Vitest test configuration.
  */
 import react from '@vitejs/plugin-react-swc';
+import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -9,7 +10,57 @@ export default defineConfig({
   // repository name (jagruti731.github.io/cs5709-digital-portfolio/), on any
   // static host, or from a sub-folder. HashRouter needs no server rewrites.
   base: './',
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Progressive Web App (CR-23, innovation): installable, and works offline.
+    VitePWA({
+      registerType: 'prompt', // a new version is offered to the visitor, never forced mid-read
+      injectRegister: false, // registered in src/features/pwa/usePwa.ts
+      includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png'],
+      manifest: {
+        name: 'Jagruti Badgujar – Portfolio',
+        short_name: 'Jagruti',
+        description: 'Software engineer and MSc Software Engineering student at the University of Limerick.',
+        lang: 'en-IE',
+        start_url: './',
+        scope: './',
+        display: 'standalone',
+        theme_color: '#1c1f26',
+        background_color: '#f4f5f7',
+        icons: [
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+        shortcuts: [
+          { name: 'Search', url: './#/search' },
+          { name: 'Professional knowledge', url: './#/knowledge' },
+          { name: 'Blog', url: './#/blog' },
+        ],
+      },
+      workbox: {
+        // App shell: HTML, every JS chunk, CSS, fonts, icons and the JSON content are cached at install,
+        // so every page works offline even if it was never opened.
+        globPatterns: ['**/*.{js,css,html,svg,woff2,png,ico,webmanifest,json}'],
+        globIgnores: ['**/images/**', '**/videos/**', '**/diagrams/**'],
+        navigateFallback: 'index.html',
+        runtimeCaching: [
+          {
+            // Content: fresh when online, last copy when offline.
+            urlPattern: ({ url }) => url.pathname.includes('/data/') && url.pathname.endsWith('.json'),
+            handler: 'NetworkFirst',
+            options: { cacheName: 'content', networkTimeoutSeconds: 4, expiration: { maxEntries: 30 } },
+          },
+          {
+            // Pictures and diagrams rarely change: cache first, refresh after 30 days.
+            urlPattern: ({ url }) => /\/(images|diagrams)\//.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'images', expiration: { maxEntries: 60, maxAgeSeconds: 30 * 24 * 3600 } },
+          },
+        ],
+      },
+    }),
+  ],
   build: {
     target: 'es2020',
     outDir: 'build',
