@@ -18,3 +18,4 @@ server/users.json
 server/sessions.json
 server/posts.json
 coverage/
+public/data/codeindex.json

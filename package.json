@@ -37,7 +37,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "npm run codeindex && tsc --noEmit && vite build",
     "preview": "vite preview --port 4173",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
@@ -48,6 +48,10 @@
     "test:api": "bash tools/api-test.sh",
     "test:e2e": "node tools/browser-test.mjs",
     "quality": "node tools/quality-report.mjs",
-    "ci": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run build"
+    "ci": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run build",
+    "codeindex": "node tools/build-code-index.mjs",
+    "predev": "npm run codeindex",
+    "pretest": "npm run codeindex",
+    "pretest:coverage": "npm run codeindex"
   }
 }

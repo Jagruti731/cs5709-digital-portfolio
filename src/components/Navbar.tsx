@@ -30,7 +30,7 @@ export function Navbar() {
           <span className="logo-mark">{SITE.initials}</span>
           <span className="logo-name">{SITE.owner}</span>
         </Link>
-        <Link className="icon-btn search-link" to="/search">
+        <Link className="icon-btn search-link" to="/search" title="Search (press /)" aria-keyshortcuts="/">
           Search
         </Link>
         <ThemeToggle />

@@ -6,3 +6,4 @@ package-lock.json
 server/package-lock.json
 public/diagrams
 *.md
+public/data/codeindex.json

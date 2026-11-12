@@ -2118,3 +2118,17 @@ main:focus {
   background: var(--card);
   color: var(--text);
 }
+
+/* ---------- Phase 2: smart search (CR-21) ---------- */
+.results mark {
+  background: var(--accent-soft);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+.results li {
+  overflow-wrap: anywhere;
+}
+.examples .text-btn {
+  margin-right: 12px;
+}

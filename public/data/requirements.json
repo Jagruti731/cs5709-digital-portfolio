@@ -292,10 +292,10 @@
     },
     {
       "id": "F29",
-      "name": "Smart search: ranked, typo-tolerant, filters by type, highlights matches",
+      "name": "Smart search: ranked, typo-tolerant, filters by type, highlights matches; concept location in the source code",
       "group": "Innovation",
       "phase": 2,
-      "status": "planned"
+      "status": "done"
     },
     {
       "id": "F30",
