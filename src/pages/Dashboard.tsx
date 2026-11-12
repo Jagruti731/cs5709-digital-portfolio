@@ -5,9 +5,13 @@
 import { useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';
 import { GitHubPanel } from '../features/github/GitHubPanel';
+import { QualityPanel } from '../features/quality/QualityPanel';
 
-type Tab = 'github';
-const TABS: { id: Tab; label: string }[] = [{ id: 'github', label: 'GitHub (live)' }];
+type Tab = 'github' | 'quality';
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'github', label: 'GitHub (live)' },
+  { id: 'quality', label: 'Code quality' },
+];
 
 export default function Dashboard() {
   const [params, setParams] = useSearchParams();
@@ -17,7 +21,7 @@ export default function Dashboard() {
       <PageHeader
         title="Dashboard"
         crumb="Dashboard"
-        intro="Live activity from GitHub: my repositories, the pipeline that tests and deploys this site, and its latest commits."
+        intro="Live activity from GitHub, and the quality report the CI/CD pipeline writes for the version you are looking at."
       />
       <div className="container section">
         <div className="tabs" role="tablist" aria-label="Dashboard sections">
@@ -34,6 +38,7 @@ export default function Dashboard() {
           ))}
         </div>
         {tab === 'github' && <GitHubPanel />}
+        {tab === 'quality' && <QualityPanel />}
       </div>
     </>
   );

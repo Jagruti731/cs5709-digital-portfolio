@@ -182,5 +182,13 @@
     "closes": "Innovation; user story US10",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-24",
+    "change": "Innovation: code quality dashboard written by the pipeline (tests, coverage, lint, complexity, documentation, bundle, evolution) with an architecture conformance check (reflexion model)",
+    "type": "preventive",
+    "closes": "Innovation; peer review (reflexion model); user story US6",
+    "commit": "this commit",
+    "phase": 2
   }
 ]

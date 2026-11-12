@@ -4,7 +4,7 @@
 # every check is built once and deployed to GitHub Pages automatically:
 #
 #   quality ──┐
-#             ├──> build + browser test ──> deploy (main only)
+#             ├──> build + browser test + quality report ──> deploy (main only)
 #   api ──────┘
 #
 # One-time setup in the repository: Settings > Pages > Source: "GitHub Actions".
@@ -72,6 +72,13 @@ jobs:
         working-directory: server
       - name: 16 asserted API checks on a temporary data folder
         run: npm run test:api
+      - name: Keep the API test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: coverage/api-results.json
+          retention-days: 14
 
   build:
     name: Build and browser walkthrough
@@ -96,12 +103,22 @@ jobs:
           npm run preview &
           npx --yes wait-on@8 http://localhost:4173 --timeout 30000
           npm run test:e2e -- http://localhost:4173/
-      - name: Keep the browser test report
+      - name: Collect the unit and API test results from the earlier jobs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-test-*'
+          path: coverage
+          merge-multiple: true
+      - name: Code quality report (deployed with the site as quality.json)
+        run: npm run quality
+      - name: Keep the browser test and quality reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: browser-test-report
-          path: coverage/e2e-results.json
+          name: build-reports
+          path: |
+            coverage/e2e-results.json
+            build/quality.json
           retention-days: 14
       - name: Upload the site for GitHub Pages
         uses: actions/upload-pages-artifact@v3

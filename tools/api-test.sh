@@ -6,6 +6,7 @@
 #  - the server runs against a throw-away DATA_DIR, so real data is never touched
 #  - every check compares the actual HTTP status with the expected one
 #  - the script exits with status 1 if any check fails, so CI fails too
+#  - results are written to coverage/api-results.json for the quality dashboard
 # Usage: npm run test:api   (from the repository root)
 set -u
 DATA_DIR="$(mktemp -d)"
@@ -13,6 +14,7 @@ PORT=5099
 URL="http://localhost:$PORT"
 J='Content-Type: application/json'
 FAILED=0
+RESULTS=""
 
 (cd server && DATA_DIR="$DATA_DIR" PORT=$PORT exec node index.js >/dev/null 2>&1) &
 PID=$!
@@ -21,7 +23,8 @@ for _ in $(seq 1 30); do curl -s "$URL/posts" >/dev/null && break; sleep 0.2; do
 
 status() { curl -s -o /dev/null -w "%{http_code}" "$@"; }
 check() { # check "<name>" <expected> <actual>
-  if [ "$2" = "$3" ]; then printf 'PASS  %-46s %s\n' "$1" "$3"; else printf 'FAIL  %-46s expected %s, got %s\n' "$1" "$2" "$3"; FAILED=1; fi
+  if [ "$2" = "$3" ]; then OK=true; printf 'PASS  %-46s %s\n' "$1" "$3"; else OK=false; printf 'FAIL  %-46s expected %s, got %s\n' "$1" "$2" "$3"; FAILED=1; fi
+  RESULTS="$RESULTS{\"name\":\"$1\",\"ok\":$OK},"
 }
 token() { curl -s -X POST "$URL/auth/login" -H "$J" -d "{\"username\":\"$1\",\"password\":\"$2\"}" | node -pe 'JSON.parse(require("fs").readFileSync(0)).token'; }
 
@@ -52,4 +55,6 @@ check "corrupt data file: left unchanged"      '[{"id":"keep-me"' "$(cat "$DATA_
 
 [ -f server/users.json ] && check "real data folder untouched" absent present || check "real data folder untouched" absent absent
 [ $FAILED -eq 0 ] && echo "All API checks passed." || echo "Some API checks FAILED."
+# Results for the quality dashboard (tools/quality-report.mjs).
+mkdir -p coverage && printf '{"results":[%s]}\n' "${RESULTS%,}" > coverage/api-results.json
 exit $FAILED

@@ -8,9 +8,9 @@
  */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadContent } from '../services/contentApi';
-import type { ContentMap, ContentName } from '../types/content';
+import type { ContentMap, ContentName, LoadStatus } from '../types/content';
 
-export type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
+export type { LoadStatus };
 
 export interface ContentEntry {
   status: LoadStatus;

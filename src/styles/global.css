@@ -2177,7 +2177,7 @@ main:focus {
 }
 .bars li {
   display: grid;
-  grid-template-columns: 130px 1fr 44px;
+  grid-template-columns: 140px 1fr 68px;
   align-items: center;
   gap: 10px;
   font-size: 0.93rem;
@@ -2276,4 +2276,52 @@ main:focus {
   .app-status {
     display: none;
   }
+}
+.bar-track {
+  position: relative;
+  height: 12px;
+  background: var(--bg-alt);
+  border-radius: 6px;
+}
+.bar-track .bar {
+  display: block;
+  height: 100%;
+}
+.bar-marker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--text);
+}
+.matrix {
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.matrix th,
+.matrix td {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  text-align: center;
+  min-width: 70px;
+}
+.matrix tbody th {
+  text-align: right;
+  background: var(--bg-alt);
+}
+.matrix td.conv {
+  background: color-mix(in srgb, var(--ok) 15%, transparent);
+  color: var(--ok);
+  font-weight: 700;
+}
+.matrix td.div {
+  background: color-mix(in srgb, #b91c1c 18%, transparent);
+  color: #b91c1c;
+  font-weight: 700;
+}
+.matrix td.abs {
+  color: var(--muted);
+}
+.matrix td.self {
+  background: var(--bg-alt);
 }
