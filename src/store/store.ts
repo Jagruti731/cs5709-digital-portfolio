@@ -8,6 +8,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import contentReducer from './contentSlice';
+import githubReducer from './githubSlice';
 import postsReducer from './postsSlice';
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     content: contentReducer,
     posts: postsReducer,
     auth: authReducer,
+    github: githubReducer,
   },
 });
 

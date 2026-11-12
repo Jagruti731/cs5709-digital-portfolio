@@ -18,6 +18,70 @@ const check = (name, ok, detail = '') => results.push({ name, ok: Boolean(ok), d
 
 const browser = await chromium.launch(process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {});
 const context = await browser.newContext({ viewport: { width: 1360, height: 900 } });
+// The GitHub API is replaced by a recorded-style answer, so the test never depends on
+// the network or on GitHub's hourly limit (shared CI machines often reach it).
+const hoursAgo = (h) => new Date(Date.now() - h * 3600e3).toISOString();
+const fakeGitHub = {
+  user: { login: 'Jagruti731', html_url: 'https://github.com/Jagruti731', public_repos: 2, followers: 0, created_at: hoursAgo(9000) },
+  repos: [
+    {
+      id: 1,
+      name: 'cs5709-digital-portfolio',
+      language: 'TypeScript',
+      description: 'Portfolio',
+      html_url: '#',
+      stargazers_count: 0,
+      forks_count: 0,
+      updated_at: hoursAgo(1),
+      fork: false,
+    },
+    {
+      id: 2,
+      name: 'IMSWebApp',
+      language: 'C#',
+      description: 'Inventory',
+      html_url: '#',
+      stargazers_count: 1,
+      forks_count: 0,
+      updated_at: hoursAgo(90),
+      fork: false,
+    },
+  ],
+  runs: {
+    workflow_runs: [
+      {
+        id: 1,
+        run_number: 3,
+        display_title: 'test run',
+        event: 'push',
+        status: 'completed',
+        conclusion: 'success',
+        head_branch: 'main',
+        head_sha: 'abcdef1234',
+        html_url: '#',
+        created_at: hoursAgo(1),
+        updated_at: hoursAgo(1),
+      },
+    ],
+  },
+  commits: [{ sha: 'abcdef1234', html_url: '#', commit: { message: 'test commit', author: { name: 'J', date: hoursAgo(1) } } }],
+};
+await context.route('https://api.github.com/**', (route) => {
+  const url = route.request().url();
+  const body = url.includes('/actions/runs')
+    ? fakeGitHub.runs
+    : url.includes('/commits')
+      ? fakeGitHub.commits
+      : url.includes('/repos?')
+        ? fakeGitHub.repos
+        : fakeGitHub.user;
+  route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    headers: { 'access-control-allow-origin': '*' },
+    body: JSON.stringify(body),
+  });
+});
 const page = await context.newPage();
 const errors = [];
 page.on('pageerror', (e) => errors.push(String(e)));
@@ -28,7 +92,7 @@ const go = async (path) => {
 };
 
 // 1. Every route renders a heading; an unknown route renders NotFound.
-const routes = ['/', '/about', '/education', '/knowledge', '/gallery', '/videos', '/blog', '/messages', '/search', '/readme'];
+const routes = ['/', '/about', '/education', '/knowledge', '/gallery', '/videos', '/blog', '/messages', '/search', '/readme', '/dashboard'];
 const failedRoutes = [];
 let rendered = 0;
 for (const r of routes) {
@@ -172,6 +236,19 @@ check(
   'Smart search: finds OCR; corrects a typo and ranks; highlights; locates "skip link" in Layout.tsx; "/" shortcut',
   searchParts.every(Boolean),
   `${searchParts.filter(Boolean).length}/${searchParts.length}`,
+);
+
+// 8b. Dashboard: live GitHub data (US3) and the language filter.
+await go('/dashboard');
+await page.waitForTimeout(500);
+const metrics = await page.locator('.github .metric').count();
+const passed = (await page.locator('.runs .badge.ok').count()) === 1;
+await page.getByRole('button', { name: 'C#', exact: true }).click();
+const filtered = (await page.locator('.repo').count()) === 1;
+check(
+  'Dashboard: GitHub summary, pipeline run status, repository language filter',
+  metrics === 4 && passed && filtered,
+  `${metrics} metrics`,
 );
 
 // 9. Theme survives a reload.
