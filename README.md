@@ -347,7 +347,7 @@ every visit (`src/services/githubApi.ts`, state in `store/githubSlice.ts`):
 | Shown | API endpoint |
 | --- | --- |
 | account summary and languages | `GET /users/Jagruti731`, `GET /users/Jagruti731/repos` |
-| the latest 10 runs of this site's CI/CD pipeline, passed or failed | `GET /repos/Jagruti731/cs5709-digital-portfolio/actions/runs` |
+| the latest 10 runs of this site's CI/CD pipeline, passed or failed | `GET /repos/Jagruti731/cs5709-digital-portfolio/actions/workflows/ci-cd.yml/runs` |
 | the latest commits to this site | `GET /repos/Jagruti731/cs5709-digital-portfolio/commits` |
 
 - **Rate limit:** GitHub allows 60 requests an hour without a token. Every answer is cached with its

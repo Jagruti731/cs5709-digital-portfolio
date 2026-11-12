@@ -152,7 +152,10 @@ export async function loadGitHub(fetcher: typeof fetch = fetch): Promise<GitHubD
   const [user, repos, runs, commits] = await Promise.all([
     getJson<GitHubUser>(`/users/${GITHUB.user}`, fetcher),
     getJson<GitHubRepo[]>(`/users/${GITHUB.user}/repos?sort=updated&per_page=30`, fetcher),
-    optional(getJson<{ workflow_runs: WorkflowRun[] }>(`${repoPath}/actions/runs?per_page=10`, fetcher), { workflow_runs: [] }),
+    // Only the CI/CD workflow: /actions/runs also lists Dependabot's own update jobs (found on the live site, CR-29).
+    optional(getJson<{ workflow_runs: WorkflowRun[] }>(`${repoPath}/actions/workflows/${GITHUB.workflow}/runs?per_page=10`, fetcher), {
+      workflow_runs: [],
+    }),
     optional(getJson<Commit[]>(`${repoPath}/commits?per_page=8`, fetcher), []),
   ]);
   const remaining = [user, repos, runs, commits].map((r) => r.remaining).filter((n): n is number => n !== null);

@@ -20,6 +20,8 @@ export const SITE = {
 export const GITHUB = {
   user: 'Jagruti731',
   repo: 'cs5709-digital-portfolio',
+  /** The CI/CD workflow file whose runs the Dashboard shows. */
+  workflow: 'ci-cd.yml',
   get repoUrl() {
     return `https://github.com/${this.user}/${this.repo}`;
   },
