@@ -139,13 +139,13 @@ export interface UserStory {
   features: string[];
 }
 
-/** A feature with its phase and status. */
+/** A feature with the phase it belongs to (3 = future work after Phase 2) and its status. */
 export interface Feature {
   id: string;
   name: string;
   group: string;
-  phase: 1 | 2;
-  status: 'done' | 'planned';
+  phase: 1 | 2 | 3;
+  status: 'done' | 'partial' | 'planned';
 }
 
 /** requirements.json: personas, scenarios, user stories and the traced feature list. */
