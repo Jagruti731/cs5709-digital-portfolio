@@ -1945,3 +1945,8 @@ body {
     animation: none;
   }
 }
+
+/* The skip link focuses <main> (CR-14); no outline box around the whole page. */
+main:focus {
+  outline: none;
+}

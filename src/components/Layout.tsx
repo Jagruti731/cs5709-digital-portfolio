@@ -23,11 +23,20 @@ export function Layout() {
 
   return (
     <>
-      <a className="skip-link" href="#main">
+      {/* With HashRouter, href="#main" would change the route to /main (a 404).
+          So the link moves focus to the content itself (peer review: "skip link breaks HashRouter, Layout:20"). */}
+      <a
+        className="skip-link"
+        href="#main"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById('main')?.focus();
+        }}
+      >
         Skip to content
       </a>
       <Navbar />
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <Outlet />
       </main>
       <Footer />

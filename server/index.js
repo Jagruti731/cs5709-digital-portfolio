@@ -1,68 +1,75 @@
+/**
+ * @file Optional API server for the community feed (Express, JSON files).
+ *
+ * The site works without it: on GitHub Pages posts stay in the visitor's
+ * browser. When the site is built with VITE_API_URL, posts, comments, likes
+ * and accounts are stored here instead.
+ *
+ * Phase 2 fixes from the peer review (Aggarwal, 2026, Table 3), CR-14:
+ *  - comments and likes take their author from the session token, not the body
+ *  - a corrupt data file stops the request (500) instead of being overwritten with []
+ *  - every write goes to a temporary file first, then is renamed (no half-written files)
+ *  - JSON body limit raised to 2 MB so a 1 MB image (about 1.37 MB as base64) fits
+ *  - DATA_DIR lets the tests use a throw-away folder instead of the real data
+ */
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { nanoid } = require('nanoid');
+
+/** Largest accepted request body. Must stay above LIMITS.postImageBytes in src/config/site.ts once base64-encoded. */
+const BODY_LIMIT = '2mb';
+const DATA_DIR = process.env.DATA_DIR || __dirname;
+const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || '*';
 
 const app = express();
-app.use(express.json());
-// very small CORS middleware for local development
+app.use(express.json({ limit: BODY_LIMIT }));
+// CORS: the site is served from a different origin (GitHub Pages or Vite) than this API.
+// Set CORS_ORIGIN to the site's address in production; '*' is for local development.
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   if (req.method === 'OPTIONS') return res.sendStatus(200);
   next();
 });
 
-const DB_PATH = path.join(__dirname, 'posts.json');
-const USERS_PATH = path.join(__dirname, 'users.json');
-const SESSIONS_PATH = path.join(__dirname, 'sessions.json');
+/** Random URL-safe id for posts, comments, users and session tokens (replaces the nanoid package). */
+const nanoid = () => crypto.randomBytes(12).toString('base64url');
 
-function readDB() {
+const DB_PATH = path.join(DATA_DIR, 'posts.json');
+const USERS_PATH = path.join(DATA_DIR, 'users.json');
+const SESSIONS_PATH = path.join(DATA_DIR, 'sessions.json');
+
+/**
+ * Reads a JSON data file. A missing file means "no data yet" and returns the fallback.
+ * A file that exists but cannot be parsed THROWS: returning [] here (as the starter did)
+ * meant the next write replaced every post with an empty list.
+ */
+function readJson(file, fallback) {
+  if (!fs.existsSync(file)) return fallback;
+  const raw = fs.readFileSync(file, 'utf8');
+  if (raw.trim() === '') return fallback;
   try {
-    if (!fs.existsSync(DB_PATH)) return [];
-    const raw = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(raw || '[]');
+    return JSON.parse(raw);
   } catch (e) {
-    console.error('readDB error', e);
-    return [];
+    throw new Error(`${path.basename(file)} is not valid JSON: ${e.message}`);
   }
 }
 
-function writeDB(posts) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(posts, null, 2), 'utf8');
+/** Writes a JSON data file atomically: a temporary file first, then a rename. */
+function writeJson(file, value) {
+  const tmp = `${file}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(value, null, 2), 'utf8');
+  fs.renameSync(tmp, file);
 }
 
-function readUsers() {
-  try {
-    if (!fs.existsSync(USERS_PATH)) return [];
-    const raw = fs.readFileSync(USERS_PATH, 'utf8');
-    return JSON.parse(raw || '[]');
-  } catch (e) {
-    console.error('readUsers error', e);
-    return [];
-  }
-}
-
-function writeUsers(users) {
-  fs.writeFileSync(USERS_PATH, JSON.stringify(users, null, 2), 'utf8');
-}
-
-function readSessions() {
-  try {
-    if (!fs.existsSync(SESSIONS_PATH)) return {};
-    const raw = fs.readFileSync(SESSIONS_PATH, 'utf8');
-    return JSON.parse(raw || '{}');
-  } catch (e) {
-    console.error('readSessions error', e);
-    return {};
-  }
-}
-
-function writeSessions(sessions) {
-  fs.writeFileSync(SESSIONS_PATH, JSON.stringify(sessions, null, 2), 'utf8');
-}
+const readDB = () => readJson(DB_PATH, []);
+const writeDB = (posts) => writeJson(DB_PATH, posts);
+const readUsers = () => readJson(USERS_PATH, []);
+const writeUsers = (users) => writeJson(USERS_PATH, users);
+const readSessions = () => readJson(SESSIONS_PATH, {});
+const writeSessions = (sessions) => writeJson(SESSIONS_PATH, sessions);
 
 // Passwords are stored as salted scrypt hashes, never in plain text (CR-07).
 function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
@@ -168,11 +175,13 @@ app.post('/auth/login', (req, res) => {
   res.json({ token, username });
 });
 
-// add a comment to a post
+// Add a comment. The author is the signed-in user (CR-14); the starter trusted an 'author' field in the body.
 app.post('/posts/:id/comments', (req, res) => {
   const id = req.params.id;
-  const { author = 'Anonymous', content } = req.body;
-  if (!content || content.trim() === '') return res.status(400).json({ error: 'content is required' });
+  const author = userFromRequest(req);
+  if (!author) return res.status(401).json({ error: 'authentication required to comment' });
+  const { content } = req.body || {};
+  if (!content || String(content).trim() === '') return res.status(400).json({ error: 'content is required' });
   const posts = readDB();
   const idx = posts.findIndex((p) => p.id === id);
   if (idx === -1) return res.status(404).json({ error: 'post not found' });
@@ -183,28 +192,28 @@ app.post('/posts/:id/comments', (req, res) => {
   res.status(201).json(comment);
 });
 
-// toggle like for a post (by author). If no author provided, we increment/decrement anonymously.
+// Toggle the signed-in user's like (CR-14). The starter accepted any author name, or counted anonymous likes without limit.
 app.post('/posts/:id/likes', (req, res) => {
-  const id = req.params.id;
-  const { author } = req.body || {};
+  const author = userFromRequest(req);
+  if (!author) return res.status(401).json({ error: 'authentication required to like' });
   const posts = readDB();
-  const idx = posts.findIndex((p) => p.id === id);
-  if (idx === -1) return res.status(404).json({ error: 'post not found' });
-  posts[idx].likedBy = posts[idx].likedBy || [];
-  if (author) {
-    const found = posts[idx].likedBy.indexOf(author);
-    if (found === -1) {
-      posts[idx].likedBy.push(author);
-    } else {
-      posts[idx].likedBy.splice(found, 1);
-    }
-  } else {
-    // anonymous like: toggle a special marker using timestamp to allow repeated toggles
-    posts[idx].anonymousLikes = (posts[idx].anonymousLikes || 0) + 1;
-  }
+  const post = posts.find((p) => p.id === req.params.id);
+  if (!post) return res.status(404).json({ error: 'post not found' });
+  post.likedBy = post.likedBy || [];
+  const found = post.likedBy.indexOf(author);
+  if (found === -1) post.likedBy.push(author);
+  else post.likedBy.splice(found, 1);
   writeDB(posts);
-  res.json({ likes: (posts[idx].likedBy ? posts[idx].likedBy.length : 0) + (posts[idx].anonymousLikes || 0) });
+  res.json({ likes: post.likedBy.length });
+});
+
+// Any error above (for example a corrupt data file) ends here: answer 500 and change nothing.
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.too.large') return res.status(413).json({ error: `request body larger than ${BODY_LIMIT}` });
+  console.error(err.message);
+  res.status(500).json({ error: 'server error, no data was changed' });
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT} (data in ${DATA_DIR})`));
