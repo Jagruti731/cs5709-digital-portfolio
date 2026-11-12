@@ -221,8 +221,8 @@ Exit criteria: every finding fixed, all checks green, and no divergence left in 
 
 ## 9. CI/CD pipeline
 
-`.github/workflows/ci-cd.yml` runs on every push to any branch, on pull requests to `main`, and by hand
-(*Run workflow*). It has four jobs:
+`.github/workflows/ci-cd.yml` runs on every push to `main`, on every pull request to `main` (including
+Dependabot's), and by hand (*Run workflow*). It has four jobs:
 
 ![CI/CD pipeline](public/diagrams/pipeline.svg)
 
@@ -247,8 +247,11 @@ Design decisions:
   has started is never cancelled.
 - **Kept evidence.** Test, coverage, browser and quality reports are uploaded as artifacts for 14 days, and
   the build job collects the unit and API results from the earlier jobs for the quality report.
-- **Dependencies stay current.** Dependabot (`.github/dependabot.yml`) opens weekly update pull
-  requests, and each one has to pass the same pipeline.
+- **Dependencies stay current, safely.** Dependabot (`.github/dependabot.yml`) opens grouped weekly pull
+  requests for patch and minor updates, and each one has to pass the same pipeline before it can be
+  merged. On the first push it proposed a group of 14 tool updates that included ESLint 10; the
+  pipeline stopped it at the lint step, so it never reached `main`. Major versions are left out and
+  planned by hand.
 
 Run the same checks locally before pushing: `npm run ci`.
 

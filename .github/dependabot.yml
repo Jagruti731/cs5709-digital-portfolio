@@ -1,20 +1,35 @@
-# Weekly pull requests for outdated npm packages and GitHub Actions (CR-18).
-# Each one runs the full CI pipeline before it can be merged.
+# Dependency updates (CR-18, tuned in CR-28).
+# Weekly pull requests for patch and minor updates only, grouped so there are few of them.
+# Each one must pass the full CI/CD pipeline before it can be merged; a major version
+# (for example ESLint 10 or React Router 7) is a planned change, not an automatic one.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 3
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
     groups:
+      runtime:
+        dependency-type: production
       dev-tools:
         dependency-type: development
   - package-ecosystem: npm
     directory: /server
     schedule:
       interval: weekly
+    open-pull-requests-limit: 1
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
+    open-pull-requests-limit: 2
+    groups:
+      actions:
+        patterns: ['*']
