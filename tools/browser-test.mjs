@@ -32,8 +32,10 @@ check('All ten routes render one h1; unknown route shows NotFound', rendered ===
 
 // 2. Navbar marks the current page; title follows the route.
 await go('/education');
-check('Navbar marks the current page; title follows the route',
-  (await page.locator('.nav-links a[aria-current="page"]').textContent()) === 'Education' && (await page.title()).startsWith('Education'));
+check(
+  'Navbar marks the current page; title follows the route',
+  (await page.locator('.nav-links a[aria-current="page"]').textContent()) === 'Education' && (await page.title()).startsWith('Education'),
+);
 
 // 3. Home case-study link deep-links into Professional Knowledge.
 await go('/');
@@ -53,7 +55,11 @@ const moved = (await page.locator('.lightbox figcaption').textContent())?.includ
 await page.keyboard.press('Escape');
 const closed = (await page.locator('.lightbox').count()) === 0;
 const focusBack = await page.evaluate(() => document.activeElement?.closest('.shot') !== null);
-check('Gallery filter and Lightbox (filter, open, arrow key, Escape, focus return)', places === 3 && open && moved && closed && focusBack, '5/5');
+check(
+  'Gallery filter and Lightbox (filter, open, arrow key, Escape, focus return)',
+  places === 3 && open && moved && closed && focusBack,
+  '5/5',
+);
 
 // 5. Video playlist.
 await go('/videos');
@@ -120,7 +126,11 @@ const menuOpen = await page.locator('.navbar.open').count();
 await page.locator('.nav-links a', { hasText: 'About' }).click();
 await page.waitForTimeout(300);
 const menuClosed = (await page.locator('.navbar.open').count()) === 0;
-check('No sideways scrolling at 390px (4 pages); mobile menu opens and closes', noOverflow === 4 && menuOpen === 1 && menuClosed, `${noOverflow + (menuOpen ? 1 : 0) + (menuClosed ? 1 : 0)}/6`);
+check(
+  'No sideways scrolling at 390px (4 pages); mobile menu opens and closes',
+  noOverflow === 4 && menuOpen === 1 && menuClosed,
+  `${noOverflow + (menuOpen ? 1 : 0) + (menuClosed ? 1 : 0)}/6`,
+);
 
 check('No JavaScript errors in the console during the run', errors.length === 0, errors.join(' | '));
 await browser.close();

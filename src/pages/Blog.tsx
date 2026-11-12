@@ -4,7 +4,8 @@ import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { articles } from '../data/blog';
 
-const longDate = (iso: string) => new Date(iso + 'T12:00:00').toLocaleDateString('en-IE', { day: 'numeric', month: 'long', year: 'numeric' });
+const longDate = (iso: string) =>
+  new Date(iso + 'T12:00:00').toLocaleDateString('en-IE', { day: 'numeric', month: 'long', year: 'numeric' });
 
 export default function Blog() {
   const tags = useMemo(() => ['all', ...new Set(articles.flatMap((a) => a.tags))], []);
@@ -13,7 +14,11 @@ export default function Blog() {
 
   return (
     <>
-      <PageHeader title="Blog" crumb="Blog" intro="Notes on keeping real systems alive, and on the MSc. Below the articles, anyone can post, like and comment." />
+      <PageHeader
+        title="Blog"
+        crumb="Blog"
+        intro="Notes on keeping real systems alive, and on the MSc. Below the articles, anyone can post, like and comment."
+      />
       <Section title="Articles">
         <div className="filters" role="group" aria-label="Filter articles by tag">
           {tags.map((t) => (

@@ -44,7 +44,10 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section title="What I have worked on" intro="Three projects that show the kind of work I do. The Professional Knowledge page has the full list.">
+      <Section
+        title="What I have worked on"
+        intro="Three projects that show the kind of work I do. The Professional Knowledge page has the full list."
+      >
         <div className="grid g3">
           {featured.map((c) => (
             <article className="work-card" key={c.id}>

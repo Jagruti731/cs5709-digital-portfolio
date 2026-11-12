@@ -17,7 +17,13 @@ interface Entry {
 const index: Entry[] = [
   ...pages
     .filter((p) => p.id !== 'search')
-    .map((p) => ({ to: p.path, title: p.title, text: p.description, kind: 'page', haystack: [p.title, p.description, ...p.keywords].join(' ') })),
+    .map((p) => ({
+      to: p.path,
+      title: p.title,
+      text: p.description,
+      kind: 'page',
+      haystack: [p.title, p.description, ...p.keywords].join(' '),
+    })),
   ...caseStudies.map((c) => ({
     to: `/knowledge?case=${c.id}`,
     title: c.title,
@@ -38,7 +44,14 @@ export default function Search() {
       <Section>
         <form className="search-form" role="search" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="q">Search the portfolio</label>
-          <input id="q" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g. OCR, Limerick, Lehman" autoComplete="off" />
+          <input
+            id="q"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="e.g. OCR, Limerick, Lehman"
+            autoComplete="off"
+          />
         </form>
         <p className="note" aria-live="polite">
           {results.length} {results.length === 1 ? 'result' : 'results'}

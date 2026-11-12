@@ -33,7 +33,15 @@ export function CommunityFeed() {
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!text.trim()) return;
-    const post: PostItem = { id: newId(), author: me, content: text.trim(), image, createdAt: new Date().toISOString(), comments: [], likedBy: [] };
+    const post: PostItem = {
+      id: newId(),
+      author: me,
+      content: text.trim(),
+      image,
+      createdAt: new Date().toISOString(),
+      comments: [],
+      likedBy: [],
+    };
     try {
       dispatch(addPost(await createPost(post, auth.token)));
       setText('');
@@ -138,7 +146,13 @@ function Post({ post, me, onLike, onComment }: { post: PostItem; me: string; onL
           }
         }}
       >
-        <input aria-label="Write a comment" value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Write a comment" maxLength={400} />
+        <input
+          aria-label="Write a comment"
+          value={reply}
+          onChange={(e) => setReply(e.target.value)}
+          placeholder="Write a comment"
+          maxLength={400}
+        />
         <button className="text-btn" type="submit">
           Reply
         </button>
@@ -147,7 +161,15 @@ function Post({ post, me, onLike, onComment }: { post: PostItem; me: string; onL
   );
 }
 
-function SignIn({ signedInAs, onSignedIn, onSignOut }: { signedInAs: string | null; onSignedIn: (u: string, t: string) => void; onSignOut: () => void }) {
+function SignIn({
+  signedInAs,
+  onSignedIn,
+  onSignOut,
+}: {
+  signedInAs: string | null;
+  onSignedIn: (u: string, t: string) => void;
+  onSignOut: () => void;
+}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

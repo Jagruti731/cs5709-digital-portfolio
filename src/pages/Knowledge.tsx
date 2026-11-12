@@ -82,13 +82,14 @@ export default function Knowledge() {
           <Card title="Lehman's laws I have seen">
             <p>
               <b>Continuing change:</b> the loan platform changes with every new lender rule. <b>Increasing complexity:</b> each new rule
-              makes the next harder, so we plan refactoring into sprints. <b>Continuing growth:</b> the OCR pipeline went from one bank to four.
+              makes the next harder, so we plan refactoring into sprints. <b>Continuing growth:</b> the OCR pipeline went from one bank to
+              four.
             </p>
           </Card>
           <Card title="Taxonomies">
             <p>
-              Lientz and Swanson (1980) group changes by their purpose. Chapin et al. (2001) classify them by evidence of what actually changed.
-              Buckley et al. (2005) describe how a change happens: when, what, and with which tools.
+              Lientz and Swanson (1980) group changes by their purpose. Chapin et al. (2001) classify them by evidence of what actually
+              changed. Buckley et al. (2005) describe how a change happens: when, what, and with which tools.
             </p>
           </Card>
         </div>
