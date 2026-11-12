@@ -220,6 +220,14 @@
     "change": "Pipeline runs once per change (push to main, or pull request); Dependabot grouped, patch and minor only, after its first major-version proposal failed the lint check",
     "type": "adaptive",
     "closes": "Evaluation: first live pipeline runs",
+    "commit": "df7777e",
+    "phase": 2
+  },
+  {
+    "id": "CR-29",
+    "change": "Dashboard lists only the CI/CD workflow's runs; on the live site the general runs list also showed Dependabot's own update jobs",
+    "type": "corrective",
+    "closes": "Evaluation: live site check",
     "commit": "this commit",
     "phase": 2
   }

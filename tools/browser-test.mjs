@@ -68,7 +68,7 @@ const fakeGitHub = {
 };
 await context.route('https://api.github.com/**', (route) => {
   const url = route.request().url();
-  const body = url.includes('/actions/runs')
+  const body = url.includes('/runs?')
     ? fakeGitHub.runs
     : url.includes('/commits')
       ? fakeGitHub.commits
