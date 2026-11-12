@@ -52,10 +52,30 @@ export const profile = {
 };
 
 export const extras = [
-  { code: 'LA', title: 'LexAura, WinTank 2026', text: "An AI legal operations portal I designed and pitched for Winjit's internal innovation competition." },
-  { code: 'GC', title: 'GitHub Copilot community', text: 'Started an internal Copilot community at Winjit and built a tracker to measure AI adoption in sprints.' },
+  {
+    code: 'LA',
+    title: 'LexAura, WinTank 2026',
+    text: "An AI legal operations portal I designed and pitched for Winjit's internal innovation competition.",
+  },
+  {
+    code: 'GC',
+    title: 'GitHub Copilot community',
+    text: 'Started an internal Copilot community at Winjit and built a tracker to measure AI adoption in sprints.',
+  },
   { code: 'PS', title: 'Presales for clients', text: 'Credit workflow diagrams, findings reports and case study decks for sales teams.' },
-  { code: 'SC', title: 'SACH Constructions, Nashik', text: 'Quotations, bills, progress reports and Instagram growth reports for a local civil contractor.' },
-  { code: 'UB', title: 'UL Buddy (in progress)', text: 'A portal to help new international students track everything they need to do after arriving in Ireland.' },
-  { code: 'RT', title: 'RTI office automation', text: 'My final-year BE project, sponsored by the government: automating an RTI Act office.' },
+  {
+    code: 'SC',
+    title: 'SACH Constructions, Nashik',
+    text: 'Quotations, bills, progress reports and Instagram growth reports for a local civil contractor.',
+  },
+  {
+    code: 'UB',
+    title: 'UL Buddy (in progress)',
+    text: 'A portal to help new international students track everything they need to do after arriving in Ireland.',
+  },
+  {
+    code: 'RT',
+    title: 'RTI office automation',
+    text: 'My final-year BE project, sponsored by the government: automating an RTI Act office.',
+  },
 ];

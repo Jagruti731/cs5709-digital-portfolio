@@ -1,0 +1,8 @@
+build
+coverage
+node_modules
+legacy
+package-lock.json
+server/package-lock.json
+public/diagrams
+*.md

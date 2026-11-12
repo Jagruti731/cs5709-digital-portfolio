@@ -20,8 +20,10 @@ export const caseStudies: CaseStudy[] = [
     title: 'Consumer vehicle loan origination',
     kind: 'Fintech · current project',
     meta: 'Winjit Technologies · current flagship project · Team Lead',
-    summary: 'A platform that handles consumer vehicle loans from application to payout. I lead the team building it as .NET microservices.',
-    problem: 'The client needed one system to handle vehicle loan applications from start to finish: applicant details, document checks, credit rules, decision and payout.',
+    summary:
+      'A platform that handles consumer vehicle loans from application to payout. I lead the team building it as .NET microservices.',
+    problem:
+      'The client needed one system to handle vehicle loan applications from start to finish: applicant details, document checks, credit rules, decision and payout.',
     did: [
       'Led the development team and planned the sprints',
       'Split the system into .NET microservices so each step can change on its own',
@@ -35,8 +37,10 @@ export const caseStudies: CaseStudy[] = [
     title: 'Bank statement extraction pipeline',
     kind: 'Document AI',
     meta: 'Winjit Technologies · fintech',
-    summary: 'Reads PDF statements from four South African banks and turns them into clean transactions. I built the extractors and fixed the Gemini accuracy issues.',
-    problem: "Credit teams were typing transactions from customers' bank statements by hand. Every bank's PDF looks different, so one generic parser was not good enough.",
+    summary:
+      'Reads PDF statements from four South African banks and turns them into clean transactions. I built the extractors and fixed the Gemini accuracy issues.',
+    problem:
+      "Credit teams were typing transactions from customers' bank statements by hand. Every bank's PDF looks different, so one generic parser was not good enough.",
     did: [
       'Built positional extractors with PdfPig for FNB, ABSA, Capitec and Nedbank',
       'Used Google Gemini as a fallback, first on the whole PDF, then in batches',

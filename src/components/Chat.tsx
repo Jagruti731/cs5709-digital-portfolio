@@ -16,11 +16,26 @@ const rooms: Record<Room, { name: string; status: string }> = {
 
 /** Keyword answers for the assistant. The first matching rule wins. */
 const answers: [RegExp, string][] = [
-  [/project|work|built|loan|ocr/i, 'My main projects: a consumer vehicle loan origination platform (.NET microservices), a bank statement OCR pipeline, a Sage–Maximo integration, TreadTrac, a ledger accounting solution and a people management system. The Professional Knowledge page has the case studies.'],
-  [/educat|degree|study|msc|limerick|university/i, "I'm doing an MSc in Software Engineering at the University of Limerick (2026–27). Before that: BE Computer Engineering (2020), Diploma in Computer Engineering (2016) and SSC (2013)."],
-  [/skill|stack|tech|\.net|angular|azure|react|c#/i, 'Day to day: C#, .NET Core, Angular, SQL Server, Azure and microservices. This site is React and TypeScript. I also use Copilot, Gemini and Claude to speed up routine work.'],
-  [/experience|winjit|job|role|lead/i, 'Six years at Winjit Technologies (RIB Group): intern in 2020, then Software Engineer, Senior Software Engineer, and Project Engineer & Team Lead from 2026.'],
-  [/evolution|lehman|module|assignment|readme/i, "This site is Phase 1 of my CS5709 project. It evolves the lecturer's starter portfolio; the Readme page explains every change."],
+  [
+    /project|work|built|loan|ocr/i,
+    'My main projects: a consumer vehicle loan origination platform (.NET microservices), a bank statement OCR pipeline, a Sage–Maximo integration, TreadTrac, a ledger accounting solution and a people management system. The Professional Knowledge page has the case studies.',
+  ],
+  [
+    /educat|degree|study|msc|limerick|university/i,
+    "I'm doing an MSc in Software Engineering at the University of Limerick (2026–27). Before that: BE Computer Engineering (2020), Diploma in Computer Engineering (2016) and SSC (2013).",
+  ],
+  [
+    /skill|stack|tech|\.net|angular|azure|react|c#/i,
+    'Day to day: C#, .NET Core, Angular, SQL Server, Azure and microservices. This site is React and TypeScript. I also use Copilot, Gemini and Claude to speed up routine work.',
+  ],
+  [
+    /experience|winjit|job|role|lead/i,
+    'Six years at Winjit Technologies (RIB Group): intern in 2020, then Software Engineer, Senior Software Engineer, and Project Engineer & Team Lead from 2026.',
+  ],
+  [
+    /evolution|lehman|module|assignment|readme/i,
+    "This site is Phase 1 of my CS5709 project. It evolves the lecturer's starter portfolio; the Readme page explains every change.",
+  ],
   [/contact|email|linkedin|reach|hire/i, 'LinkedIn is the best way to reach me: in.linkedin.com/in/jagrutibadgujar'],
   [/^(hi|hello|hey|hiya)\b/i, 'Hello! What would you like to know?'],
   [/thank/i, "You're welcome. Enjoy the rest of the portfolio."],
@@ -29,7 +44,12 @@ export const answerFor = (question: string) =>
   answers.find(([pattern]) => pattern.test(question))?.[1] ??
   "I don't have an automatic answer for that yet. Try projects, education, skills or experience, or message me on LinkedIn.";
 
-const suggestions = ['What projects have you worked on?', 'Tell me about your education', 'What is your tech stack?', 'How can I contact you?'];
+const suggestions = [
+  'What projects have you worked on?',
+  'Tell me about your education',
+  'What is your tech stack?',
+  'How can I contact you?',
+];
 const newId = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
 const clock = (t: number) => new Date(t).toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' });
 
@@ -41,7 +61,14 @@ const clock = (t: number) => new Date(t).toLocaleTimeString('en-IE', { hour: '2-
 export function Chat() {
   const [me] = useStoredState('jb.chat.me', `Visitor-${Math.floor(1000 + Math.random() * 9000)}`);
   const [log, setLog] = useStoredState<Record<Room, Message[]>>('jb.chat.v2', {
-    assistant: [{ id: 'hello', from: 'Jagruti', text: 'Hi, thanks for visiting. Ask me about my projects, education or skills, or tap a suggestion.', t: Date.now() }],
+    assistant: [
+      {
+        id: 'hello',
+        from: 'Jagruti',
+        text: 'Hi, thanks for visiting. Ask me about my projects, education or skills, or tap a suggestion.',
+        t: Date.now(),
+      },
+    ],
     lounge: [],
   });
   const [room, setRoom] = useState<Room>('assistant');
@@ -63,7 +90,12 @@ export function Chat() {
       const data = event.data;
       // Treat everything from the channel as untrusted input.
       if (data?.type === 'msg' && data.msg && typeof data.msg.text === 'string') {
-        append('lounge', { id: String(data.msg.id), from: String(data.msg.from).slice(0, 30), text: data.msg.text.slice(0, 1000), t: Number(data.msg.t) });
+        append('lounge', {
+          id: String(data.msg.id),
+          from: String(data.msg.from).slice(0, 30),
+          text: data.msg.text.slice(0, 1000),
+          t: Number(data.msg.t),
+        });
         setTyping('');
       }
       if (data?.type === 'typing') {
@@ -92,10 +124,13 @@ export function Chat() {
     setDraft('');
     if (room === 'assistant') {
       setTyping('Jagruti is typing…');
-      window.setTimeout(() => {
-        setTyping('');
-        append('assistant', { id: newId(), from: 'Jagruti', text: answerFor(clean), t: Date.now() });
-      }, 700 + Math.min(1300, clean.length * 20));
+      window.setTimeout(
+        () => {
+          setTyping('');
+          append('assistant', { id: newId(), from: 'Jagruti', text: answerFor(clean), t: Date.now() });
+        },
+        700 + Math.min(1300, clean.length * 20),
+      );
     } else {
       channel.current?.postMessage({ type: 'msg', msg });
     }
@@ -152,7 +187,14 @@ export function Chat() {
         </div>
       )}
       <form className="chat-compose" onSubmit={(e) => send(draft, e)}>
-        <input aria-label="Message" value={draft} onChange={(e) => onDraft(e.target.value)} placeholder="Type a message" maxLength={1000} autoComplete="off" />
+        <input
+          aria-label="Message"
+          value={draft}
+          onChange={(e) => onDraft(e.target.value)}
+          placeholder="Type a message"
+          maxLength={1000}
+          autoComplete="off"
+        />
         <button className="btn" type="submit">
           Send
         </button>

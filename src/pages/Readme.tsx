@@ -56,11 +56,64 @@ const Pass = ({ n }: { n?: string }) => <span className="check">Pass{n ? ` (${n}
 // Content
 // ---------------------------------------------------------------------------
 const toc: [string, string, string, [string, string][]][] = [
-  ['discovery', 'Discovery', 'understanding the existing system', [['d-brief', 'Reading the brief'], ['d-history', "Mining the starter's history"], ['d-drift', 'Documented vs actual behaviour'], ['d-debt', 'Technical-debt register'], ['d-features', 'Feature list for Phase 1 and Phase 2'], ['d-scheme', 'Scheme of the portfolio']]],
-  ['design', 'Design', 'from as-is to to-be', [['g-asis', 'Recovered as-is architecture'], ['g-block', 'Target architecture (block diagram)'], ['g-tree', 'Structure of the code'], ['g-flow', 'Control flow'], ['g-comp', 'Component diagram']]],
-  ['dev1', 'Development, iteration 1', 'Home + four pages · navigation bar · routes', [['i1-pages', 'Home page and four additional pages'], ['i1-nav', 'Navigation bar'], ['i1-routes', 'Route table']]],
-  ['dev2', 'Development, iteration 2', 'CSS · rendering · routing', [['i2-css', 'CSS for all pages'], ['i2-resp', 'Responsive layout and themes'], ['i2-render', 'Rendering and routing'], ['i2-log', 'Change log'], ['i2-size', 'Size of the system']]],
-  ['evaluation', 'Evaluation', 'testing · critical review · enhancements', [['e-tests', 'Testing'], ['e-review', 'Critical review'], ['e-enh', 'Enhancements and Phase 2'], ['e-lehman', "Lehman's laws"]]],
+  [
+    'discovery',
+    'Discovery',
+    'understanding the existing system',
+    [
+      ['d-brief', 'Reading the brief'],
+      ['d-history', "Mining the starter's history"],
+      ['d-drift', 'Documented vs actual behaviour'],
+      ['d-debt', 'Technical-debt register'],
+      ['d-features', 'Feature list for Phase 1 and Phase 2'],
+      ['d-scheme', 'Scheme of the portfolio'],
+    ],
+  ],
+  [
+    'design',
+    'Design',
+    'from as-is to to-be',
+    [
+      ['g-asis', 'Recovered as-is architecture'],
+      ['g-block', 'Target architecture (block diagram)'],
+      ['g-tree', 'Structure of the code'],
+      ['g-flow', 'Control flow'],
+      ['g-comp', 'Component diagram'],
+    ],
+  ],
+  [
+    'dev1',
+    'Development, iteration 1',
+    'Home + four pages · navigation bar · routes',
+    [
+      ['i1-pages', 'Home page and four additional pages'],
+      ['i1-nav', 'Navigation bar'],
+      ['i1-routes', 'Route table'],
+    ],
+  ],
+  [
+    'dev2',
+    'Development, iteration 2',
+    'CSS · rendering · routing',
+    [
+      ['i2-css', 'CSS for all pages'],
+      ['i2-resp', 'Responsive layout and themes'],
+      ['i2-render', 'Rendering and routing'],
+      ['i2-log', 'Change log'],
+      ['i2-size', 'Size of the system'],
+    ],
+  ],
+  [
+    'evaluation',
+    'Evaluation',
+    'testing · critical review · enhancements',
+    [
+      ['e-tests', 'Testing'],
+      ['e-review', 'Critical review'],
+      ['e-enh', 'Enhancements and Phase 2'],
+      ['e-lehman', "Lehman's laws"],
+    ],
+  ],
 ];
 
 const debt: [string, string, string, string][] = [
@@ -68,7 +121,12 @@ const debt: [string, string, string, string][] = [
   ['TD-02', 'Blog page missing from the 11-item menu list; reachable only through Search', 'lib/navigation.ts:97', 'corrective'],
   ['TD-03', 'Contact form only calls console.log; no instant messaging, which the brief requires', 'Contact.tsx:36', 'corrective'],
   ['TD-04', 'API address http://localhost:5000 hard-coded in five places', 'PostFeed.tsx', 'adaptive'],
-  ['TD-05', '40 of 48 UI primitives never imported; unused packages; 40 version-pinned import aliases', 'components/ui, package.json', 'preventive'],
+  [
+    'TD-05',
+    '40 of 48 UI primitives never imported; unused packages; 40 version-pinned import aliases',
+    'components/ui, package.json',
+    'preventive',
+  ],
   ['TD-06', 'Passwords stored in plain text; DELETE /posts/:id needs no authentication', 'server/index.js:113,129', 'corrective'],
   ['TD-07', 'No tsconfig and no compiler: 79 strict TypeScript errors never reported', 'repository root', 'preventive'],
   ['TD-08', 'A saved web page (447 files, 43 MB) and a copy of a .git folder committed', 'src/assets, Salim-Saay/', 'preventive'],
@@ -131,14 +189,15 @@ export default function Readme() {
           <div className="prose">
             <p>
               This is Phase 1 of my CS5709 Software Engineering Evolution project. I treated the portfolio provided by the lecturer (
-              <a href="https://github.com/saaysalim/Salim-Saay">saaysalim/Salim-Saay</a>) as an existing system: I analysed its code and its history,
-              then fixed, restructured and extended it into my own portfolio in ten typed commits. It is a React 18 + TypeScript single-page
-              application built with Vite, routed with React Router, with Redux Toolkit for the community feed and an optional Express API.
+              <a href="https://github.com/saaysalim/Salim-Saay">saaysalim/Salim-Saay</a>) as an existing system: I analysed its code and its
+              history, then fixed, restructured and extended it into my own portfolio in ten typed commits. It is a React 18 + TypeScript
+              single-page application built with Vite, routed with React Router, with Redux Toolkit for the community feed and an optional
+              Express API.
             </p>
             <p>
-              <b>Run it locally:</b> <code>npm install</code>, then <code>npm run dev</code>. <code>npm run build</code> type-checks and creates{' '}
-              <code>build/</code>. Optional server: <code>cd server &amp;&amp; npm install &amp;&amp; npm start</code>, then build the site with{' '}
-              <code>VITE_API_URL=http://localhost:5000</code>. History: <code>git log --oneline v0-starter..v1.0</code>.
+              <b>Run it locally:</b> <code>npm install</code>, then <code>npm run dev</code>. <code>npm run build</code> type-checks and
+              creates <code>build/</code>. Optional server: <code>cd server &amp;&amp; npm install &amp;&amp; npm start</code>, then build
+              the site with <code>VITE_API_URL=http://localhost:5000</code>. History: <code>git log --oneline v0-starter..v1.0</code>.
             </p>
           </div>
           <h3 className="sub-h">Table of contents</h3>
@@ -185,10 +244,10 @@ export default function Readme() {
           </h3>
           <div className="prose">
             <p>
-              The brief begins with "download an existing portfolio … and analyse that". In a module on software evolution I read that as the
-              real task: understand a system I did not write before changing it, then change it in a controlled, measurable way. I cloned the
-              starter with its full history and tagged it <code>v0-starter</code>, built it, ran a strict TypeScript check, started the API server
-              and called every endpoint, and read every source file.
+              The brief begins with "download an existing portfolio … and analyse that". In a module on software evolution I read that as
+              the real task: understand a system I did not write before changing it, then change it in a controlled, measurable way. I
+              cloned the starter with its full history and tagged it <code>v0-starter</code>, built it, ran a strict TypeScript check,
+              started the API server and called every endpoint, and read every source file.
             </p>
           </div>
           <h3 className="sub-h" id="d-history">
@@ -197,8 +256,8 @@ export default function Readme() {
           <div className="prose">
             <p>
               The starter has 20 commits between 10 October 2025 and 15 September 2026. Measured after each commit, its code grew from 7,105
-              to 8,143 TypeScript lines (+15%) and its runtime dependencies from 44 to 47. By maintenance type: 7 perfective, 5 adaptive,
-              4 documentation, 2 corrective, 2 other and <b>0 preventive</b>. Nothing was ever removed or simplified: Lehman's law of
+              to 8,143 TypeScript lines (+15%) and its runtime dependencies from 44 to 47. By maintenance type: 7 perfective, 5 adaptive, 4
+              documentation, 2 corrective, 2 other and <b>0 preventive</b>. Nothing was ever removed or simplified: Lehman's law of
               increasing complexity, visible in the history.
             </p>
           </div>
@@ -212,9 +271,15 @@ export default function Readme() {
             head={['The documentation says', 'The code actually does']}
             rows={[
               ['Blog is one of the portfolio sections', 'Blog is not in the menu list, so it can only be reached through Search'],
-              ['UI primitives give "consistent look and reduced duplicated markup"', '40 of the 48 files in components/ui are never imported'],
+              [
+                'UI primitives give "consistent look and reduced duplicated markup"',
+                '40 of the 48 files in components/ui are never imported',
+              ],
               ['Styling uses a "utility-first class approach"', '58 KB of pre-compiled CSS; new utility classes cannot be generated'],
-              ['Write flow: try the API, on failure save locally', 'The API address is localhost:5000, so on the live site every write fails first'],
+              [
+                'Write flow: try the API, on failure save locally',
+                'The API address is localhost:5000, so on the live site every write fails first',
+              ],
               ['Contact lets visitors get in touch', 'The submit handler only logs the form to the console'],
               ['Backend auth is "for development/demo use only"', 'Beyond demo: plain-text passwords, and anyone can delete any post'],
             ]}
@@ -224,7 +289,12 @@ export default function Readme() {
           </h3>
           <Table
             head={['ID', 'Debt', 'Evidence', 'Fix type']}
-            rows={debt.map(([id, text, where, type]) => [<b>{id}</b>, text, <code>{where}</code>, <span className={`pill ${type}`}>{type}</span>])}
+            rows={debt.map(([id, text, where, type]) => [
+              <b>{id}</b>,
+              text,
+              <code>{where}</code>,
+              <span className={`pill ${type}`}>{type}</span>,
+            ])}
           />
           <div className="grid g2">
             <div className="panel">
@@ -239,8 +309,8 @@ export default function Readme() {
             <div className="panel">
               <h3>Why evolve rather than rewrite</h3>
               <p>
-                The parts above work and are understood. Evolving in place keeps the history, so every change is visible, reversible and typed;
-                a rewrite would throw that away, and a reskin would leave all twelve debt items open.
+                The parts above work and are understood. Evolving in place keeps the history, so every change is visible, reversible and
+                typed; a rewrite would throw that away, and a reskin would leave all twelve debt items open.
               </p>
             </div>
           </div>
@@ -249,11 +319,14 @@ export default function Readme() {
           </h3>
           <div className="prose">
             <p>
-              26 features in 9 groups: 17 delivered in Phase 1 (everything the brief lists) and 9 planned for Phase 2, which moves the shared
-              parts (feed, chat, accounts) onto real infrastructure, in the same order the starter itself was built.
+              26 features in 9 groups: 17 delivered in Phase 1 (everything the brief lists) and 9 planned for Phase 2, which moves the
+              shared parts (feed, chat, accounts) onto real infrastructure, in the same order the starter itself was built.
             </p>
           </div>
-          <Table head={['ID', 'Feature', 'Group', 'Origin', 'Phase']} rows={features.map(([id, f, g, o, p1]) => [<b>{id}</b>, f, g, o, p1 ? <P1 /> : <P2 />])} />
+          <Table
+            head={['ID', 'Feature', 'Group', 'Origin', 'Phase']}
+            rows={features.map(([id, f, g, o, p1]) => [<b>{id}</b>, f, g, o, p1 ? <P1 /> : <P2 />])}
+          />
           <h3 className="sub-h" id="d-scheme">
             1.6 Scheme of the portfolio
           </h3>
@@ -272,7 +345,11 @@ export default function Readme() {
             </div>
             <div className="panel">
               <h3>Visual scheme: charcoal + electric blue</h3>
-              <p>One plain typeface, Calibri (with Carlito, its open metric-compatible twin, where Calibri is not installed). Charcoal navigation and banners; light grey pages with white cards; electric blue for links and actions. No gradients or decorative effects.</p>
+              <p>
+                One plain typeface, Calibri (with Carlito, its open metric-compatible twin, where Calibri is not installed). Charcoal
+                navigation and banners; light grey pages with white cards; electric blue for links and actions. No gradients or decorative
+                effects.
+              </p>
               <ul className="swatches">
                 {[
                   ['charcoal', '#1C1F26'],
@@ -340,10 +417,12 @@ export default function Readme() {
             2.4 Control flow
           </h3>
           <Figure src="flow-navigation.svg" n={6} title="Navigation and rendering">
-            A click changes the URL hash; the router matches a route or falls back to NotFound; Layout renders the page and resets title and scroll.
+            A click changes the URL hash; the router matches a route or falls back to NotFound; Layout renders the page and resets title and
+            scroll.
           </Figure>
           <Figure src="flow-post.svg" n={7} title="Posting to the community feed">
-            Without VITE_API_URL the post goes straight into Redux and localStorage; with it, the post is sent with a token and added only on 201.
+            Without VITE_API_URL the post goes straight into Redux and localStorage; with it, the post is sent with a token and added only
+            on 201.
           </Figure>
           <h3 className="sub-h" id="g-comp">
             2.5 Component diagram
@@ -361,9 +440,9 @@ export default function Readme() {
           </h3>
           <div className="prose">
             <p>
-              Iteration 1 (tag <code>v1.0-iteration1</code>: CR-01 to CR-03) cleared the dead weight, replaced state-based page switching with URL
-              routing, and built the Home page (new: the starter opened on its feed) and four further pages: About, Education, Professional
-              Knowledge and Pictures. Each page maps typed data from <code>src/data</code> to markup.
+              Iteration 1 (tag <code>v1.0-iteration1</code>: CR-01 to CR-03) cleared the dead weight, replaced state-based page switching
+              with URL routing, and built the Home page (new: the starter opened on its feed) and four further pages: About, Education,
+              Professional Knowledge and Pictures. Each page maps typed data from <code>src/data</code> to markup.
             </p>
           </div>
           <h3 className="sub-h" id="i1-nav">
@@ -371,8 +450,9 @@ export default function Readme() {
           </h3>
           <div className="prose">
             <p>
-              The starter's menu was a second, hand-kept list that had lost the Blog page. The Navbar is now generated from the same page list as
-              the router, so a page cannot exist without a menu entry. NavLink marks the current page with <code>aria-current="page"</code>.
+              The starter's menu was a second, hand-kept list that had lost the Blog page. The Navbar is now generated from the same page
+              list as the router, so a page cannot exist without a menu entry. NavLink marks the current page with{' '}
+              <code>aria-current="page"</code>.
             </p>
           </div>
           <pre className="code">{`{pages.filter((p) => p.inNav).map((p) => (
@@ -383,7 +463,10 @@ export default function Readme() {
           <h3 className="sub-h" id="i1-routes">
             3.3 Route table
           </h3>
-          <Table head={['Path', 'Page', 'In menu']} rows={[...pages.map((p) => [<code>{p.path}</code>, p.title, p.inNav ? 'yes' : 'no']), [<code>*</code>, 'Not found', 'no']]} />
+          <Table
+            head={['Path', 'Page', 'In menu']}
+            rows={[...pages.map((p) => [<code>{p.path}</code>, p.title, p.inNav ? 'yes' : 'no']), [<code>*</code>, 'Not found', 'no']]}
+          />
         </section>
 
         {/* 4 DEV 2 */}
@@ -394,8 +477,8 @@ export default function Readme() {
           </h3>
           <div className="prose">
             <p>
-              One stylesheet, <code>src/styles/global.css</code>, formats every page. It replaces 58 KB of pre-compiled utilities that could not be
-              regenerated. Colours and fonts exist only as CSS variables, so the dark theme is a small override of the variables.
+              One stylesheet, <code>src/styles/global.css</code>, formats every page. It replaces 58 KB of pre-compiled utilities that could
+              not be regenerated. Colours and fonts exist only as CSS variables, so the dark theme is a small override of the variables.
             </p>
           </div>
           <h3 className="sub-h" id="i2-resp">
@@ -417,10 +500,10 @@ export default function Readme() {
           </h3>
           <div className="prose">
             <p>
-              HashRouter keeps every route inside index.html (<code>/#/about</code>), so any static host works without rewrite rules; refresh, Back
-              and links now work. <code>/knowledge?case=ocr</code> deep-links to a case study. Layout sets the page title and scrolls to the top on
-              every route change. The feed renders from Redux, and <code>services/postsApi</code> is the only module that chooses between the API
-              and localStorage.
+              HashRouter keeps every route inside index.html (<code>/#/about</code>), so any static host works without rewrite rules;
+              refresh, Back and links now work. <code>/knowledge?case=ocr</code> deep-links to a case study. Layout sets the page title and
+              scrolls to the top on every route change. The feed renders from Redux, and <code>services/postsApi</code> is the only module
+              that chooses between the API and localStorage.
             </p>
           </div>
           <h3 className="sub-h" id="i2-log">
@@ -428,7 +511,13 @@ export default function Readme() {
           </h3>
           <Table
             head={['ID', 'Change', 'Type', 'Closes', 'Commit']}
-            rows={changes.map((c) => [<b>{c.id}</b>, c.change, <span className={`pill ${c.type}`}>{c.type}</span>, c.closes, <code>{c.commit}</code>])}
+            rows={changes.map((c) => [
+              <b>{c.id}</b>,
+              c.change,
+              <span className={`pill ${c.type}`}>{c.type}</span>,
+              c.closes,
+              <code>{c.commit}</code>,
+            ])}
           />
           <h3 className="sub-h" id="i2-size">
             4.5 Size of the system
@@ -517,12 +606,12 @@ export default function Readme() {
           </h3>
           <div className="prose">
             <p>
-              <b>Continuing change.</b> The starter changed in three bursts over eleven months; version 1.0 is a further change (new owner, new
-              content, any host) and Phase 2 is planned, not optional.
+              <b>Continuing change.</b> The starter changed in three bursts over eleven months; version 1.0 is a further change (new owner,
+              new content, any host) and Phase 2 is planned, not optional.
             </p>
             <p>
-              <b>Increasing complexity.</b> The starter's history has no simplifying commit. Phase 1 put simplification first (CR-01, CR-06) and
-              only then added features.
+              <b>Increasing complexity.</b> The starter's history has no simplifying commit. Phase 1 put simplification first (CR-01, CR-06)
+              and only then added features.
             </p>
             <p>
               <b>Continuing growth and declining quality.</b> Functionality grew while size fell; type checks now run on every build and the

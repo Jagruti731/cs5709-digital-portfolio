@@ -14,11 +14,7 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           {routes.map((r) =>
-            r.path === '/' ? (
-              <Route key={r.id} index element={r.element} />
-            ) : (
-              <Route key={r.id} path={r.path} element={r.element} />
-            ),
+            r.path === '/' ? <Route key={r.id} index element={r.element} /> : <Route key={r.id} path={r.path} element={r.element} />,
           )}
           <Route path="*" element={<NotFound />} />
         </Route>
