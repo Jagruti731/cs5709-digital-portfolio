@@ -174,5 +174,13 @@
     "closes": "Brief: API connection; innovation",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-23",
+    "change": "Innovation: installable offline app (PWA): manifest and icons, Workbox service worker precaching the shell and all content, install button, update prompt, offline notice",
+    "type": "perfective",
+    "closes": "Innovation; user story US10",
+    "commit": "this commit",
+    "phase": 2
   }
 ]

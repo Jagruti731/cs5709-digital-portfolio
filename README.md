@@ -317,6 +317,24 @@ every visit (`src/services/githubApi.ts`, state in `store/githubSlice.ts`):
 
 This replaces the starter's parked `legacy/phase2-candidates/GitHubIntegration.tsx`, which was deleted.
 
+### 12.3 Installable offline app (Progressive Web App)
+
+The site can be installed on a phone or laptop like an app, and it works with no connection
+(user story US10: re-reading a post on the bus). Built with `vite-plugin-pwa`, which generates a
+Workbox service worker at build time (`vite.config.ts`):
+
+| Part | Behaviour |
+| --- | --- |
+| Web app manifest | name, icons (including a maskable icon), theme colour, standalone display, shortcuts to Search, Knowledge and Blog |
+| Precache | HTML, every JavaScript chunk, CSS, fonts, icons and all JSON content (64 files, about 1 MB) are cached when the service worker installs, so every page opens offline, even one never visited |
+| Runtime cache | pictures and diagrams: cache first, kept 30 days; content JSON: network first with a 4-second timeout |
+| Install button | the browser's install prompt is caught and offered as our own *Install* notice |
+| Updates | after a new deployment the visitor sees *A new version is ready – Reload*; nothing reloads by surprise |
+| Offline notice | a banner says the site is offline and that live GitHub data needs a connection |
+
+The browser test switches the network off, reloads, and checks that the Education page still renders
+from the cache.
+
 ## 13. Response to the reviews
 
 Phase 2 started from two reviews of Phase 1: the lecturer's feedback (12.5/15) and the peer review by

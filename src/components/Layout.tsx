@@ -9,6 +9,7 @@ import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { SITE } from '../config/site';
 import { usePageIntro } from '../features/motion/usePageIntro';
+import { AppStatus } from '../features/pwa/AppStatus';
 import { useScrollReveal } from '../features/motion/useScrollReveal';
 import { pages } from '../lib/navigation';
 import { Footer } from './Footer';
@@ -65,6 +66,7 @@ export function Layout() {
           </Suspense>
         </PageErrorBoundary>
       </main>
+      <AppStatus />
       <Footer />
     </>
   );
