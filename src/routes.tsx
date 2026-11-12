@@ -1,35 +1,31 @@
 /**
  * @file Route table: page metadata from lib/navigation.ts joined with the component that renders each page.
+ *
+ * Every page is loaded lazily (CR-19): React.lazy turns each import into its
+ * own JavaScript chunk, which the browser downloads only when that page is
+ * first visited. The first visit downloads the shell and the Home page only.
  */
-import type { ReactElement } from 'react';
+import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
 import { pages, type PageMeta } from './lib/navigation';
-import About from './pages/About';
-import Blog from './pages/Blog';
-import Education from './pages/Education';
-import Gallery from './pages/Gallery';
-import Home from './pages/Home';
-import Knowledge from './pages/Knowledge';
-import Messages from './pages/Messages';
-import Readme from './pages/Readme';
-import Search from './pages/Search';
-import Videos from './pages/Videos';
 
-const elements: Record<string, ReactElement> = {
-  home: <Home />,
-  about: <About />,
-  education: <Education />,
-  knowledge: <Knowledge />,
-  gallery: <Gallery />,
-  videos: <Videos />,
-  blog: <Blog />,
-  messages: <Messages />,
-  search: <Search />,
-  readme: <Readme />,
+const components: Record<string, LazyExoticComponent<ComponentType>> = {
+  home: lazy(() => import('./pages/Home')),
+  about: lazy(() => import('./pages/About')),
+  education: lazy(() => import('./pages/Education')),
+  knowledge: lazy(() => import('./pages/Knowledge')),
+  gallery: lazy(() => import('./pages/Gallery')),
+  videos: lazy(() => import('./pages/Videos')),
+  blog: lazy(() => import('./pages/Blog')),
+  messages: lazy(() => import('./pages/Messages')),
+  search: lazy(() => import('./pages/Search')),
+  readme: lazy(() => import('./pages/Readme')),
 };
 
+export const NotFound = lazy(() => import('./pages/NotFound'));
+
 export interface AppRoute extends PageMeta {
-  element: ReactElement;
+  Component: LazyExoticComponent<ComponentType>;
 }
 
-/** Page metadata joined with the component that renders each page. */
-export const routes: AppRoute[] = pages.map((p) => ({ ...p, element: elements[p.id] }));
+/** Page metadata joined with the lazily loaded component that renders each page. */
+export const routes: AppRoute[] = pages.map((p) => ({ ...p, Component: components[p.id] }));

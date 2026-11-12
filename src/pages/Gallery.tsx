@@ -62,7 +62,7 @@ export default function Gallery() {
                   setOpen(i);
                 }}
               >
-                <img src={imagePath(p.file)} alt={`${p.title}: ${p.caption}`} width={1200} height={800} loading="lazy" />
+                <img src={imagePath(p.file)} alt={`${p.title}: ${p.caption}`} width={1200} height={800} loading="lazy" decoding="async" />
               </button>
               <figcaption>
                 <b>{p.title}</b>

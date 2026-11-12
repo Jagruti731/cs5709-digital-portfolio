@@ -65,7 +65,7 @@ export default function Home() {
         <div className="grid g3">
           {featured.map((c) => (
             <article className="work-card" key={c.id}>
-              <img src={imagePath(c.image)} alt={c.title} loading="lazy" width={1200} height={800} />
+              <img src={imagePath(c.image)} alt={c.title} loading="lazy" decoding="async" width={1200} height={800} />
               <div className="body">
                 <span className="kind">{c.kind}</span>
                 <h3>{c.title}</h3>

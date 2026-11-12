@@ -44,7 +44,7 @@ export function renderMarkdown(source: string): { html: string; headings: Headin
         return `<h${depth} id="${id}">${text}</h${depth}>\n`;
       },
       image({ href, title, text }) {
-        return `<img src="${sitePath(href)}" alt="${text}"${title ? ` title="${title}"` : ''} loading="lazy">`;
+        return `<img src="${sitePath(href)}" alt="${text}"${title ? ` title="${title}"` : ''} loading="lazy" decoding="async">`;
       },
       link({ href, tokens }) {
         const label = this.parser.parseInline(tokens);

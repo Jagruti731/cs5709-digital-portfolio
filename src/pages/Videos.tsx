@@ -49,7 +49,7 @@ export default function Videos() {
             {videos.map((v, i) => (
               <li key={v.id}>
                 <button type="button" aria-current={i === current ? 'true' : undefined} onClick={() => choose(i)}>
-                  <img src={videoFile(v.id, 'jpg')} alt="" width={960} height={540} loading="lazy" />
+                  <img src={videoFile(v.id, 'jpg')} alt="" width={960} height={540} loading="lazy" decoding="async" />
                   <span>
                     <b>{v.title}</b>
                     <small>{v.duration}</small>

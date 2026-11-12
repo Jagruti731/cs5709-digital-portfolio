@@ -142,5 +142,13 @@
     "closes": "Brief iteration 4, peer review",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-19",
+    "change": "Lazy loading: each page is its own chunk loaded on first visit (main bundle 257 kB to 206 kB); error boundary for failed chunks; images decoded asynchronously",
+    "type": "perfective",
+    "closes": "Brief: lazy loading",
+    "commit": "this commit",
+    "phase": 2
   }
 ]
