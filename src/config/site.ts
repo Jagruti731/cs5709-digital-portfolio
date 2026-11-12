@@ -10,7 +10,8 @@
 export const SITE = {
   owner: 'Jagruti Badgujar',
   initials: 'JB',
-  version: '2.0',
+  /** From package.json at build time (inspection D7: it was typed twice and could disagree). */
+  version: __APP_VERSION__,
   module: 'CS5709 Software Engineering Evolution, University of Limerick',
   linkedin: 'https://in.linkedin.com/in/jagrutibadgujar',
 } as const;

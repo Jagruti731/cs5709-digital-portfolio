@@ -8,7 +8,7 @@
  * The query lives in the URL (/search?q=...), so a search can be shared or bookmarked.
  */
 import { useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { highlight, type SearchHit } from '../features/search/searchIndex';
@@ -24,7 +24,18 @@ function Marked({ text, terms }: { text: string; terms: string[] }) {
 }
 
 /** Scope tabs, the search box and example queries. */
-function SearchControls({ scope, query, onChange }: { scope: Scope; query: string; onChange: (next: { q?: string; in?: Scope }) => void }) {
+function SearchControls({
+  scope,
+  query,
+  onChange,
+  autoFocus,
+}: {
+  scope: Scope;
+  query: string;
+  onChange: (next: { q?: string; in?: Scope }) => void;
+  /** Only when opened with the "/" shortcut; otherwise focus is not moved (inspection D9). */
+  autoFocus: boolean;
+}) {
   const site = scope === 'site';
   return (
     <>
@@ -45,7 +56,7 @@ function SearchControls({ scope, query, onChange }: { scope: Scope; query: strin
           onChange={(e) => onChange({ q: e.target.value })}
           placeholder={site ? 'e.g. OCR, Limerick, Lehman' : 'e.g. skip link, comment author'}
           autoComplete="off"
-          autoFocus
+          autoFocus={autoFocus}
         />
       </form>
       <p className="note examples">
@@ -94,6 +105,7 @@ const countKinds = (hits: SearchHit[]) => {
 
 export default function Search() {
   const [params, setParams] = useSearchParams();
+  const focusSearch = (useLocation().state as { focusSearch?: boolean } | null)?.focusSearch;
   const query = params.get('q') ?? '';
   const scope: Scope = params.get('in') === 'code' ? 'code' : 'site';
   const [kind, setKind] = useState('All');
@@ -117,7 +129,7 @@ export default function Search() {
         intro="Ranked search with typo tolerance. Search the site, or switch to the source code to find where a feature is implemented."
       />
       <Section>
-        <SearchControls scope={scope} query={query} onChange={update} />
+        <SearchControls scope={scope} query={query} onChange={update} autoFocus={Boolean(focusSearch)} />
 
         {corrected && (
           <p className="note">

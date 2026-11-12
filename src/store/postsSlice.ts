@@ -2,24 +2,9 @@
  * @file postsSlice: Redux state for the community feed (posts, comments, likes). Kept from the starter, typed in Phase 1.
  */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { CommentItem, PostItem } from '../types/posts';
 
-export interface CommentItem {
-  id: string;
-  author: string;
-  content: string;
-  createdAt: string;
-}
-
-export interface PostItem {
-  id: string;
-  author: string;
-  content: string;
-  createdAt: string;
-  image?: string | null;
-  comments?: CommentItem[];
-  likedBy?: string[];
-  _local?: boolean;
-}
+export type { CommentItem, PostItem };
 
 interface PostsState {
   items: PostItem[];

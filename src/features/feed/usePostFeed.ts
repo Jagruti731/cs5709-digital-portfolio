@@ -16,9 +16,13 @@ import { authenticate, createPost, fetchPosts, saveLocal, sendComment, sendLike,
 import { login, logout } from '../../store/authSlice';
 import { addComment, addPost, setPosts, toggleLike, type CommentItem, type PostItem } from '../../store/postsSlice';
 
+/** "1 MB", "1.5 MB", "500 KB": a size people can read (inspection D2: 500 KB used to print as "1 MB" or "0 MB"). */
+export const formatBytes = (bytes: number): string =>
+  bytes >= 1_000_000 ? `${Number((bytes / 1_000_000).toFixed(1))} MB` : `${Math.round(bytes / 1000)} KB`;
+
 /** Reads an image file as a data URL, or rejects when it is too large. */
 export function readImage(file: File, maxBytes: number = LIMITS.postImageBytes): Promise<string> {
-  if (file.size > maxBytes) return Promise.reject(new Error(`Choose an image under ${Math.round(maxBytes / 1_000_000)} MB.`));
+  if (file.size > maxBytes) return Promise.reject(new Error(`Choose an image under ${formatBytes(maxBytes)}.`));
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result));

@@ -2325,3 +2325,11 @@ main:focus {
 .matrix td.self {
   background: var(--bg-alt);
 }
+
+/* Inspection D8: blocks waiting for their scroll reveal must still print. */
+@media print {
+  main * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

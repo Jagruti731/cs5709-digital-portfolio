@@ -183,6 +183,29 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 | API | bash + curl (`tools/api-test.sh`) | 16 checks: auth, ownership, body limit, corrupt-file safety |
 | Browser | Playwright (`tools/browser-test.mjs`) | every route renders, navigation, filters, chat, no console errors |
 
+### 8.1 Inspection of the Phase 2 code
+
+Before release, I inspected my own Phase 2 code the same way I inspected my peer's (Fagan, 1976;
+lecture 6): entry criteria first (it builds, lint passes, all tests pass), then every changed file read
+line by line against the lecture's checklist of error types, with each finding logged. The
+architecture conformance check (section 12.4) found two more.
+
+| ID | File | Checklist category | Defect | Fix |
+| --- | --- | --- | --- | --- |
+| D1 | `features/search/searchIndex.ts` | Comparison | `highlight()` tested matches with a *global* RegExp and reset `lastIndex` inside an expression: fragile and hard to read | separate non-global pattern; regression test |
+| D2 | `features/feed/usePostFeed.ts` | Computation | size message rounded to whole MB, so a 500 KB limit printed "1 MB" | `formatBytes()`; test |
+| D3 | `features/chat/useChat.ts` | Control flow | assistant reply timers kept running after the chat closed | timers kept in a ref and cleared on unmount |
+| D4 | `components/Layout.tsx` | Data reference | `/` shortcut called `closest()` on the event target, which can be the document | `instanceof Element` guard |
+| D5 | `services/githubApi.ts` | Interface | on a GitHub error the saved copy was shown with no sign it was old | `stale` flag, shown on the page |
+| D6 | `features/feed/PostForm.tsx` | I/O | the file input was not cleared after posting, so the same picture could not be chosen again | input reset with a key |
+| D7 | `config/site.ts` | Data declaration | version typed in two places (`package.json` and `site.ts`) | injected from `package.json` at build time |
+| D8 | `styles/global.css` | I/O | blocks waiting for their scroll animation printed blank | print rule shows everything |
+| D9 | `pages/Search.tsx` | Interface | `autoFocus` moved focus (and opened the phone keyboard) on every visit | focus only when opened with `/` |
+| A1 | `services/postsApi.ts` | Architecture | service imported types from the Redux store (divergence) | types moved to `types/posts.ts` |
+| A2 | `components/LoadState.tsx` | Architecture | shared component imported a type from the store (divergence) | `LoadStatus` moved to `types/content.ts` |
+
+Exit criteria: every finding fixed, all checks green, and no divergence left in the reflexion model.
+
 ## 9. CI/CD pipeline
 
 `.github/workflows/ci-cd.yml` runs on every push to any branch, on pull requests to `main`, and by hand
@@ -436,6 +459,8 @@ Aggarwal, C. (2026). *Assessment 2: Project peer review of “Digital Portfolio:
 Carroll, J. M. (2000). *Making use: Scenario-based design of human-computer interactions*. MIT Press.
 
 Cooper, A. (2004). *The inmates are running the asylum: Why high-tech products drive us crazy and how to restore the sanity*. Sams.
+
+Fagan, M. E. (1976). Design and code inspections to reduce errors in program development. *IBM Systems Journal, 15*(3), 182–211. https://doi.org/10.1147/sj.153.0182
 
 Levenshtein, V. I. (1966). Binary codes capable of correcting deletions, insertions, and reversals. *Soviet Physics Doklady, 10*(8), 707–710.
 

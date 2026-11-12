@@ -190,5 +190,13 @@
     "closes": "Innovation; peer review (reflexion model); user story US6",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-25",
+    "change": "Defects D1–D9 from the inspection of the Phase 2 code and the two architecture divergences (A1, A2) fixed; regression tests added",
+    "type": "corrective",
+    "closes": "Evaluation: own code inspection, reflexion model",
+    "commit": "this commit",
+    "phase": 2
   }
 ]
