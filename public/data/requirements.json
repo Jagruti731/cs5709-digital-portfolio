@@ -1,0 +1,360 @@
+{
+  "personas": [
+    {
+      "id": "P1",
+      "name": "Aoife, hiring manager",
+      "role": "Engineering manager at a software company in Dublin",
+      "goal": "Shortlist graduate engineers quickly and see real evidence of skills",
+      "frustration": "Portfolios that hide the actual work behind long text",
+      "scenario": "Aoife has two minutes between interviews. She opens the link from a CV on her phone, wants to see the projects first, filters them by .NET, opens one case study and checks the GitHub activity before deciding to call."
+    },
+    {
+      "id": "P2",
+      "name": "Dr Saay, module assessor",
+      "role": "CS5709 lecturer marking Phase 2",
+      "goal": "Check every brief item and rubric line, and trace each change to a commit",
+      "frustration": "Having to search the repository to find where something is done",
+      "scenario": "The assessor opens the live site from Brightspace, goes to the Readme page, follows the peer-review table to the commits, checks that the CI/CD pipeline is green, and tries search, filters and the offline mode."
+    },
+    {
+      "id": "P3",
+      "name": "Rahul, fellow MSc student",
+      "role": "International student at UL, new to Ireland",
+      "goal": "Ask questions and share tips with other students",
+      "frustration": "No simple way to reach a classmate outside college channels",
+      "scenario": "Rahul reads a blog post about the move to Limerick, asks the chat assistant how to get in touch, and leaves a comment in the community feed. On the bus with no signal he opens the installed site again to re-read the post."
+    }
+  ],
+  "stories": [
+    {
+      "id": "US1",
+      "persona": "P1",
+      "story": "As a hiring manager, I want to see projects first, so that I can judge skills fast.",
+      "features": [
+        "F01",
+        "F04"
+      ]
+    },
+    {
+      "id": "US2",
+      "persona": "P1",
+      "story": "As a hiring manager, I want to filter work by technology, so that I only read what matches the role.",
+      "features": [
+        "F04",
+        "F29"
+      ]
+    },
+    {
+      "id": "US3",
+      "persona": "P1",
+      "story": "As a hiring manager, I want to see recent GitHub activity, so that I know the skills are current.",
+      "features": [
+        "F22"
+      ]
+    },
+    {
+      "id": "US4",
+      "persona": "P2",
+      "story": "As the assessor, I want a Readme page that explains the structure, so that I can mark without reading every file.",
+      "features": [
+        "F17",
+        "F33"
+      ]
+    },
+    {
+      "id": "US5",
+      "persona": "P2",
+      "story": "As the assessor, I want every change linked to a commit and a review point, so that I can verify the work.",
+      "features": [
+        "F17",
+        "F27"
+      ]
+    },
+    {
+      "id": "US6",
+      "persona": "P2",
+      "story": "As the assessor, I want to see that tests run automatically on every push, so that I can trust the quality.",
+      "features": [
+        "F24",
+        "F27",
+        "F31"
+      ]
+    },
+    {
+      "id": "US7",
+      "persona": "P2",
+      "story": "As the assessor, I want to find any topic with one search, so that I can check a rubric item quickly.",
+      "features": [
+        "F10",
+        "F29"
+      ]
+    },
+    {
+      "id": "US8",
+      "persona": "P3",
+      "story": "As a student, I want to ask a question and get an instant answer, so that I do not wait for an email.",
+      "features": [
+        "F09"
+      ]
+    },
+    {
+      "id": "US9",
+      "persona": "P3",
+      "story": "As a student, I want to comment on a post, so that I can share my own tips.",
+      "features": [
+        "F07",
+        "F08"
+      ]
+    },
+    {
+      "id": "US10",
+      "persona": "P3",
+      "story": "As a student on the move, I want the site to open without a connection, so that I can re-read posts on the bus.",
+      "features": [
+        "F30"
+      ]
+    },
+    {
+      "id": "US11",
+      "persona": "P1",
+      "story": "As a visitor on a slow phone, I want pages to load fast and move smoothly, so that the site feels professional.",
+      "features": [
+        "F26",
+        "F28"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "F01",
+      "name": "Home page: introduction, key numbers, featured projects, career path",
+      "group": "Pages",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F02",
+      "name": "About: story, quick facts, roles, experience timeline",
+      "group": "Pages",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F03",
+      "name": "Education: qualifications timeline, certifications",
+      "group": "Pages",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F04",
+      "name": "Professional Knowledge: case studies, projects, skills",
+      "group": "Pages",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F05",
+      "name": "Pictures gallery: category filter and full-size viewer",
+      "group": "Media",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F06",
+      "name": "Video gallery: player and playlist with local video files",
+      "group": "Media",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F07",
+      "name": "Blog: articles with tag filter",
+      "group": "Community",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F08",
+      "name": "Community feed: posts, images, likes, comments",
+      "group": "Community",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F09",
+      "name": "Instant messaging: auto-reply assistant and live lounge",
+      "group": "Community",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F10",
+      "name": "Search across pages and case studies",
+      "group": "Navigation",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F11",
+      "name": "URL routing with NotFound and deep links",
+      "group": "Navigation",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F12",
+      "name": "Navigation bar on every page, mobile menu",
+      "group": "Navigation",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F13",
+      "name": "One hand-written responsive stylesheet with dark mode",
+      "group": "Presentation",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F14",
+      "name": "Typed data and reusable components",
+      "group": "Architecture",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F15",
+      "name": "Strict TypeScript check in every build",
+      "group": "Quality",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F16",
+      "name": "API server: hashed passwords, protected delete",
+      "group": "Platform",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F17",
+      "name": "Readme page describing the structure",
+      "group": "Docs",
+      "phase": 1,
+      "status": "done"
+    },
+    {
+      "id": "F18",
+      "name": "Hosted API so every visitor shares one feed",
+      "group": "Platform",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "F19",
+      "name": "Database instead of JSON files on the server",
+      "group": "Platform",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "F20",
+      "name": "Real-time messaging across devices (WebSockets)",
+      "group": "Community",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "F21",
+      "name": "Admin role to moderate posts and messages",
+      "group": "Platform",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "F22",
+      "name": "Live GitHub data: repositories and pipeline runs from the GitHub API",
+      "group": "Innovation",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "F23",
+      "name": "Content in JSON files loaded at run time (dynamic data)",
+      "group": "Architecture",
+      "phase": 2,
+      "status": "done"
+    },
+    {
+      "id": "F24",
+      "name": "Unit, component, API and browser tests in CI",
+      "group": "Quality",
+      "phase": 2,
+      "status": "partial"
+    },
+    {
+      "id": "F25",
+      "name": "Accessibility audit (WCAG 2.2 AA) and video captions",
+      "group": "Quality",
+      "phase": 2,
+      "status": "partial"
+    },
+    {
+      "id": "F26",
+      "name": "Lazy loading: pages, images and animation library on demand",
+      "group": "Performance",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "F27",
+      "name": "CI/CD pipeline with GitHub Actions and deployment to GitHub Pages",
+      "group": "DevOps",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "F28",
+      "name": "GSAP animations and interactive elements",
+      "group": "Presentation",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "F29",
+      "name": "Smart search: ranked, typo-tolerant, filters by type, highlights matches",
+      "group": "Innovation",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "F30",
+      "name": "Installable offline app (Progressive Web App)",
+      "group": "Innovation",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "F31",
+      "name": "Code quality dashboard generated by the pipeline",
+      "group": "Innovation",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "F32",
+      "name": "Modular feature folders with hooks; JSDoc on every file",
+      "group": "Architecture",
+      "phase": 2,
+      "status": "done"
+    },
+    {
+      "id": "F33",
+      "name": "Personas, scenarios and user stories traced to features",
+      "group": "Docs",
+      "phase": 2,
+      "status": "done"
+    }
+  ]
+}
