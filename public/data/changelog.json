@@ -204,7 +204,15 @@
     "change": "Release v2.0: site scheme diagram, README structure tree, change-log commit references",
     "type": "preventive",
     "closes": "Documentation",
-    "commit": "tag v2.0",
+    "commit": "7c4d1ad",
+    "phase": 2
+  },
+  {
+    "id": "CR-27",
+    "change": "Fixes found by the pipeline check and the persona walkthrough: unformatted file; 'works offline' notice now hides itself; table ids no longer wrap",
+    "type": "perfective",
+    "closes": "Evaluation: walkthrough",
+    "commit": "3d00bd4, 3662548",
     "phase": 2
   }
 ]
