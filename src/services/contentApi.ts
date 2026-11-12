@@ -71,6 +71,7 @@ export const contentRules: Record<ContentName, Check> = {
     stories: arrayOf('id', 'persona', 'story'),
     features: arrayOf('id', 'name', 'group'),
   }),
+  codeindex: objectWith({ commit: text, files: arrayOf('path', 'summary', 'url') }),
 };
 
 /** Checks already-parsed data. Returns it typed, or throws a ContentError. */

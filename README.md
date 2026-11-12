@@ -264,6 +264,36 @@ Rules every animation follows:
 - **Media:** images use `loading="lazy"` and `decoding="async"`; videos load metadata only.
 - **Data:** each JSON file is fetched only when a page first needs it.
 
+## 12. Innovation
+
+Four features go beyond a static GitHub Pages portfolio and beyond what was covered in class.
+
+### 12.1 Smart search and concept location in the code
+
+`src/features/search/searchIndex.ts` is a small search engine written for this site (no library), so
+every step can be read and tested:
+
+1. **Tokenise:** lower case, split `camelCase`, keep `.NET` and `C#`, drop stop words.
+2. **Inverted index:** each term points to the documents and fields it appears in.
+3. **Rank with BM25** (Robertson & Zaragoza, 2009), with field weights title 3, tags 2, body 1.
+4. **Expand each query word:** prefix matches (search as you type) and near misses within one or two
+   edits (Levenshtein distance), each scored lower than an exact match. When a word was only found as a
+   near miss, the page says *Showing results for …* (try `Gemni bank`).
+5. **Highlight** the matched terms in each result.
+
+Two collections can be searched:
+
+- **This site:** 51 items: pages, case studies, projects, skills, articles, qualifications, jobs, pictures and videos.
+  Results can be filtered by type, and the query is kept in the URL, so a search can be shared.
+- **Source code:** *concept location*, a core software-evolution task (Rajlich & Wilde, 2002): given a
+  concept, find the code that implements it. `tools/build-code-index.mjs` indexes every source file
+  (its `@file` header, exported names and comments) at build time; the same BM25 engine ranks the files
+  (an information-retrieval approach to concept location, as in Marcus et al., 2004). Searching `skip link` returns
+  `src/components/Layout.tsx` first, and each result opens the file on GitHub. This only works because
+  Phase 2 gave every file a descriptive header comment.
+
+Press `/` anywhere on the site to open Search.
+
 ## 13. Response to the reviews
 
 Phase 2 started from two reviews of Phase 1: the lecturer's feedback (12.5/15) and the peer review by
@@ -332,6 +362,14 @@ Carroll, J. M. (2000). *Making use: Scenario-based design of human-computer inte
 
 Cooper, A. (2004). *The inmates are running the asylum: Why high-tech products drive us crazy and how to restore the sanity*. Sams.
 
+Levenshtein, V. I. (1966). Binary codes capable of correcting deletions, insertions, and reversals. *Soviet Physics Doklady, 10*(8), 707–710.
+
 Lientz, B. P., & Swanson, E. B. (1980). *Software maintenance management*. Addison-Wesley.
+
+Marcus, A., Sergeyev, A., Rajlich, V., & Maletic, J. I. (2004). An information retrieval approach to concept location in source code. In *Proceedings of the 11th Working Conference on Reverse Engineering* (pp. 214–223). IEEE. https://doi.org/10.1109/WCRE.2004.10
+
+Rajlich, V., & Wilde, N. (2002). The role of concepts in program comprehension. In *Proceedings of the 10th International Workshop on Program Comprehension* (pp. 271–278). IEEE. https://doi.org/10.1109/WPC.2002.1021348
+
+Robertson, S., & Zaragoza, H. (2009). The probabilistic relevance framework: BM25 and beyond. *Foundations and Trends in Information Retrieval, 3*(4), 333–389. https://doi.org/10.1561/1500000019
 
 Saay, S. (2026). *Salim-Saay: Digital portfolio* [Source code]. GitHub. https://github.com/saaysalim/Salim-Saay

@@ -6,7 +6,7 @@
  * GSAP animations for every page start here: a page entrance and scroll reveals (CR-20).
  */
 import { Suspense, useEffect, useRef } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { SITE } from '../config/site';
 import { usePageIntro } from '../features/motion/usePageIntro';
 import { useScrollReveal } from '../features/motion/useScrollReveal';
@@ -19,6 +19,7 @@ import { Navbar } from './Navbar';
 /** The app shell shared by every route: skip link, navigation bar, the routed page and the footer. */
 export function Layout() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const mainRef = useRef<HTMLElement>(null);
   useScrollReveal(mainRef);
   usePageIntro(mainRef, pathname);
@@ -28,6 +29,19 @@ export function Layout() {
     document.title = page && page.path !== '/' ? `${page.title} | ${SITE.owner}` : `${SITE.owner} | Portfolio`;
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  // Keyboard shortcut: "/" anywhere (outside a text field) opens Search (CR-21).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const typing = (e.target as HTMLElement).closest('input, textarea, select, [contenteditable]');
+      if (e.key === '/' && !typing && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        navigate('/search');
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [navigate]);
 
   return (
     <>

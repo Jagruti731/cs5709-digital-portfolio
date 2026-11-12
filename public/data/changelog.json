@@ -158,5 +158,13 @@
     "closes": "Brief: GSAP, search and filter",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-21",
+    "change": "Innovation: smart search engine (BM25 ranking, prefix and typo matching, highlighting, type filter) over the whole site, plus concept location in the source code from a build-time code index; '/' shortcut",
+    "type": "perfective",
+    "closes": "Brief: search; innovation",
+    "commit": "this commit",
+    "phase": 2
   }
 ]

@@ -155,6 +155,24 @@ export interface RequirementsData {
   features: Feature[];
 }
 
+/** One source file in codeindex.json, built by tools/build-code-index.mjs (CR-21). */
+export interface CodeFile {
+  path: string;
+  summary: string;
+  doc: string;
+  exports: string[];
+  comments: string;
+  lines: number;
+  url: string;
+}
+
+/** codeindex.json: the source code, indexed for concept location. Generated, not hand-written. */
+export interface CodeIndex {
+  generatedAt: string;
+  commit: string;
+  files: CodeFile[];
+}
+
 /** Every content file, by name. The key is the file name without ".json". */
 export interface ContentMap {
   profile: Profile;
@@ -166,6 +184,7 @@ export interface ContentMap {
   videos: Video[];
   changelog: Change[];
   requirements: RequirementsData;
+  codeindex: CodeIndex;
 }
 
 export type ContentName = keyof ContentMap;

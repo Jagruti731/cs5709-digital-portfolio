@@ -1,77 +1,152 @@
 /**
- * @file Search page: find any page or piece of content.
+ * @file Search page: ranked, typo-tolerant search of the whole site, and of the source code (CR-21, innovation).
+ *
+ * - Site: every page, case study, project, skill, article, qualification, job, picture and video.
+ * - Source code: concept location. Type a concept ("skip link", "comment author") to find the files
+ *   that implement it; each result opens the file on GitHub.
+ * Results are ranked (BM25), filtered by type, and matches are highlighted.
+ * The query lives in the URL (/search?q=...), so a search can be shared or bookmarked.
  */
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { useContent } from '../hooks/useContent';
-import { pages } from '../lib/navigation';
-import type { CaseStudy } from '../types/content';
+import { highlight, type SearchHit } from '../features/search/searchIndex';
+import { useSearch, type Scope } from '../features/search/useSearch';
 
-interface Entry {
-  to: string;
-  title: string;
-  text: string;
-  kind: string;
-  haystack: string;
+const EXAMPLES: Record<Scope, string[]> = {
+  site: ['OCR', 'Limerick', 'Lehman', 'Gemni', '.NET microservices'],
+  code: ['skip link', 'comment author', 'lazy', 'BroadcastChannel', 'coverage'],
+};
+
+function Marked({ text, terms }: { text: string; terms: string[] }) {
+  return <>{highlight(text, terms).map((s, i) => (s.match ? <mark key={i}>{s.text}</mark> : <span key={i}>{s.text}</span>))}</>;
 }
 
-// Index every page and case study.
-const buildIndex = (caseStudies: CaseStudy[]): Entry[] =>
-  [
-    ...pages
-      .filter((p) => p.id !== 'search')
-      .map((p) => ({
-        to: p.path,
-        title: p.title,
-        text: p.description,
-        kind: 'page',
-        haystack: [p.title, p.description, ...p.keywords].join(' '),
-      })),
-    ...caseStudies.map((c) => ({
-      to: `/knowledge?case=${c.id}`,
-      title: c.title,
-      text: c.summary,
-      kind: 'case study',
-      haystack: [c.id, c.title, c.kind, c.summary, c.problem, ...c.did, ...c.tools].join(' '),
-    })),
-  ].map((e) => ({ ...e, haystack: e.haystack.toLowerCase() }));
+/** Scope tabs, the search box and example queries. */
+function SearchControls({ scope, query, onChange }: { scope: Scope; query: string; onChange: (next: { q?: string; in?: Scope }) => void }) {
+  const site = scope === 'site';
+  return (
+    <>
+      <div className="tabs" role="tablist" aria-label="What to search">
+        <button role="tab" type="button" aria-selected={site} onClick={() => onChange({ in: 'site' })}>
+          This site
+        </button>
+        <button role="tab" type="button" aria-selected={!site} onClick={() => onChange({ in: 'code' })}>
+          Source code (concept location)
+        </button>
+      </div>
+      <form className="search-form" role="search" onSubmit={(e) => e.preventDefault()}>
+        <label htmlFor="q">{site ? 'Search the portfolio' : 'Find the code for a concept'}</label>
+        <input
+          id="q"
+          type="search"
+          value={query}
+          onChange={(e) => onChange({ q: e.target.value })}
+          placeholder={site ? 'e.g. OCR, Limerick, Lehman' : 'e.g. skip link, comment author'}
+          autoComplete="off"
+          autoFocus
+        />
+      </form>
+      <p className="note examples">
+        Try:{' '}
+        {EXAMPLES[scope].map((ex) => (
+          <button key={ex} type="button" className="text-btn" onClick={() => onChange({ q: ex })}>
+            {ex}
+          </button>
+        ))}
+      </p>
+    </>
+  );
+}
+
+/** The ranked results, with matches highlighted. Code results open the file on GitHub. */
+function ResultList({ hits }: { hits: SearchHit[] }) {
+  return (
+    <ol className="results">
+      {hits.map((h) => (
+        <li key={h.doc.id}>
+          <span className="kind">{h.doc.kind}</span>
+          {h.doc.to.startsWith('http') ? (
+            <a href={h.doc.to} target="_blank" rel="noopener">
+              <Marked text={h.doc.title} terms={h.terms} />
+            </a>
+          ) : (
+            <Link to={h.doc.to}>
+              <Marked text={h.doc.title} terms={h.terms} />
+            </Link>
+          )}
+          <p>
+            <Marked text={h.doc.text} terms={h.terms} />
+          </p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** Result counts per type, most common first. */
+const countKinds = (hits: SearchHit[]) => {
+  const counts = new Map<string, number>();
+  for (const h of hits) counts.set(h.doc.kind, (counts.get(h.doc.kind) ?? 0) + 1);
+  return [...counts.entries()].sort((a, b) => b[1] - a[1]);
+};
 
 export default function Search() {
-  const { data } = useContent('projects');
-  const [query, setQuery] = useState('');
-  const q = query.trim().toLowerCase();
-  const index = useMemo(() => buildIndex(data?.caseStudies ?? []), [data]);
-  const results = useMemo(() => (q ? index.filter((e) => e.haystack.includes(q)) : index), [q, index]);
+  const [params, setParams] = useSearchParams();
+  const query = params.get('q') ?? '';
+  const scope: Scope = params.get('in') === 'code' ? 'code' : 'site';
+  const [kind, setKind] = useState('All');
+  const { hits, corrected, total, codeCommit } = useSearch(scope, query);
+
+  const update = (next: { q?: string; in?: Scope }) => {
+    const q = next.q ?? query;
+    const s = next.in ?? scope;
+    setParams({ ...(q ? { q } : {}), ...(s === 'code' ? { in: 'code' } : {}) }, { replace: true });
+    setKind('All');
+  };
+
+  const kinds = useMemo(() => countKinds(hits), [hits]);
+  const shown = kind === 'All' ? hits : hits.filter((h) => h.doc.kind === kind);
 
   return (
     <>
-      <PageHeader title="Search" crumb="Search" intro="Find a page or a case study." />
+      <PageHeader
+        title="Search"
+        crumb="Search"
+        intro="Ranked search with typo tolerance. Search the site, or switch to the source code to find where a feature is implemented."
+      />
       <Section>
-        <form className="search-form" role="search" onSubmit={(e) => e.preventDefault()}>
-          <label htmlFor="q">Search the portfolio</label>
-          <input
-            id="q"
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="e.g. OCR, Limerick, Lehman"
-            autoComplete="off"
-          />
-        </form>
-        <p className="note" aria-live="polite">
-          {results.length} {results.length === 1 ? 'result' : 'results'}
-        </p>
-        <ul className="results">
-          {results.map((r) => (
-            <li key={r.to}>
-              <span className="kind">{r.kind}</span>
-              <Link to={r.to}>{r.title}</Link>
-              <p>{r.text}</p>
-            </li>
-          ))}
-        </ul>
+        <SearchControls scope={scope} query={query} onChange={update} />
+
+        {corrected && (
+          <p className="note">
+            No exact match. Showing results for{' '}
+            <button type="button" className="text-btn" onClick={() => update({ q: corrected })}>
+              <b>{corrected}</b>
+            </button>
+            .
+          </p>
+        )}
+
+        {query.trim() && (
+          <>
+            <div className="filters" role="group" aria-label="Filter results by type">
+              {[['All', hits.length] as const, ...kinds].map(([k, n]) => (
+                <button key={k} type="button" className="chip" aria-pressed={kind === k} onClick={() => setKind(k)}>
+                  {k} ({n})
+                </button>
+              ))}
+            </div>
+            <p className="note" aria-live="polite">
+              {shown.length} {shown.length === 1 ? 'result' : 'results'} from {total}{' '}
+              {scope === 'site' ? 'items' : `files (commit ${codeCommit ?? '…'})`}
+            </p>
+          </>
+        )}
+
+        <ResultList hits={shown} />
+        {query.trim() && hits.length === 0 && <p className="muted">Nothing found. Check the spelling or try a shorter word.</p>}
       </Section>
     </>
   );

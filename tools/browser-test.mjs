@@ -46,6 +46,8 @@ check(
 
 // 1b. The skip link moves focus to the content without changing the route (CR-14).
 await go('/about');
+await page.reload(); // a fresh load, so Tab starts from the top of the page
+await page.waitForTimeout(400);
 await page.keyboard.press('Tab');
 await page.keyboard.press('Enter');
 check(
@@ -151,7 +153,26 @@ check(
 // 8. Search.
 await go('/search');
 await page.fill('#q', 'OCR');
-check('Search for "OCR" finds the case study', (await page.locator('.results a', { hasText: 'Bank statement' }).count()) === 1);
+const ocrFound = (await page.locator('.results a', { hasText: 'Bank statement' }).count()) === 1;
+await page.fill('#q', 'Gemni bank'); // typo on purpose
+await page.waitForTimeout(300);
+const corrected = (await page.locator('.note', { hasText: 'Showing results for' }).count()) === 1;
+const firstIsOcr = (await page.locator('.results li a').first().textContent())?.includes('Bank statement');
+const marked = (await page.locator('.results mark').count()) > 0;
+await page.getByRole('tab', { name: /Source code/ }).click();
+await page.fill('#q', 'skip link');
+await page.waitForTimeout(500);
+const codeHit = (await page.locator('.results li a').first().textContent()) === 'src/components/Layout.tsx';
+await go('/about');
+await page.keyboard.press('/');
+await page.waitForTimeout(400);
+const shortcut = page.url().includes('#/search');
+const searchParts = [ocrFound, corrected, firstIsOcr, marked, codeHit, shortcut];
+check(
+  'Smart search: finds OCR; corrects a typo and ranks; highlights; locates "skip link" in Layout.tsx; "/" shortcut',
+  searchParts.every(Boolean),
+  `${searchParts.filter(Boolean).length}/${searchParts.length}`,
+);
 
 // 9. Theme survives a reload.
 await go('/');

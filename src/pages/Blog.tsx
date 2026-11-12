@@ -1,7 +1,9 @@
 /**
  * @file Blog page: articles with a tag filter, then the community feed. Content: public/data/blog.json.
+ * Deep link: /blog?article=<id> scrolls to that article (used by Search).
  */
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { CommunityFeed } from '../features/feed/CommunityFeed';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
@@ -15,6 +17,14 @@ export default function Blog() {
   const { data: articles, status, error, retry } = useContent('blog');
   const tags = useMemo(() => ['all', ...new Set((articles ?? []).flatMap((a) => a.tags))], [articles]);
   const [tag, setTag] = useState('all');
+  const target = useSearchParams()[0].get('article');
+
+  // Deep link from Search: /blog?article=<id> scrolls to that article.
+  useEffect(() => {
+    if (!target || !articles) return;
+    const timer = window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' }), 60);
+    return () => window.clearTimeout(timer);
+  }, [target, articles]);
   if (!articles) return <LoadState status={status} error={error} retry={retry} />;
   const shown = articles.filter((a) => tag === 'all' || a.tags.includes(tag));
 
