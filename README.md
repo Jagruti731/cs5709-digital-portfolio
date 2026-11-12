@@ -222,6 +222,48 @@ Two choices make the same build work under the repository sub-folder (`/cs5709-d
 Vite builds with relative paths (`base: './'`), and `HashRouter` keeps every route inside `index.html`
 (`/#/about`), so a refresh on any page never returns a 404.
 
+## 11. Interactivity and performance
+
+### 11.1 GSAP animations
+
+GSAP (with its ScrollTrigger and Flip plugins) adds movement that explains rather than decorates.
+All of it lives in `src/features/motion/`:
+
+| Hook | Where | What it does |
+| --- | --- | --- |
+| `usePageIntro` | every page (Layout) | the banner title and summary slide in when a page opens |
+| `useScrollReveal` | every page (Layout) | cards, case studies, timeline entries and pictures fade up as they scroll into view; a MutationObserver picks up content that loads later |
+| `useCountUp` | Home | the key numbers count up from zero when they appear |
+| `useFlip` | Professional Knowledge, Pictures | when a filter changes, the remaining cards glide to their new places and new ones fade in |
+
+Rules every animation follows:
+
+- **Reduced motion is respected.** If the visitor's system asks for less motion, GSAP is never even
+  downloaded and everything appears at once (WCAG 2.2, success criterion 2.3.3).
+- **Nothing visible flickers.** Only blocks below the fold are hidden before they animate.
+- **GSAP is lazy-loaded.** It is imported dynamically, so its 70 kB arrive after the page is usable.
+- **One rhythm.** Durations, distances and easing come from one `MOTION` constant.
+
+### 11.2 Search and filters
+
+| Page | Filter |
+| --- | --- |
+| Professional Knowledge | case studies by technology and by free text (user story US2), animated with Flip |
+| Pictures | by category (places, work, life), animated with Flip |
+| Blog | articles by tag |
+| Readme → Requirements | features by phase |
+| Readme → Change log | changes by phase and maintenance type |
+| Search | the whole site, see section 12 |
+
+### 11.3 Lazy loading
+
+- **Pages:** every page is a `React.lazy` chunk downloaded on its first visit, inside `Suspense`
+  (skeleton while loading) and an error boundary (reload button if a chunk cannot be fetched).
+  The main bundle fell from 257 kB to 206 kB.
+- **Libraries:** GSAP and the Markdown renderer load only on the pages that use them.
+- **Media:** images use `loading="lazy"` and `decoding="async"`; videos load metadata only.
+- **Data:** each JSON file is fetched only when a page first needs it.
+
 ## 13. Response to the reviews
 
 Phase 2 started from two reviews of Phase 1: the lecturer's feedback (12.5/15) and the peer review by

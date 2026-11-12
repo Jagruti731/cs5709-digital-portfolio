@@ -274,7 +274,7 @@
       "name": "Lazy loading: pages, images and animation library on demand",
       "group": "Performance",
       "phase": 2,
-      "status": "planned"
+      "status": "done"
     },
     {
       "id": "F27",
@@ -288,7 +288,7 @@
       "name": "GSAP animations and interactive elements",
       "group": "Presentation",
       "phase": 2,
-      "status": "planned"
+      "status": "done"
     },
     {
       "id": "F29",
