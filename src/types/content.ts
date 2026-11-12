@@ -7,6 +7,9 @@
  * their shape, and services/contentApi.ts checks each file against them.
  */
 
+/** Loading state of anything fetched: a content file, GitHub data, the quality report. */
+export type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
+
 /** A label and a short value, e.g. "Now: MSc student, UL". */
 export interface Fact {
   label: string;

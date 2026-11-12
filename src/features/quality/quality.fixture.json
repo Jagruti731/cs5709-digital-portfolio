@@ -1,0 +1,336 @@
+{
+  "generatedAt": "2026-11-12T13:17:50.268Z",
+  "commit": "924cac0",
+  "runUrl": null,
+  "tests": {
+    "unit": {
+      "passed": 70,
+      "total": 70,
+      "files": 12
+    },
+    "api": {
+      "passed": 16,
+      "total": 16
+    },
+    "e2e": {
+      "passed": 15,
+      "total": 15
+    }
+  },
+  "coverage": {
+    "lines": 47.18,
+    "statements": 47.18,
+    "functions": 64.07,
+    "branches": 86.26
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 0,
+    "filesChecked": 89
+  },
+  "complexity": {
+    "functions": 471,
+    "average": 1.8,
+    "max": 11,
+    "buckets": {
+      "1–4 (simple)": 448,
+      "5–8 (moderate)": 19,
+      "9–12 (complex)": 4,
+      "13+ (too complex)": 0
+    },
+    "top": [
+      {
+        "name": "Search",
+        "file": "src/pages/Search.tsx",
+        "line": 95,
+        "complexity": 11
+      },
+      {
+        "name": "getJson",
+        "file": "src/services/githubApi.ts",
+        "line": 118,
+        "complexity": 11
+      },
+      {
+        "name": "Arrow function",
+        "file": "src/features/quality/QualityPanel.tsx",
+        "line": 131,
+        "complexity": 9
+      },
+      {
+        "name": "Home",
+        "file": "src/pages/Home.tsx",
+        "line": 13,
+        "complexity": 9
+      },
+      {
+        "name": "Arrow function",
+        "file": "src/features/search/searchIndex.ts",
+        "line": 103,
+        "complexity": 8
+      },
+      {
+        "name": "expandTerm",
+        "file": "src/features/search/searchIndex.ts",
+        "line": 126,
+        "complexity": 8
+      }
+    ]
+  },
+  "source": {
+    "files": 68,
+    "lines": 4615,
+    "commentShare": 12.3,
+    "filesWithHeader": 68,
+    "headerShare": 100,
+    "testFiles": 12,
+    "linesByFolder": [
+      ["features", 2128],
+      ["pages", 935],
+      ["components", 423],
+      ["services", 354],
+      ["store", 223],
+      ["types", 194],
+      ["lib", 153],
+      ["(root)", 82],
+      ["hooks", 68],
+      ["config", 55]
+    ]
+  },
+  "bundle": {
+    "chunks": 26,
+    "totalKb": 468,
+    "totalGzipKb": 173,
+    "mainGzipKb": 70.1,
+    "largest": [
+      {
+        "name": "main (app shell)",
+        "kb": 208.3,
+        "gzipKb": 70.1
+      },
+      {
+        "name": "gsap (core)",
+        "kb": 68.7,
+        "gzipKb": 27.2
+      },
+      {
+        "name": "Readme",
+        "kb": 67.7,
+        "gzipKb": 23.8
+      },
+      {
+        "name": "ScrollTrigger",
+        "kb": 42.6,
+        "gzipKb": 17.7
+      },
+      {
+        "name": "Flip",
+        "kb": 23.8,
+        "gzipKb": 9.2
+      },
+      {
+        "name": "Dashboard",
+        "kb": 11.6,
+        "gzipKb": 4
+      },
+      {
+        "name": "Search",
+        "kb": 8.2,
+        "gzipKb": 3.6
+      },
+      {
+        "name": "Blog",
+        "kb": 7.8,
+        "gzipKb": 3.1
+      }
+    ]
+  },
+  "architecture": {
+    "parts": ["pages", "features", "components", "hooks", "store", "services", "lib", "config", "types"],
+    "imports": 117,
+    "convergences": [
+      {
+        "from": "pages",
+        "to": "features",
+        "imports": 13
+      },
+      {
+        "from": "pages",
+        "to": "components",
+        "imports": 34
+      },
+      {
+        "from": "pages",
+        "to": "hooks",
+        "imports": 7
+      },
+      {
+        "from": "pages",
+        "to": "lib",
+        "imports": 4
+      },
+      {
+        "from": "pages",
+        "to": "config",
+        "imports": 1
+      },
+      {
+        "from": "pages",
+        "to": "types",
+        "imports": 1
+      },
+      {
+        "from": "features",
+        "to": "components",
+        "imports": 5
+      },
+      {
+        "from": "features",
+        "to": "hooks",
+        "imports": 6
+      },
+      {
+        "from": "features",
+        "to": "store",
+        "imports": 4
+      },
+      {
+        "from": "features",
+        "to": "services",
+        "imports": 2
+      },
+      {
+        "from": "features",
+        "to": "lib",
+        "imports": 6
+      },
+      {
+        "from": "features",
+        "to": "config",
+        "imports": 6
+      },
+      {
+        "from": "features",
+        "to": "types",
+        "imports": 5
+      },
+      {
+        "from": "components",
+        "to": "features",
+        "imports": 3
+      },
+      {
+        "from": "components",
+        "to": "hooks",
+        "imports": 1
+      },
+      {
+        "from": "components",
+        "to": "lib",
+        "imports": 3
+      },
+      {
+        "from": "components",
+        "to": "config",
+        "imports": 3
+      },
+      {
+        "from": "components",
+        "to": "types",
+        "imports": 2
+      },
+      {
+        "from": "hooks",
+        "to": "store",
+        "imports": 2
+      },
+      {
+        "from": "hooks",
+        "to": "types",
+        "imports": 1
+      },
+      {
+        "from": "store",
+        "to": "services",
+        "imports": 2
+      },
+      {
+        "from": "store",
+        "to": "types",
+        "imports": 1
+      },
+      {
+        "from": "services",
+        "to": "lib",
+        "imports": 1
+      },
+      {
+        "from": "services",
+        "to": "config",
+        "imports": 1
+      },
+      {
+        "from": "services",
+        "to": "types",
+        "imports": 1
+      }
+    ],
+    "divergences": [
+      {
+        "from": "components",
+        "to": "store",
+        "imports": 1
+      },
+      {
+        "from": "services",
+        "to": "store",
+        "imports": 1
+      }
+    ],
+    "absences": [
+      {
+        "from": "hooks",
+        "to": "lib"
+      },
+      {
+        "from": "lib",
+        "to": "config"
+      },
+      {
+        "from": "lib",
+        "to": "types"
+      }
+    ]
+  },
+  "evolution": {
+    "versions": [
+      {
+        "ref": "v0-starter",
+        "sourceFiles": 77,
+        "sourceLines": 11109,
+        "runtimeDependencies": 47,
+        "commits": 20
+      },
+      {
+        "ref": "v1.0",
+        "sourceFiles": 42,
+        "sourceLines": 4334,
+        "runtimeDependencies": 6,
+        "commits": 30
+      },
+      {
+        "ref": "HEAD",
+        "sourceFiles": 80,
+        "sourceLines": 7061,
+        "runtimeDependencies": 8,
+        "commits": 43
+      }
+    ],
+    "phase2CommitsByType": {
+      "corrective": 1,
+      "adaptive": 0,
+      "perfective": 7,
+      "preventive": 5
+    }
+  }
+}

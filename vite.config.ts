@@ -81,7 +81,7 @@ export default defineConfig({
       exclude: ['src/**/*.test.{ts,tsx}', 'src/main.tsx', 'src/vite-env.d.ts', 'src/types/**'],
       reporter: ['text-summary', 'json-summary', 'html'],
       // CI fails if coverage of the logic layer drops below these numbers.
-      thresholds: { lines: 50, functions: 50 },
+      thresholds: { lines: 60, functions: 60 },
     },
   },
 });

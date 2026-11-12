@@ -106,13 +106,17 @@ components; features use the store; only `services/` talks to the network.
 
 | Part | Responsibility | May depend on |
 | --- | --- | --- |
-| `pages/` | Lay out one route | components, features, hooks |
-| `features/` | One user-facing feature: logic in a `use…` hook, display in components | store, services, config |
-| `components/` | Shared presentation with no data access | config, types |
-| `hooks/` | Connect React to the store | store |
+| `pages/` | Lay out one route | components, features, hooks, lib, config, types |
+| `features/` | One user-facing feature: logic in a `use…` hook, display in components | components, hooks, store, services, lib, config, types |
+| `components/` | Shared presentation; the Layout shell starts the motion and app-status features | features, hooks, lib, config, types |
+| `hooks/` | Connect React to the store | store, lib, types |
 | `store/` | Shared state and its transitions | services, types |
-| `services/` | Network and storage, nothing else | config, types |
+| `services/` | Network and storage, nothing else | lib, config, types |
+| `lib/` | Small pure helpers | config, types |
 | `config/`, `types/` | Constants and contracts | nothing |
+
+These rules are not only written down: the pipeline checks them on every push (section 12.4,
+architecture conformance), so a forbidden import shows up on the Dashboard.
 
 The rule "dependencies point downwards" keeps a change local: for example, moving the feed to a hosted
 API changes `services/postsApi.ts` and `features/feed/usePostFeed.ts` only.
@@ -191,9 +195,9 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 
 | Job | Steps | Fails when |
 | --- | --- | --- |
-| `quality` | `npm ci`, ESLint, Prettier, `tsc`, Vitest with coverage; reports kept as an artifact | any lint warning, unformatted file, type error, failing test, or coverage below 50% |
+| `quality` | `npm ci`, ESLint, Prettier, `tsc`, Vitest with coverage; reports kept as an artifact | any lint warning, unformatted file, type error, failing test, or coverage below 60% |
 | `api` | `npm ci` in `server/`, `tools/api-test.sh` | any of the 16 API checks returns the wrong status |
-| `build` | `vite build`, Playwright walkthrough of the built site, upload of `build/` as the Pages artifact | the build fails, or any walkthrough step fails |
+| `build` | `vite build`, Playwright walkthrough of the built site, the quality report (`quality.json`, section 12.4), upload of `build/` as the Pages artifact | the build fails, or any walkthrough step fails |
 | `deploy` | `actions/deploy-pages` to the `github-pages` environment | (only runs after `build` passes on `main`) |
 
 Design decisions:
@@ -205,7 +209,8 @@ Design decisions:
 - **Reproducible.** `npm ci` installs exactly the versions in `package-lock.json`; Node 22 everywhere.
 - **No wasted runs.** A newer push cancels the older run on the same branch, but a deployment that
   has started is never cancelled.
-- **Kept evidence.** Test, coverage and browser reports are uploaded as artifacts for 14 days.
+- **Kept evidence.** Test, coverage, browser and quality reports are uploaded as artifacts for 14 days, and
+  the build job collects the unit and API results from the earlier jobs for the quality report.
 - **Dependencies stay current.** Dependabot (`.github/dependabot.yml`) opens weekly update pull
   requests, and each one has to pass the same pipeline.
 
@@ -335,6 +340,35 @@ Workbox service worker at build time (`vite.config.ts`):
 The browser test switches the network off, reloads, and checks that the Education page still renders
 from the cache.
 
+### 12.4 Code quality dashboard and architecture conformance
+
+The **Dashboard → Code quality** tab shows a report that the pipeline writes for the exact commit that
+is live (`tools/quality-report.mjs` → `quality.json`, deployed with the site). Nothing on it is typed by
+hand:
+
+| Measure | Source |
+| --- | --- |
+| Tests passed: unit and component, API, browser | Vitest JSON report, `api-results.json`, `e2e-results.json` |
+| Coverage of the logic layer (lines, statements, functions, branches) | Vitest v8 coverage summary, with the 60% threshold drawn on the bar |
+| Lint errors and warnings | ESLint, run through its Node API |
+| Cyclomatic complexity of every function, in four bands, and the most complex ones | ESLint's `complexity` rule set to 0, so it reports every function |
+| Share of source files with an `@file` header | the source files themselves |
+| Size of every JavaScript chunk, raw and gzip | `build/assets` |
+| Size of the system at `v0-starter`, `v1.0` and now; Phase 2 commits by maintenance type | `git` |
+| Architecture conformance | see below |
+
+**Architecture conformance (reflexion model).** Murphy et al. (1995) compare an intended architecture
+with the dependencies extracted from the code. The intended model is the table in section 4.1; the
+tool extracts every import between the parts of `src/` and draws a matrix of:
+
+- **convergences:** allowed and present (green),
+- **divergences:** present but not allowed (red): a design rule broken in the code,
+- **absences:** allowed but never used.
+
+The first run found two divergences, which were then fixed (see the change log, CR-25):
+`services/postsApi.ts` imported its types from the Redux store, and `components/LoadState.tsx`
+imported a type from the store. Both now import from `types/`, so the matrix has no red cells.
+
 ## 13. Response to the reviews
 
 Phase 2 started from two reviews of Phase 1: the lecturer's feedback (12.5/15) and the peer review by
@@ -356,7 +390,7 @@ Chirag Aggarwal (2026).
 | 12 | Replace hard-coded pass counts with assertions; unit tests | Peer | 16 asserted API checks; Vitest suite | CR-14, CR-16 |
 | 13 | Generate the README page from one source | Peer | Readme page renders this file | CR-17 |
 | 14 | Add the debt register as a numbered table | Peer | Section 16 | CR-17 |
-| 15 | Name the recovery methods; add a generated dependency graph | Peer | Section 4.1 (partitioning) and the quality dashboard | CR-17, CR-24 |
+| 15 | Name the recovery methods; reflexion model; a generated dependency view | Peer | Section 4.1 (partitioning) and the reflexion model in section 12.4 | CR-17, CR-24 |
 | 16 | Add the live link to the README | Peer | First line of this file | CR-17 |
 | 17 | Switch references to APA style | Peer | Section 17 | CR-17 |
 | 18 | Remove the 18 pages of CSS from the report | Peer | The Phase 2 report links to the code instead | report |
@@ -408,6 +442,8 @@ Levenshtein, V. I. (1966). Binary codes capable of correcting deletions, inserti
 Lientz, B. P., & Swanson, E. B. (1980). *Software maintenance management*. Addison-Wesley.
 
 Marcus, A., Sergeyev, A., Rajlich, V., & Maletic, J. I. (2004). An information retrieval approach to concept location in source code. In *Proceedings of the 11th Working Conference on Reverse Engineering* (pp. 214–223). IEEE. https://doi.org/10.1109/WCRE.2004.10
+
+Murphy, G. C., Notkin, D., & Sullivan, K. (1995). Software reflexion models: Bridging the gap between source and high-level models. In *Proceedings of the 3rd ACM SIGSOFT Symposium on the Foundations of Software Engineering* (pp. 18–28). ACM. https://doi.org/10.1145/222124.222136
 
 Rajlich, V., & Wilde, N. (2002). The role of concepts in program comprehension. In *Proceedings of the 10th International Workshop on Program Comprehension* (pp. 271–278). IEEE. https://doi.org/10.1109/WPC.2002.1021348
 
