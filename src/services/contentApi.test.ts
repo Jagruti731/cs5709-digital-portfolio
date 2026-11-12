@@ -20,7 +20,10 @@ describe('every content file in public/data', () => {
   });
 
   it('every case study and gallery picture points to an image that exists', () => {
-    const files = [...readFile('projects').caseStudies.map((c: { image: string }) => c.image), ...readFile('gallery').pictures.map((p: { file: string }) => p.file)];
+    const files = [
+      ...readFile('projects').caseStudies.map((c: { image: string }) => c.image),
+      ...readFile('gallery').pictures.map((p: { file: string }) => p.file),
+    ];
     for (const file of files) expect(() => readFileSync(new URL(`../../public/images/${file}`, import.meta.url))).not.toThrow();
   });
 
