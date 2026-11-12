@@ -1,3 +1,6 @@
+/**
+ * @file Card: a white box with a heading, optional body and optional tag list. Used on most pages for short titled blocks.
+ */
 import type { ReactNode } from 'react';
 
 interface CardProps {

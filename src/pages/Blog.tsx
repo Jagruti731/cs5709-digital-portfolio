@@ -1,5 +1,8 @@
+/**
+ * @file Blog page: articles with a tag filter, then the community feed. Content: public/data/blog.json.
+ */
 import { useMemo, useState } from 'react';
-import { CommunityFeed } from '../components/CommunityFeed';
+import { CommunityFeed } from '../features/feed/CommunityFeed';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { LoadState } from '../components/LoadState';

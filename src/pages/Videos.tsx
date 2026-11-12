@@ -1,3 +1,6 @@
+/**
+ * @file Videos page: a player with a playlist of local MP4 files and their poster frames. Content: public/data/videos.json.
+ */
 import { useRef, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';

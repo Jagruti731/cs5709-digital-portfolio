@@ -1,3 +1,6 @@
+/**
+ * @file Route table: page metadata from lib/navigation.ts joined with the component that renders each page.
+ */
 import type { ReactElement } from 'react';
 import { pages, type PageMeta } from './lib/navigation';
 import About from './pages/About';

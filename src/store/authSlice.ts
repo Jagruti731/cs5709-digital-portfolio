@@ -1,3 +1,6 @@
+/**
+ * @file authSlice: who is signed in to the optional API server (username and session token). Kept from the starter.
+ */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {

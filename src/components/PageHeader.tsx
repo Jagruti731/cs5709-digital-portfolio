@@ -1,3 +1,6 @@
+/**
+ * @file PageHeader: the banner at the top of every page except Home (breadcrumb, title, one-line summary).
+ */
 import { Link } from 'react-router-dom';
 
 interface PageHeaderProps {

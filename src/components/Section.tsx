@@ -1,3 +1,6 @@
+/**
+ * @file Section: a full-width band of page content with an optional heading. `alt` gives the alternate background.
+ */
 import type { ReactNode } from 'react';
 
 interface SectionProps {

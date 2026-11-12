@@ -1,3 +1,6 @@
+/**
+ * @file Pictures page: a filterable picture grid with a full-size viewer. Content: public/data/gallery.json.
+ */
 import { useCallback, useRef, useState } from 'react';
 import { Lightbox } from '../components/Lightbox';
 import { PageHeader } from '../components/PageHeader';

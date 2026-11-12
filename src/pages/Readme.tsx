@@ -1,3 +1,6 @@
+/**
+ * @file Readme page: how the portfolio is structured and how it evolved.
+ */
 import type { MouseEvent, ReactNode } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import changes from '../../public/data/changelog.json';

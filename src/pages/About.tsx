@@ -1,3 +1,6 @@
+/**
+ * @file About page: my story, quick facts, what I do, work experience and interests. Content: profile.json and career.json.
+ */
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';

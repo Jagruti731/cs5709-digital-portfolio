@@ -1,3 +1,6 @@
+/**
+ * @file Search page: find any page or piece of content.
+ */
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';

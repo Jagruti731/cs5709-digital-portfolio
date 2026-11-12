@@ -1,3 +1,9 @@
+/**
+ * @file Layout: the shell around every page – skip link, navigation bar, the routed page and the footer.
+ *
+ * Also sets the browser tab title, scrolls to the top on each navigation, and
+ * moves focus to the page content when the skip link is used (CR-14).
+ */
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SITE } from '../config/site';

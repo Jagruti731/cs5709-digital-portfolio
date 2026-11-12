@@ -1,3 +1,6 @@
+/**
+ * @file Education page: qualifications timeline and certifications in progress. Content: public/data/education.json.
+ */
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';

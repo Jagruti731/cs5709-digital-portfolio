@@ -1,3 +1,6 @@
+/**
+ * @file ThemeToggle: the light/dark switch. With no saved choice the site follows the operating system setting.
+ */
 import { useEffect } from 'react';
 import { useStoredState } from '../hooks/useStoredState';
 

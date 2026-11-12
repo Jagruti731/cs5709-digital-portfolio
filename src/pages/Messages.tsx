@@ -1,4 +1,7 @@
-import { Chat } from '../components/Chat';
+/**
+ * @file Messages page: instant messaging (features/chat) and other ways to get in touch.
+ */
+import { Chat } from '../features/chat/Chat';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { SITE } from '../config/site';
