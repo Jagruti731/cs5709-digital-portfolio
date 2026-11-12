@@ -14,7 +14,7 @@ shows the same file on its **Readme** page (`src/pages/Readme.tsx` imports it), 
 
 | Item | Detail |
 | --- | --- |
-| What | A personal portfolio: Home, About, Education, Professional Knowledge, Pictures, Videos, Blog with a community feed, Messages (instant messaging), Readme and Search |
+| What | A personal portfolio: Home, About, Education, Professional Knowledge (Work), Gallery (pictures and videos), Blog with a community feed, Contact (instant messaging), plus Readme, Dashboard and Search |
 | Stack | React 18, TypeScript (strict), Vite 6, React Router 6 (HashRouter), Redux Toolkit, plain CSS |
 | Phase 1 (v1.0) | Starter analysed and evolved: 10 typed change requests, CR-01 to CR-10 |
 | Phase 2 (v2.0) | Peer review and lecturer feedback applied, JSON content, CI/CD, live on GitHub Pages, innovation features |
@@ -84,6 +84,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 │   │   ├── github/           live GitHub panel
 │   │   ├── quality/          code quality dashboard
 │   │   ├── motion/           GSAP hooks
+│   │   ├── media/            picture and video galleries
 │   │   ├── projects/         case-study filter
 │   │   └── pwa/              install, offline and update notices
 │   ├── components/           shared UI: Layout, Navbar, Section, Card, LoadState …
@@ -94,7 +95,8 @@ VITE_API_URL=http://localhost:5000 npm run dev
 
 ![Site scheme](public/diagrams/site-scheme-v2.svg)
 
-**Site scheme.** Home and nine menu pages share one navigation bar; Search sits outside the menu and is
+**Site scheme.** Seven menu items share one navigation bar; Readme and Dashboard are linked from the
+footer; Search sits outside the menu and is
 opened with the Search button or the `/` key; unknown addresses show Not found.
 
 Every source file starts with an `@file` JSDoc comment that says what the file does and where its data
@@ -165,8 +167,8 @@ component, and the files are fetched at run time, cached in the Redux store, and
 | `projects.json` | Home, Professional Knowledge, Search |
 | `career.json` | Home, About |
 | `education.json` | Education |
-| `gallery.json` | Pictures |
-| `videos.json` | Videos |
+| `gallery.json` | Gallery → Pictures |
+| `videos.json` | Gallery → Videos |
 | `blog.json` | Blog |
 | `requirements.json` | Readme → Requirements |
 | `changelog.json` | Readme → Change log |
@@ -276,10 +278,8 @@ All of it lives in `src/features/motion/`:
 
 | Hook | Where | What it does |
 | --- | --- | --- |
-| `usePageIntro` | every page (Layout) | the banner title and summary slide in when a page opens |
-| `useScrollReveal` | every page (Layout) | cards, case studies, timeline entries and pictures fade up as they scroll into view; a MutationObserver picks up content that loads later |
-| `useCountUp` | Home | the key numbers count up from zero when they appear |
-| `useFlip` | Professional Knowledge, Pictures | when a filter changes, the remaining cards glide to their new places and new ones fade in |
+| `useScrollReveal` | every page (Layout) | cards, case studies and pictures fade up as they scroll into view; a MutationObserver picks up content that loads later |
+| `useFlip` | Professional Knowledge, Gallery | when a filter changes, the remaining cards glide to their new places and new ones fade in |
 
 Rules every animation follows:
 
@@ -294,7 +294,7 @@ Rules every animation follows:
 | Page | Filter |
 | --- | --- |
 | Professional Knowledge | case studies by technology and by free text (user story US2), animated with Flip |
-| Pictures | by category (places, work, life), animated with Flip |
+| Gallery → Pictures | by category (places, work, life), animated with Flip |
 | Blog | articles by tag |
 | Readme → Requirements | features by phase |
 | Readme → Change log | changes by phase and maintenance type |
@@ -308,6 +308,21 @@ Rules every animation follows:
 - **Libraries:** GSAP and the Markdown renderer load only on the pages that use them.
 - **Media:** images use `loading="lazy"` and `decoding="async"`; videos load metadata only.
 - **Data:** each JSON file is fetched only when a page first needs it.
+
+### 11.4 A leaner site (CR-30)
+
+After the release I compared the site with my LinkedIn profile, and it felt too heavy: long
+paragraphs, eleven menu items and animation on every page. CR-30 made it leaner without removing any
+required page:
+
+| Before | After |
+| --- | --- |
+| 11 menu items | 7: Home, About, Education, Work, Gallery, Blog, Contact; Readme and Dashboard in the footer |
+| Pictures and Videos as two pages | one Gallery page with two tabs; `/videos` redirects |
+| Home: intro, numbers, 3 projects, career path, 6 extras | intro, numbers and 3 projects |
+| Blog articles shown in full | first paragraph, with *Read more* |
+| Content written for Phase 1 | rewritten from my LinkedIn profile: current role (Consultant), dates, NIT Warangal diploma, awards |
+| Page entrance, count-up and reveal animations | scroll reveal on cards only |
 
 ## 12. Innovation
 

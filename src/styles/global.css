@@ -2336,3 +2336,10 @@ main:focus {
 .skill-table td:first-child b {
   white-space: nowrap;
 }
+.gallery-tabs {
+  margin: 28px 0 0;
+}
+.footer-links {
+  display: flex;
+  gap: 18px;
+}

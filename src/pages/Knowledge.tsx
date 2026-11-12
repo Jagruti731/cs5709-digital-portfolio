@@ -1,5 +1,5 @@
 /**
- * @file Professional Knowledge page: case studies, other projects, skills and software-evolution concepts.
+ * @file Professional Knowledge ("Work") page: case studies, other projects and skills.
  * Content: public/data/projects.json. Deep link: /knowledge?case=<id> scrolls to that case study.
  * Phase 2 (CR-20, user story US2): case studies can be filtered by technology and by text;
  * GSAP Flip moves the cards smoothly to their new places.
@@ -33,7 +33,7 @@ export default function Knowledge() {
   }, [target, data]);
 
   if (!data) return <LoadState status={status} error={error} retry={retry} />;
-  const { otherProjects, skillGroups, evolutionConcepts } = data;
+  const { otherProjects, skillGroups } = data;
   const caseStudies = filterCases(data.caseStudies, tech, text);
 
   return (
@@ -41,9 +41,9 @@ export default function Knowledge() {
       <PageHeader
         title="Professional knowledge"
         crumb="Professional Knowledge"
-        intro="The projects I have worked on, the skills I use, and how I think about software that keeps changing."
+        intro="Projects I have built and led, and the skills I use."
       />
-      <Section title="Case studies" intro="The four projects I learned the most from. Filter them by technology or search their text.">
+      <Section title="Case studies" intro="Filter by technology or search.">
         <div className="filter-bar">
           <div className="filters" role="group" aria-label="Filter case studies by technology">
             {[ALL, ...techs].map((t) => (
@@ -108,30 +108,6 @@ export default function Knowledge() {
           {skillGroups.map((g) => (
             <Card key={g.title} title={g.title} tags={g.items} />
           ))}
-        </div>
-      </Section>
-      <Section title="Software evolution in my own work" intro="Concepts from CS5709 that I can see in the projects above." alt>
-        <div className="grid g4">
-          {evolutionConcepts.map((c) => (
-            <Card key={c.title} title={c.title}>
-              <p>{c.text}</p>
-            </Card>
-          ))}
-        </div>
-        <div className="grid g2" style={{ marginTop: 22 }}>
-          <Card title="Lehman's laws I have seen">
-            <p>
-              <b>Continuing change:</b> the loan platform changes with every new lender rule. <b>Increasing complexity:</b> each new rule
-              makes the next harder, so we plan refactoring into sprints. <b>Continuing growth:</b> the OCR pipeline went from one bank to
-              four.
-            </p>
-          </Card>
-          <Card title="Taxonomies">
-            <p>
-              Lientz and Swanson (1980) group changes by their purpose. Chapin et al. (2001) classify them by evidence of what actually
-              changed. Buckley et al. (2005) describe how a change happens: when, what, and with which tools.
-            </p>
-          </Card>
         </div>
       </Section>
     </>

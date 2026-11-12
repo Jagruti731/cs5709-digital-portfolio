@@ -1,83 +1,34 @@
 /**
- * @file Pictures page: a filterable picture grid with a full-size viewer. Content: public/data/gallery.json.
- * Changing the filter animates the pictures to their new places with GSAP Flip (CR-20).
+ * @file Gallery page: pictures and videos on one page, in two tabs (CR-30).
+ *
+ * Phase 1 had separate Pictures and Videos pages. They are merged to keep the
+ * menu short; both galleries the brief asks for are still here. The tab is in
+ * the URL (/gallery?tab=videos), and the old /videos address redirects to it.
  */
-import { useCallback, useRef, useState } from 'react';
-import { Lightbox } from '../components/Lightbox';
+import { useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';
-import { Section } from '../components/Section';
-import { LoadState } from '../components/LoadState';
-import { useFlip } from '../features/motion/useFlip';
-import { useContent } from '../hooks/useContent';
-import { imagePath } from '../lib/assets';
-import type { PictureCategory } from '../types/content';
+import { PictureGallery } from '../features/media/PictureGallery';
+import { VideoGallery } from '../features/media/VideoGallery';
+
+type Tab = 'pictures' | 'videos';
 
 export default function Gallery() {
-  const { data, status, error, retry } = useContent('gallery');
-  const [filter, setFilter] = useState<'all' | PictureCategory>('all');
-  const [open, setOpen] = useState<number | null>(null);
-  const opener = useRef<HTMLButtonElement | null>(null);
-  const flip = useFlip<HTMLDivElement>('.shot');
-
-  // Return focus to the picture that opened the viewer.
-  const close = useCallback(() => {
-    setOpen(null);
-    opener.current?.focus();
-  }, []);
-
-  if (!data) return <LoadState status={status} error={error} retry={retry} />;
-  const { pictures, filters: pictureFilters } = data;
-  const shown = pictures.filter((p) => filter === 'all' || p.category === filter);
-
+  const [params, setParams] = useSearchParams();
+  const tab: Tab = params.get('tab') === 'videos' ? 'videos' : 'pictures';
   return (
     <>
-      <PageHeader
-        title="Picture gallery"
-        crumb="Pictures"
-        intro="Places, work and life. Click a picture to see it bigger; use the arrow keys to move between pictures."
-      />
-      <Section>
-        <div className="filters" role="group" aria-label="Filter pictures">
-          {pictureFilters.map((f) => (
-            <button
-              key={f.value}
-              type="button"
-              className="chip"
-              aria-pressed={filter === f.value}
-              onClick={() =>
-                flip.run(() => {
-                  setFilter(f.value);
-                  setOpen(null);
-                })
-              }
-            >
-              {f.label}
-              {f.value === 'all' ? ` (${pictures.length})` : ''}
-            </button>
-          ))}
+      <PageHeader title="Gallery" crumb="Gallery" intro="Pictures and short videos about my work and life." />
+      <div className="container">
+        <div className="tabs gallery-tabs" role="tablist" aria-label="Gallery">
+          <button role="tab" type="button" aria-selected={tab === 'pictures'} onClick={() => setParams({}, { replace: true })}>
+            Pictures
+          </button>
+          <button role="tab" type="button" aria-selected={tab === 'videos'} onClick={() => setParams({ tab: 'videos' }, { replace: true })}>
+            Videos
+          </button>
         </div>
-        <div className="masonry" ref={flip.ref}>
-          {shown.map((p, i) => (
-            <figure className="shot" key={p.file}>
-              <button
-                type="button"
-                aria-label={`Open ${p.title} full size`}
-                onClick={(e) => {
-                  opener.current = e.currentTarget;
-                  setOpen(i);
-                }}
-              >
-                <img src={imagePath(p.file)} alt={`${p.title}: ${p.caption}`} width={1200} height={800} loading="lazy" decoding="async" />
-              </button>
-              <figcaption>
-                <b>{p.title}</b>
-                <span>{p.caption}</span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </Section>
-      {open !== null && <Lightbox pictures={shown} index={open} onClose={close} onMove={setOpen} />}
+      </div>
+      {tab === 'pictures' ? <PictureGallery /> : <VideoGallery />}
     </>
   );
 }

@@ -228,6 +228,14 @@
     "change": "Dashboard lists only the CI/CD workflow's runs; on the live site the general runs list also showed Dependabot's own update jobs",
     "type": "corrective",
     "closes": "Evaluation: live site check",
+    "commit": "4e37192",
+    "phase": 2
+  },
+  {
+    "id": "CR-30",
+    "change": "Leaner site from my LinkedIn profile: 7 menu items, Pictures and Videos merged into Gallery, shorter text everywhere, Blog excerpts, fewer animations",
+    "type": "perfective",
+    "closes": "Owner feedback: 'too bulky'",
     "commit": "this commit",
     "phase": 2
   }

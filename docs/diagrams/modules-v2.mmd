@@ -1,15 +1,16 @@
 flowchart TB
   subgraph PAGES["pages/ (one per route, lazy loaded)"]
     home[Home] --- about[About] --- edu[Education] --- know[Knowledge]
-    gal[Gallery] --- vid[Videos] --- blog[Blog] --- msg[Messages]
-    rd[Readme] --- srch[Search] --- ghp[GitHub] --- q[Quality]
+    gal[Gallery] --- blog[Blog] --- msg[Contact]
+    rd[Readme] --- srch[Search] --- dash[Dashboard]
   end
   subgraph FEATURES["features/ (logic in hooks, display in components)"]
     feed["feed/<br/>usePostFeed · PostForm · PostCard · SignInForm"]
     chat["chat/<br/>useChat · answers · Chat"]
     search["search/<br/>searchIndex · useSearch"]
     github["github/<br/>useGitHub · RepoList · RunList"]
-    motion["motion/<br/>useReveal · useCountUp (GSAP)"]
+    motion["motion/<br/>useScrollReveal · useFlip (GSAP)"]
+    media["media/<br/>PictureGallery · VideoGallery"]
   end
   subgraph CORE["shared"]
     comps["components/<br/>Layout · Navbar · Section · Card · LoadState"]

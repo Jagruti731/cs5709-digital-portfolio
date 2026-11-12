@@ -1,17 +1,17 @@
 flowchart TB
   home(["Home"])
-  subgraph MENU["Navigation bar (every page)"]
-    about[About] --- edu[Education] --- know["Professional Knowledge<br/>filter by technology + text"]
-    gal["Pictures<br/>filter + viewer"] --- vid["Videos<br/>player + playlist"] --- blog["Blog<br/>articles + community feed"]
-    msg["Messages<br/>assistant + live lounge"] --- dash["Dashboard<br/>GitHub (live) · Code quality"] --- readme["Readme<br/>README · Requirements · Change log"]
+  subgraph MENU["Navigation bar: 7 items"]
+    about[About] --- edu[Education] --- know["Work<br/>case studies + filter"]
+    gal["Gallery<br/>Pictures · Videos"] --- blog["Blog<br/>articles + feed"] --- msg["Contact<br/>instant messaging"]
+  end
+  subgraph FOOT["Footer"]
+    readme["Readme<br/>README · Requirements · Change log"] --- dash["Dashboard<br/>GitHub · Code quality"]
   end
   search["Search<br/>site + source code"]
-  nf["Not found"]
   home --> MENU
+  home --> FOOT
   home -. "press /" .-> search
-  MENU --> search
   search -- "?case= / ?article=" --> know
   search --> blog
   search -- "code results" --> gh(["files on GitHub"])
   dash --> gh2(["GitHub REST API"])
-  any(["unknown address"]) --> nf

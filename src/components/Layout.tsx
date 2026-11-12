@@ -3,12 +3,12 @@
  *
  * Also sets the browser tab title, scrolls to the top on each navigation, and
  * moves focus to the page content when the skip link is used (CR-14).
- * GSAP animations for every page start here: a page entrance and scroll reveals (CR-20).
+ * GSAP scroll reveals for every page start here (CR-20). The page entrance and count-up
+ * animations were removed in CR-30 to make the site feel lighter.
  */
 import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { SITE } from '../config/site';
-import { usePageIntro } from '../features/motion/usePageIntro';
 import { AppStatus } from '../features/pwa/AppStatus';
 import { useScrollReveal } from '../features/motion/useScrollReveal';
 import { pages } from '../lib/navigation';
@@ -23,7 +23,6 @@ export function Layout() {
   const navigate = useNavigate();
   const mainRef = useRef<HTMLElement>(null);
   useScrollReveal(mainRef);
-  usePageIntro(mainRef, pathname);
 
   useEffect(() => {
     const page = pages.find((p) => p.path === pathname);

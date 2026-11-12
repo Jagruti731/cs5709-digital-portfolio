@@ -14,7 +14,6 @@ const components: Record<string, LazyExoticComponent<ComponentType>> = {
   education: lazy(() => import('./pages/Education')),
   knowledge: lazy(() => import('./pages/Knowledge')),
   gallery: lazy(() => import('./pages/Gallery')),
-  videos: lazy(() => import('./pages/Videos')),
   blog: lazy(() => import('./pages/Blog')),
   messages: lazy(() => import('./pages/Messages')),
   search: lazy(() => import('./pages/Search')),

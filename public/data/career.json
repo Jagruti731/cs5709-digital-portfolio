@@ -1,56 +1,34 @@
 {
-  "careerPath": [
-    {
-      "when": "2018",
-      "title": "Digital marketing",
-      "text": "Web content, Brain Checker India"
-    },
-    {
-      "when": "Mar 2020",
-      "title": "Intern",
-      "text": "Winjit Technologies, Nashik"
-    },
-    {
-      "when": "2021",
-      "title": "Software Engineer",
-      "text": ".NET APIs and Angular apps"
-    },
-    {
-      "when": "2024",
-      "title": "Senior Software Engineer",
-      "text": "OCR, credit systems, presales"
-    },
-    {
-      "when": "2026",
-      "title": "Team Lead → MSc",
-      "text": "Project Engineer, then UL"
-    }
-  ],
   "experience": [
     {
-      "when": "From Apr 2026",
-      "title": "Project Engineer & Team Lead, Winjit Technologies",
-      "text": "Led the team on a consumer vehicle loan origination platform. Supported presales with credit workflow documents and case studies."
+      "when": "Oct 2026 – now",
+      "title": "Consultant, Winjit Technologies",
+      "text": "Technical consultant for enterprise clients: architecture, delivery and AI adoption."
     },
     {
-      "when": "2024 – 2026",
-      "title": "Senior Software Engineer, Winjit Technologies",
-      "text": "Built the bank statement OCR pipeline and payslip extraction. Worked on credit decisioning services and legacy modernisation."
+      "when": "Apr 2026 – now",
+      "title": "Project Engineer, Winjit Technologies",
+      "text": "Lead delivery and a cross-functional team; technical contact for fintech client Mobalyz; built the PMO's AI adoption tracker."
     },
     {
-      "when": "Jan 2021 – 2024",
-      "title": "Software Engineer, Winjit Technologies",
-      "text": ".NET Core APIs, Angular front ends, and integrations such as Sage with IBM Maximo."
+      "when": "Apr 2024 – 2026",
+      "title": "Senior Software Engineer",
+      "text": "Gemini OCR pipeline for bank statements; .NET MVC modernisation; WhatsApp and Power Automate workflows; AI assistant portal for finance reconciliation."
+    },
+    {
+      "when": "Jan 2022 – Apr 2024",
+      "title": "Software Engineer",
+      "text": "Banking, healthcare and manufacturing features in ASP.NET Core and Angular; payroll calculations module; microservices."
+    },
+    {
+      "when": "Jan 2021 – Jan 2022",
+      "title": "Software Developer",
+      "text": ".NET MVC, Blazor and REST APIs; WIP and ageing reports for a manufacturer."
     },
     {
       "when": "Mar 2020 – Dec 2020",
-      "title": "Software Engineering Intern, Winjit Technologies",
-      "text": "Started on .NET and Angular during my final year of engineering."
-    },
-    {
-      "when": "2018 – 2019",
-      "title": "Digital Marketing Executive (web content), Brain Checker India",
-      "text": "Wrote web content and helped run digital campaigns."
+      "title": "Intern",
+      "text": "C#, ASP.NET and SQL Server on a loan origination system."
     }
   ]
 }

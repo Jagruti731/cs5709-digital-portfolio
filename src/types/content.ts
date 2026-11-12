@@ -42,7 +42,7 @@ export interface Profile {
   roles: TitledText[];
   story: string[];
   quickFacts: [string, string][];
-  interests: TitledText[];
+  /** Awards and recognition, shown on About. */
   extras: { code: string; title: string; text: string }[];
 }
 
@@ -64,7 +64,6 @@ export interface ProjectsData {
   caseStudies: CaseStudy[];
   otherProjects: TitledText[];
   skillGroups: { title: string; items: string[] }[];
-  evolutionConcepts: TitledText[];
 }
 
 /** One blog article. `date` is an ISO date (yyyy-mm-dd). */
@@ -78,7 +77,6 @@ export interface Article {
 
 /** career.json */
 export interface CareerData {
-  careerPath: { when: string; title: string; text: string }[];
   experience: TimelineItem[];
 }
 

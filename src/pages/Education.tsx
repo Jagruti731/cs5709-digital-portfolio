@@ -1,5 +1,5 @@
 /**
- * @file Education page: qualifications timeline and certifications in progress. Content: public/data/education.json.
+ * @file Education page: qualifications timeline and certifications. Content: public/data/education.json.
  */
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
@@ -14,16 +14,18 @@ export default function Education() {
   const { education, certifications } = data;
   return (
     <>
-      <PageHeader title="Education" crumb="Education" intro="From a diploma in Nashik to an MSc in Limerick." />
+      <PageHeader
+        title="Education"
+        crumb="Education"
+        intro="From a diploma in Nashik to an MSc in Limerick, with AI and ML along the way."
+      />
       <Section>
         <Timeline items={education} />
       </Section>
-      <Section title="Certifications I'm working on" alt>
+      <Section title="Certifications" alt>
         <div className="grid g2">
           {certifications.map((c) => (
-            <Card key={c.title} title={c.title} tags={['In progress']}>
-              <p>{c.text}</p>
-            </Card>
+            <Card key={c.title} title={c.title} tags={[c.text.replace('.', '')]} />
           ))}
         </div>
       </Section>

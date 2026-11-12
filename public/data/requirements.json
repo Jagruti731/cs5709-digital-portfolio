@@ -124,14 +124,14 @@
     },
     {
       "id": "F05",
-      "name": "Pictures gallery: category filter and full-size viewer",
+      "name": "Gallery, Pictures tab: category filter and full-size viewer",
       "group": "Media",
       "phase": 1,
       "status": "done"
     },
     {
       "id": "F06",
-      "name": "Video gallery: player and playlist with local video files",
+      "name": "Gallery, Videos tab: player and playlist with local video files",
       "group": "Media",
       "phase": 1,
       "status": "done"

@@ -1,35 +1,28 @@
 /**
- * @file Home page: introduction, key numbers, three featured projects, career path and other work.
- * Content: profile.json, projects.json and career.json.
+ * @file Home page: one-line introduction, four key numbers and three featured projects.
+ * Content: profile.json and projects.json. Kept short on purpose (CR-30): details live on About and Work.
  */
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { LoadState } from '../components/LoadState';
 import { Section } from '../components/Section';
-import { useCountUp } from '../features/motion/useCountUp';
 import { useContent } from '../hooks/useContent';
 import { imagePath } from '../lib/assets';
 
 export default function Home() {
   const profileFile = useContent('profile');
   const projectsFile = useContent('projects');
-  const careerFile = useContent('career');
   const profile = profileFile.data;
-  const numbersRef = useRef<HTMLDivElement>(null);
-  useCountUp(numbersRef, Boolean(profile && projectsFile.data && careerFile.data));
-  if (!profile || !projectsFile.data || !careerFile.data) {
-    const failed = [profileFile, projectsFile, careerFile].find((f) => f.status === 'error');
-    return <LoadState status={failed ? 'error' : 'loading'} error={failed?.error} retry={failed?.retry} />;
+  if (!profile || !projectsFile.data) {
+    const failed = profileFile.status === 'error' ? profileFile : projectsFile;
+    return <LoadState status={failed.status === 'error' ? 'error' : 'loading'} error={failed.error} retry={failed.retry} />;
   }
   const featured = projectsFile.data.caseStudies.slice(0, 3);
-  const { careerPath } = careerFile.data;
-  const { extras } = profile;
   return (
     <>
       <section className="hero">
         <div className="container">
           <div>
-            <p className="hello">Software engineer and MSc student</p>
+            <p className="hello">Tech Consultant · MSc Software Engineering @ UL</p>
             <h1>{profile.name}</h1>
             <p className="intro">{profile.intro}</p>
             <ul className="quick-facts">
@@ -43,8 +36,8 @@ export default function Home() {
               <Link className="btn" to="/knowledge">
                 See my work
               </Link>
-              <Link className="btn outline" to="/about">
-                About me
+              <Link className="btn outline" to="/messages">
+                Contact me
               </Link>
             </div>
           </div>
@@ -52,20 +45,17 @@ export default function Home() {
       </section>
 
       <Section alt>
-        <div className="numbers" ref={numbersRef}>
+        <div className="numbers">
           {profile.numbers.map((n) => (
             <div key={n.label}>
-              <b data-count={n.value}>{n.value}</b>
+              <b>{n.value}</b>
               <span>{n.label}</span>
             </div>
           ))}
         </div>
       </Section>
 
-      <Section
-        title="What I have worked on"
-        intro="Three projects that show the kind of work I do. The Professional Knowledge page has the full list."
-      >
+      <Section title="Selected work">
         <div className="grid g3">
           {featured.map((c) => (
             <article className="work-card" key={c.id}>
@@ -81,34 +71,6 @@ export default function Home() {
             </article>
           ))}
         </div>
-      </Section>
-
-      <Section title="My career so far" alt>
-        <ol className="path">
-          {careerPath.map((step, i) => (
-            <li key={step.when} className={i === careerPath.length - 1 ? 'now' : undefined}>
-              <time>{step.when}</time>
-              <b>{step.title}</b>
-              <span>{step.text}</span>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      <Section title="Other things I have done">
-        <ul className="extras">
-          {extras.map((x) => (
-            <li key={x.code}>
-              <span className="ic" aria-hidden="true">
-                {x.code}
-              </span>
-              <div>
-                <b>{x.title}</b>
-                <span>{x.text}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
       </Section>
     </>
   );

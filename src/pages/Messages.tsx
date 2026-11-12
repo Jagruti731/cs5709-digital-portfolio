@@ -9,11 +9,7 @@ import { SITE } from '../config/site';
 export default function Messages() {
   return (
     <>
-      <PageHeader
-        title="Messages"
-        crumb="Messages"
-        intro="Ask me something and get an instant answer, or chat live with other visitors who have the site open."
-      />
+      <PageHeader title="Contact" crumb="Contact" intro="Ask a question and get an instant answer, or reach me on LinkedIn." />
       <Section>
         <div className="messages-layout">
           <Chat />

@@ -1,11 +1,13 @@
 /**
- * @file About page: my story, quick facts, what I do, work experience and interests. Content: profile.json and career.json.
+ * @file About page: short story, quick facts, what I do, experience and recognition.
+ * Content: profile.json and career.json (from my LinkedIn profile, CR-30).
  */
 import { Card } from '../components/Card';
+import { LoadState } from '../components/LoadState';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { LoadState } from '../components/LoadState';
 import { Timeline } from '../components/Timeline';
+import { SITE } from '../config/site';
 import { useContent } from '../hooks/useContent';
 
 export default function About() {
@@ -16,10 +18,9 @@ export default function About() {
     const failed = profileFile.status === 'error' ? profileFile : careerFile;
     return <LoadState status={failed.status === 'error' ? 'error' : 'loading'} error={failed.error} retry={failed.retry} />;
   }
-  const { experience } = careerFile.data;
   return (
     <>
-      <PageHeader title="About me" crumb="About" intro="A bit about who I am, how I got here, and what I'm good at." />
+      <PageHeader title="About me" crumb="About" intro="Systems that scale, software that thinks." />
       <Section>
         <div className="grid g2 start">
           <div className="prose">
@@ -28,7 +29,6 @@ export default function About() {
             ))}
           </div>
           <div className="card">
-            <h3>Quick facts</h3>
             <table className="facts-table">
               <tbody>
                 {profile.quickFacts.map(([label, value]) => (
@@ -40,7 +40,7 @@ export default function About() {
                 <tr>
                   <th scope="row">LinkedIn</th>
                   <td>
-                    <a href={profile.linkedin}>{profile.linkedinLabel}</a>
+                    <a href={SITE.linkedin}>{profile.linkedinLabel}</a>
                   </td>
                 </tr>
               </tbody>
@@ -57,14 +57,14 @@ export default function About() {
           ))}
         </div>
       </Section>
-      <Section title="Work experience">
-        <Timeline items={experience} />
+      <Section title="Experience">
+        <Timeline items={careerFile.data.experience} />
       </Section>
-      <Section title="Outside work" alt>
-        <div className="grid g2">
-          {profile.interests.map((r) => (
-            <Card key={r.title} title={r.title}>
-              <p>{r.text}</p>
+      <Section title="Recognition" alt>
+        <div className="grid g4">
+          {profile.extras.map((x) => (
+            <Card key={x.code} title={x.title}>
+              <p>{x.text}</p>
             </Card>
           ))}
         </div>
