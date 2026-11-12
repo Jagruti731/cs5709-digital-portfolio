@@ -74,7 +74,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 │   ├── config/site.ts        site constants and limits (no magic numbers in components)
 │   ├── types/content.ts      typed contracts for every JSON file
 │   ├── services/             the only code that talks to the network or storage
-│   ├── store/                Redux slices: content, posts, auth
+│   ├── store/                Redux slices: content, posts, auth, github
 │   ├── hooks/                useContent, useStoredState, typed Redux hooks
 │   ├── features/             feature folders: logic in a hook, display in components
 │   │   ├── feed/             usePostFeed · PostForm · PostCard · SignInForm
@@ -165,6 +165,7 @@ Redux Toolkit holds state that more than one component needs:
 | `content` | each JSON file with its status: idle, loading, ready or error |
 | `posts` | community feed posts, comments and likes |
 | `auth` | the user signed in to the optional API |
+| `github` | live data from the GitHub API, with its loading status |
 
 State that belongs to one component (a form draft, an open picture) stays in `useState`, and state that
 must survive a reload (theme, chat history, local posts) is saved with `useStoredState`.
@@ -293,6 +294,28 @@ Two collections can be searched:
   Phase 2 gave every file a descriptive header comment.
 
 Press `/` anywhere on the site to open Search.
+
+### 12.2 Live GitHub data
+
+The **Dashboard** page (tab *GitHub (live)*) calls the GitHub REST API from the visitor's browser on
+every visit (`src/services/githubApi.ts`, state in `store/githubSlice.ts`):
+
+| Shown | API endpoint |
+| --- | --- |
+| account summary and languages | `GET /users/Jagruti731`, `GET /users/Jagruti731/repos` |
+| the latest 10 runs of this site's CI/CD pipeline, passed or failed | `GET /repos/Jagruti731/cs5709-digital-portfolio/actions/runs` |
+| the latest commits to this site | `GET /repos/Jagruti731/cs5709-digital-portfolio/commits` |
+
+- **Rate limit:** GitHub allows 60 requests an hour without a token. Every answer is cached with its
+  ETag; the next request sends `If-None-Match`, and an unchanged answer (`304`) does not count.
+  The page shows how many requests are left.
+- **Failure:** offline, the last copy is shown; at the limit, the page says when to try again; a
+  repository with no runs yet says so instead of failing.
+- **Interaction:** repositories can be filtered by language and sorted; *Refresh* reloads everything.
+- **Testing:** unit tests replace `fetch`; the browser test answers GitHub requests itself, so CI never
+  depends on GitHub's limit.
+
+This replaces the starter's parked `legacy/phase2-candidates/GitHubIntegration.tsx`, which was deleted.
 
 ## 13. Response to the reviews
 

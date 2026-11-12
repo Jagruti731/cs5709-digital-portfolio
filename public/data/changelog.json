@@ -166,5 +166,13 @@
     "closes": "Brief: search; innovation",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-22",
+    "change": "Innovation: Dashboard page with live GitHub data (repositories, languages, CI/CD runs, commits) from the GitHub REST API, ETag caching, rate-limit and offline handling; parked starter GitHub page removed",
+    "type": "perfective",
+    "closes": "Brief: API connection; innovation",
+    "commit": "this commit",
+    "phase": 2
   }
 ]

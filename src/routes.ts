@@ -19,6 +19,7 @@ const components: Record<string, LazyExoticComponent<ComponentType>> = {
   messages: lazy(() => import('./pages/Messages')),
   search: lazy(() => import('./pages/Search')),
   readme: lazy(() => import('./pages/Readme')),
+  dashboard: lazy(() => import('./pages/Dashboard')),
 };
 
 export const NotFound = lazy(() => import('./pages/NotFound'));
