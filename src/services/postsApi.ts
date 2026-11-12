@@ -1,13 +1,13 @@
-import type { CommentItem, PostItem } from '../store/postsSlice';
-
 /**
- * The only module that knows where posts are stored.
+ * @file postsApi: the only module that knows where posts are stored.
+ *
  *
  * The starter hard-coded http://localhost:5000 in five places, so on a static
  * host every action failed first and then fell back to localStorage (TD-04).
  * Now the API is used only when the site is built with VITE_API_URL;
  * otherwise posts stay in this browser and no request is made.
  */
+import type { CommentItem, PostItem } from '../store/postsSlice';
 const API_URL: string | undefined = import.meta.env.VITE_API_URL;
 const STORAGE_KEY = 'postfeed.posts';
 
@@ -46,12 +46,14 @@ export async function createPost(post: PostItem, token: string | null): Promise<
   return request<PostItem>('/posts', { method: 'POST', body: JSON.stringify({ content: post.content, image: post.image }) }, token);
 }
 
-export async function sendComment(postId: string, comment: CommentItem): Promise<void> {
-  if (usesServer) await request(`/posts/${postId}/comments`, { method: 'POST', body: JSON.stringify(comment) });
+/** Sends a comment. The server takes the author from the token, never from the body (CR-14). */
+export async function sendComment(postId: string, comment: CommentItem, token: string | null = null): Promise<void> {
+  if (usesServer) await request(`/posts/${postId}/comments`, { method: 'POST', body: JSON.stringify({ content: comment.content }) }, token);
 }
 
-export async function sendLike(postId: string, author: string): Promise<void> {
-  if (usesServer) await request(`/posts/${postId}/likes`, { method: 'POST', body: JSON.stringify({ author }) });
+/** Toggles a like. Local mode only records it in the store; the server needs a signed-in user. */
+export async function sendLike(postId: string, _author: string, token: string | null = null): Promise<void> {
+  if (usesServer) await request(`/posts/${postId}/likes`, { method: 'POST', body: '{}' }, token);
 }
 
 export async function authenticate(mode: 'login' | 'register', username: string, password: string) {

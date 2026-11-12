@@ -1,3 +1,7 @@
+/**
+ * @file Home page: introduction, key numbers, three featured projects, career path and other work.
+ * Content: profile.json, projects.json and career.json.
+ */
 import { Link } from 'react-router-dom';
 import { LoadState } from '../components/LoadState';
 import { Section } from '../components/Section';

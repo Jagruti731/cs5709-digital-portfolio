@@ -1,3 +1,7 @@
+/**
+ * @file useStoredState: useState that is also saved in localStorage.
+ * Storage can be blocked (private mode, full quota), so every access is guarded and the value falls back to memory.
+ */
 import { useEffect, useState } from 'react';
 
 /** useState that is also saved in localStorage. Storage can be blocked, so every access is guarded. */

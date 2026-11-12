@@ -1,3 +1,6 @@
+/**
+ * @file Lightbox: full-size picture viewer for the gallery. Escape closes it; the arrow keys move between pictures; focus returns to the picture that opened it.
+ */
 import { useEffect, useRef } from 'react';
 import { imagePath } from '../lib/assets';
 import type { Picture } from '../types/content';

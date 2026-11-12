@@ -1,3 +1,9 @@
+/**
+ * @file App: the router.
+ *
+ * HashRouter keeps every route inside index.html (/#/about), so GitHub Pages
+ * and any other static host work without server rewrite rules.
+ */
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import NotFound from './pages/NotFound';

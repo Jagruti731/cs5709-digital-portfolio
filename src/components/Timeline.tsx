@@ -1,3 +1,6 @@
+/**
+ * @file Timeline: a vertical list of dated entries (career on About, qualifications on Education).
+ */
 import type { TimelineItem } from '../types/content';
 
 export function Timeline({ items }: { items: TimelineItem[] }) {

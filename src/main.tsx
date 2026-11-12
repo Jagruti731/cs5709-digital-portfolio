@@ -1,3 +1,6 @@
+/**
+ * @file Entry point: loads the fonts and stylesheet, creates the Redux store provider and renders the app.
+ */
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';

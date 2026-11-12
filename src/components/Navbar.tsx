@@ -1,3 +1,10 @@
+/**
+ * @file Navbar: the site navigation shown on every page.
+ *
+ * Links come from the same page list as the router (lib/navigation.ts), so a
+ * page can never be missing from the menu. Below 1200px the links fold behind
+ * a Menu button, which closes again after each navigation.
+ */
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { SITE } from '../config/site';

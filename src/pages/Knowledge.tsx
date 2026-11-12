@@ -1,3 +1,7 @@
+/**
+ * @file Professional Knowledge page: case studies, other projects, skills and software-evolution concepts.
+ * Content: public/data/projects.json. Deep link: /knowledge?case=<id> scrolls to that case study.
+ */
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Card } from '../components/Card';

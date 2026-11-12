@@ -1,3 +1,9 @@
+/**
+ * @file Page list: one entry per page with its path, menu label, title, description and search keywords.
+ *
+ * One list drives the router, the navigation bar and the search index, so a
+ * page cannot exist without a menu entry (the starter's menu had lost Blog).
+ */
 // ---------------------------------------------------------------------------
 // Page metadata for the router, the navigation bar and Search (version 1.0).
 // One list drives all three, so a page cannot exist without a menu entry.

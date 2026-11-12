@@ -1,3 +1,6 @@
+/**
+ * @file Not found page: shown for any address that matches no route, with links back into the site.
+ */
 import { Link } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';

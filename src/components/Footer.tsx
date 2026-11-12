@@ -1,3 +1,6 @@
+/**
+ * @file Footer: shown on every page. Version, module name and a link to the Readme page.
+ */
 import { Link } from 'react-router-dom';
 import { SITE } from '../config/site';
 
