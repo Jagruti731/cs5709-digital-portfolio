@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { profile } from '../data/profile';
+import { SITE } from '../config/site';
 import { pages } from '../lib/navigation';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -20,8 +20,8 @@ export function Navbar() {
     <header className={`navbar${open ? ' open' : ''}`}>
       <div className="container">
         <Link className="logo" to="/">
-          <span className="logo-mark">{profile.initials}</span>
-          <span className="logo-name">{profile.name}</span>
+          <span className="logo-mark">{SITE.initials}</span>
+          <span className="logo-name">{SITE.owner}</span>
         </Link>
         <Link className="icon-btn search-link" to="/search">
           Search

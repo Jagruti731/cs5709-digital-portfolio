@@ -2,8 +2,9 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { caseStudies } from '../data/projects';
+import { useContent } from '../hooks/useContent';
 import { pages } from '../lib/navigation';
+import type { CaseStudy } from '../types/content';
 
 interface Entry {
   to: string;
@@ -13,30 +14,33 @@ interface Entry {
   haystack: string;
 }
 
-// Index every page and case study once.
-const index: Entry[] = [
-  ...pages
-    .filter((p) => p.id !== 'search')
-    .map((p) => ({
-      to: p.path,
-      title: p.title,
-      text: p.description,
-      kind: 'page',
-      haystack: [p.title, p.description, ...p.keywords].join(' '),
+// Index every page and case study.
+const buildIndex = (caseStudies: CaseStudy[]): Entry[] =>
+  [
+    ...pages
+      .filter((p) => p.id !== 'search')
+      .map((p) => ({
+        to: p.path,
+        title: p.title,
+        text: p.description,
+        kind: 'page',
+        haystack: [p.title, p.description, ...p.keywords].join(' '),
+      })),
+    ...caseStudies.map((c) => ({
+      to: `/knowledge?case=${c.id}`,
+      title: c.title,
+      text: c.summary,
+      kind: 'case study',
+      haystack: [c.id, c.title, c.kind, c.summary, c.problem, ...c.did, ...c.tools].join(' '),
     })),
-  ...caseStudies.map((c) => ({
-    to: `/knowledge?case=${c.id}`,
-    title: c.title,
-    text: c.summary,
-    kind: 'case study',
-    haystack: [c.id, c.title, c.kind, c.summary, c.problem, ...c.did, ...c.tools].join(' '),
-  })),
-].map((e) => ({ ...e, haystack: e.haystack.toLowerCase() }));
+  ].map((e) => ({ ...e, haystack: e.haystack.toLowerCase() }));
 
 export default function Search() {
+  const { data } = useContent('projects');
   const [query, setQuery] = useState('');
   const q = query.trim().toLowerCase();
-  const results = useMemo(() => (q ? index.filter((e) => e.haystack.includes(q)) : index), [q]);
+  const index = useMemo(() => buildIndex(data?.caseStudies ?? []), [data]);
+  const results = useMemo(() => (q ? index.filter((e) => e.haystack.includes(q)) : index), [q, index]);
 
   return (
     <>

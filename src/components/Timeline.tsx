@@ -1,9 +1,4 @@
-export interface TimelineItem {
-  when: string;
-  title: string;
-  text: string;
-  badge?: string;
-}
+import type { TimelineItem } from '../types/content';
 
 export function Timeline({ items }: { items: TimelineItem[] }) {
   return (

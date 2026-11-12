@@ -3,9 +3,12 @@ import { useSearchParams } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { caseStudies, evolutionConcepts, imagePath, otherProjects, skillGroups } from '../data/projects';
+import { LoadState } from '../components/LoadState';
+import { useContent } from '../hooks/useContent';
+import { imagePath } from '../lib/assets';
 
 export default function Knowledge() {
+  const { data, status, error, retry } = useContent('projects');
   const [params] = useSearchParams();
   const target = params.get('case');
 
@@ -14,7 +17,10 @@ export default function Knowledge() {
     if (!target) return;
     const timer = window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' }), 60);
     return () => window.clearTimeout(timer);
-  }, [target]);
+  }, [target, data]);
+
+  if (!data) return <LoadState status={status} error={error} retry={retry} />;
+  const { caseStudies, otherProjects, skillGroups, evolutionConcepts } = data;
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { Chat } from '../components/Chat';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
-import { profile } from '../data/profile';
+import { SITE } from '../config/site';
 
 export default function Messages() {
   return (
@@ -21,7 +21,7 @@ export default function Messages() {
                 <tr>
                   <th scope="row">LinkedIn</th>
                   <td>
-                    <a href={profile.linkedin}>{profile.linkedinLabel}</a>
+                    <a href={SITE.linkedin}>{SITE.linkedin.replace('https://', '')}</a>
                   </td>
                 </tr>
                 <tr>

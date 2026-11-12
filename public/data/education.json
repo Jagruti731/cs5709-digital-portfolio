@@ -1,0 +1,38 @@
+{
+  "education": [
+    {
+      "when": "Sep 2026 – Aug 2027",
+      "title": "MSc Software Engineering",
+      "text": "University of Limerick, Ireland. Full-time. Modules this semester include CS5709 Software Engineering Evolution.",
+      "badge": "In progress"
+    },
+    {
+      "when": "2016 – 2020",
+      "title": "BE Computer Engineering",
+      "text": "K.V.N. Naik Institute of Engineering Education & Research, Nashik (Savitribai Phule Pune University). Joined in the second year by lateral entry after my diploma. Final-year project: a government-sponsored system to automate an RTI Act office, covering applications, routing, hearings and legal deadlines.",
+      "badge": "CGPA 7.21 / 10, First Class"
+    },
+    {
+      "when": "2013 – 2016",
+      "title": "Diploma in Computer Engineering",
+      "text": "Maharashtra State Board of Technical Education (MSBTE).",
+      "badge": "76.06%, First Class with Distinction"
+    },
+    {
+      "when": "2012 – 2013",
+      "title": "Secondary School Certificate (SSC)",
+      "text": "Sarda Kanya Vidya Mandir, Nashik. Maharashtra State Board.",
+      "badge": "73.60%, First Class"
+    }
+  ],
+  "certifications": [
+    {
+      "title": "Microsoft Azure AI Engineer Associate (AI-102)",
+      "text": "Building and running AI solutions on Azure."
+    },
+    {
+      "title": "Project Management Professional (PMP)",
+      "text": "To formalise the delivery work I already do as a team lead."
+    }
+  ]
+}

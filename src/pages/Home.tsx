@@ -1,11 +1,21 @@
 import { Link } from 'react-router-dom';
+import { LoadState } from '../components/LoadState';
 import { Section } from '../components/Section';
-import { careerPath } from '../data/career';
-import { extras, profile } from '../data/profile';
-import { caseStudies, imagePath } from '../data/projects';
+import { useContent } from '../hooks/useContent';
+import { imagePath } from '../lib/assets';
 
 export default function Home() {
-  const featured = caseStudies.slice(0, 3);
+  const profileFile = useContent('profile');
+  const projectsFile = useContent('projects');
+  const careerFile = useContent('career');
+  const profile = profileFile.data;
+  if (!profile || !projectsFile.data || !careerFile.data) {
+    const failed = [profileFile, projectsFile, careerFile].find((f) => f.status === 'error');
+    return <LoadState status={failed ? 'error' : 'loading'} error={failed?.error} retry={failed?.retry} />;
+  }
+  const featured = projectsFile.data.caseStudies.slice(0, 3);
+  const { careerPath } = careerFile.data;
+  const { extras } = profile;
   return (
     <>
       <section className="hero">

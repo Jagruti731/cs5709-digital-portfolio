@@ -1,11 +1,19 @@
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
+import { LoadState } from '../components/LoadState';
 import { Timeline } from '../components/Timeline';
-import { experience } from '../data/career';
-import { profile } from '../data/profile';
+import { useContent } from '../hooks/useContent';
 
 export default function About() {
+  const profileFile = useContent('profile');
+  const careerFile = useContent('career');
+  const profile = profileFile.data;
+  if (!profile || !careerFile.data) {
+    const failed = profileFile.status === 'error' ? profileFile : careerFile;
+    return <LoadState status={failed.status === 'error' ? 'error' : 'loading'} error={failed.error} retry={failed.retry} />;
+  }
+  const { experience } = careerFile.data;
   return (
     <>
       <PageHeader title="About me" crumb="About" intro="A bit about who I am, how I got here, and what I'm good at." />

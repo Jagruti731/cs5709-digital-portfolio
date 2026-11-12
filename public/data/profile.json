@@ -1,0 +1,111 @@
+{
+  "name": "Jagruti Badgujar",
+  "initials": "JB",
+  "linkedin": "https://in.linkedin.com/in/jagrutibadgujar",
+  "linkedinLabel": "in.linkedin.com/in/jagrutibadgujar",
+  "intro": "I'm a software engineer and team lead from Nashik, India. I spent six years at Winjit Technologies building loan, OCR and integration systems for real clients. This year I'm doing an MSc in Software Engineering at the University of Limerick.",
+  "facts": [
+    {
+      "label": "Now",
+      "value": "MSc student, UL"
+    },
+    {
+      "label": "Before",
+      "value": "Project Engineer & Team Lead, Winjit"
+    },
+    {
+      "label": "Stack",
+      "value": "C#, .NET Core, Angular, Azure"
+    }
+  ],
+  "numbers": [
+    {
+      "value": "6+ years",
+      "label": "at Winjit, from intern to team lead"
+    },
+    {
+      "value": "6",
+      "label": "major projects on my CV"
+    },
+    {
+      "value": "4 banks",
+      "label": "supported by my OCR extractors"
+    },
+    {
+      "value": "1 team",
+      "label": "led on the loan origination platform"
+    }
+  ],
+  "roles": [
+    {
+      "title": "Build",
+      "text": "Full-stack C#, .NET Core and Angular, with SQL Server and microservices on Azure."
+    },
+    {
+      "title": "Lead",
+      "text": "Plan sprints, split work, review code and help newer engineers."
+    },
+    {
+      "title": "Presales",
+      "text": "Turn client needs into solution outlines, estimates and demos."
+    },
+    {
+      "title": "AI adoption",
+      "text": "Bring Copilot and document AI into real projects, and measure if it helps."
+    }
+  ],
+  "story": [
+    "I grew up in Nashik, Maharashtra. After school I took the diploma route into computer engineering, then did my BE through lateral entry. My first job was writing web content for a digital marketing company, which taught me a lot about clear writing.",
+    "In March 2020 I joined Winjit Technologies (part of RIB Group) as an intern. Over six years I worked my way up to Project Engineer and Team Lead. Most of my work has been in fintech: loan origination, credit decisions and reading bank statements automatically.",
+    "A lot of that work was changing systems that were already live. New banks, new lenders and new rules kept coming, and the software had to keep up without breaking. That is a big reason I chose the MSc in Software Engineering at the University of Limerick, and why CS5709 Software Engineering Evolution feels so relevant.",
+    "I use AI tools like GitHub Copilot, Gemini and Claude in my daily work to speed up routine coding, so I can spend more time on design and reviews."
+  ],
+  "quickFacts": [
+    ["From", "Nashik, India"],
+    ["Living in", "Limerick, Ireland"],
+    ["Studying", "MSc Software Engineering, UL (2026–27)"],
+    ["Last role", "Project Engineer & Team Lead, Winjit Technologies"]
+  ],
+  "interests": [
+    {
+      "title": "Music",
+      "text": "Music is how I relax after a long day."
+    },
+    {
+      "title": "Exploring",
+      "text": "I love finding new places. This year that means Limerick and the west of Ireland."
+    }
+  ],
+  "extras": [
+    {
+      "code": "LA",
+      "title": "LexAura, WinTank 2026",
+      "text": "An AI legal operations portal I designed and pitched for Winjit's internal innovation competition."
+    },
+    {
+      "code": "GC",
+      "title": "GitHub Copilot community",
+      "text": "Started an internal Copilot community at Winjit and built a tracker to measure AI adoption in sprints."
+    },
+    {
+      "code": "PS",
+      "title": "Presales for clients",
+      "text": "Credit workflow diagrams, findings reports and case study decks for sales teams."
+    },
+    {
+      "code": "SC",
+      "title": "SACH Constructions, Nashik",
+      "text": "Quotations, bills, progress reports and Instagram growth reports for a local civil contractor."
+    },
+    {
+      "code": "UB",
+      "title": "UL Buddy (in progress)",
+      "text": "A portal to help new international students track everything they need to do after arriving in Ireland."
+    },
+    {
+      "code": "RT",
+      "title": "RTI office automation",
+      "text": "My final-year BE project, sponsored by the government: automating an RTI Act office."
+    }
+  ]
+}
