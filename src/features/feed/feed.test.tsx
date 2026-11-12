@@ -51,3 +51,12 @@ describe('LoadState', () => {
     expect(retry).toHaveBeenCalledOnce();
   });
 });
+
+describe('formatBytes (inspection D2)', () => {
+  it('prints sizes people can read', async () => {
+    const { formatBytes } = await import('./usePostFeed');
+    expect(formatBytes(1_000_000)).toBe('1 MB');
+    expect(formatBytes(1_500_000)).toBe('1.5 MB');
+    expect(formatBytes(500_000)).toBe('500 KB');
+  });
+});

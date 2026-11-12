@@ -5,7 +5,7 @@
  * Loading shows grey placeholder lines (no layout jump); an error shows the
  * reason and a "Try again" button instead of an empty page.
  */
-import type { LoadStatus } from '../store/contentSlice';
+import type { LoadStatus } from '../types/content';
 
 interface LoadStateProps {
   status: LoadStatus;

@@ -65,6 +65,8 @@ export interface GitHubData {
   commits: Commit[];
   /** Requests left this hour, from the X-RateLimit-Remaining header (null if unknown). */
   rateRemaining: number | null;
+  /** True when GitHub could not be reached and a saved copy is shown (inspection D5). */
+  stale: boolean;
   fetchedAt: string;
 }
 
@@ -115,7 +117,10 @@ export function explain(status: number, resetEpochSeconds: string | null): strin
  * GET one API path, using the ETag cache.
  * @returns the data and the remaining rate limit
  */
-export async function getJson<T>(path: string, fetcher: typeof fetch = fetch): Promise<{ data: T; remaining: number | null }> {
+export async function getJson<T>(
+  path: string,
+  fetcher: typeof fetch = fetch,
+): Promise<{ data: T; remaining: number | null; stale?: boolean }> {
   const cached = readCache<T>(path);
   const headers: Record<string, string> = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
   if (cached) headers['If-None-Match'] = cached.etag;
@@ -123,14 +128,14 @@ export async function getJson<T>(path: string, fetcher: typeof fetch = fetch): P
   try {
     res = await fetcher(`${API}${path}`, { headers });
   } catch {
-    if (cached) return { data: cached.data, remaining: null }; // offline: show the last copy
+    if (cached) return { data: cached.data, remaining: null, stale: true }; // offline: show the last copy
     throw new GitHubError('Could not reach GitHub. Check your connection.', 0);
   }
   const remaining = res.headers.get('x-ratelimit-remaining');
   const left = remaining === null ? null : Number(remaining);
   if (res.status === 304 && cached) return { data: cached.data, remaining: left };
   if (!res.ok) {
-    if (cached) return { data: cached.data, remaining: left };
+    if (cached) return { data: cached.data, remaining: left, stale: true };
     throw new GitHubError(explain(res.status, res.headers.get('x-ratelimit-reset')), res.status);
   }
   const data = (await res.json()) as T;
@@ -142,8 +147,8 @@ export async function getJson<T>(path: string, fetcher: typeof fetch = fetch): P
 /** Loads everything the dashboard shows, in parallel. Runs and commits are optional (the repo may be new). */
 export async function loadGitHub(fetcher: typeof fetch = fetch): Promise<GitHubData> {
   const repoPath = `/repos/${GITHUB.user}/${GITHUB.repo}`;
-  const optional = <T>(p: Promise<{ data: T; remaining: number | null }>, empty: T) =>
-    p.catch(() => ({ data: empty, remaining: null as number | null }));
+  const optional = <T>(p: Promise<{ data: T; remaining: number | null; stale?: boolean }>, empty: T) =>
+    p.catch(() => ({ data: empty, remaining: null as number | null, stale: false }));
   const [user, repos, runs, commits] = await Promise.all([
     getJson<GitHubUser>(`/users/${GITHUB.user}`, fetcher),
     getJson<GitHubRepo[]>(`/users/${GITHUB.user}/repos?sort=updated&per_page=30`, fetcher),
@@ -157,6 +162,7 @@ export async function loadGitHub(fetcher: typeof fetch = fetch): Promise<GitHubD
     runs: runs.data.workflow_runs,
     commits: commits.data,
     rateRemaining: remaining.length ? Math.min(...remaining) : null,
+    stale: [user, repos, runs, commits].some((r) => r.stale),
     fetchedAt: new Date().toISOString(),
   };
 }

@@ -4,12 +4,14 @@
 import react from '@vitejs/plugin-react-swc';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
+import { readFileSync } from 'node:fs';
 
 export default defineConfig({
   // Relative asset paths: the same build works on GitHub Pages under any
   // repository name (jagruti731.github.io/cs5709-digital-portfolio/), on any
   // static host, or from a sub-folder. HashRouter needs no server rewrites.
   base: './',
+  define: { __APP_VERSION__: JSON.stringify(JSON.parse(readFileSync('./package.json', 'utf8')).version) },
   plugins: [
     react(),
     // Progressive Web App (CR-23, innovation): installable, and works offline.

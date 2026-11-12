@@ -65,6 +65,10 @@ export function useChat() {
   const [typing, setTyping] = useState('');
   const channel = useRef<BroadcastChannel | null>(null);
   const lastTypingPing = useRef(0);
+  const replyTimers = useRef<number[]>([]);
+
+  // Cancel pending assistant replies when the chat closes (inspection D3: they used to fire after unmount).
+  useEffect(() => () => replyTimers.current.forEach((t) => window.clearTimeout(t)), []);
 
   const append = useCallback((r: Room, m: ChatMessage) => setLog((prev) => appendMessage(prev, r, m)), [setLog]);
 
@@ -99,10 +103,12 @@ export function useChat() {
     append(room, msg);
     if (room === 'assistant') {
       setTyping(`${ASSISTANT} is typing…`);
-      window.setTimeout(() => {
+      const timer = window.setTimeout(() => {
+        replyTimers.current = replyTimers.current.filter((t) => t !== timer);
         setTyping('');
         append('assistant', { id: newId(), from: ASSISTANT, text: answerFor(clean), t: Date.now() });
       }, replyDelay(clean));
+      replyTimers.current.push(timer);
     } else {
       channel.current?.postMessage({ type: 'msg', msg });
     }

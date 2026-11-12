@@ -34,10 +34,11 @@ export function Layout() {
   // Keyboard shortcut: "/" anywhere (outside a text field) opens Search (CR-21).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const typing = (e.target as HTMLElement).closest('input, textarea, select, [contenteditable]');
+      // The target can be the document itself, which has no closest() (inspection D4).
+      const typing = e.target instanceof Element && e.target.closest('input, textarea, select, [contenteditable]');
       if (e.key === '/' && !typing && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
-        navigate('/search');
+        navigate('/search', { state: { focusSearch: true } });
       }
     };
     document.addEventListener('keydown', onKey);

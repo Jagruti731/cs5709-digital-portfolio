@@ -107,6 +107,7 @@ describe('GitHubPanel', () => {
       ],
       commits: [{ sha: 'abcdef12', html_url: '#', commit: { message: 'perfective: x', author: { name: 'J', date: ago(1) } } }],
       rateRemaining: 58,
+      stale: false,
       fetchedAt: ago(0),
     },
   };

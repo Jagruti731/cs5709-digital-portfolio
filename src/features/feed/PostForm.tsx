@@ -21,12 +21,15 @@ interface PostFormProps {
 export function PostForm({ askName, guestName, onGuestName, onPublish, status, onStatus, savedWhere }: PostFormProps) {
   const [text, setText] = useState('');
   const [image, setImage] = useState<string | null>(null);
+  // Changing the key empties the file input, so the same picture can be chosen again (inspection D6).
+  const [fileKey, setFileKey] = useState(0);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (await onPublish(text, image)) {
       setText('');
       setImage(null);
+      setFileKey((k) => k + 1);
     }
   };
 
@@ -58,7 +61,7 @@ export function PostForm({ askName, guestName, onGuestName, onPublish, status, o
       <div className="post-form-row">
         <label className="file-label">
           Add an image
-          <input type="file" accept="image/*" onChange={(e) => pickImage(e.target.files?.[0])} />
+          <input key={fileKey} type="file" accept="image/*" onChange={(e) => pickImage(e.target.files?.[0])} />
         </label>
         {image && <img className="thumb" src={image} alt="Selected" />}
         <button className="btn" type="submit">

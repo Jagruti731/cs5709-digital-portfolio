@@ -96,7 +96,8 @@ export function GitHubPanel() {
           @{data.user.login}
         </a>{' '}
         at {new Date(data.fetchedAt).toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
-        {data.rateRemaining !== null && ` · ${data.rateRemaining} API requests left this hour`}.{' '}
+        {data.rateRemaining !== null && ` · ${data.rateRemaining} API requests left this hour`}
+        {data.stale && ' · GitHub could not be reached, so this is a saved copy'}.{' '}
         <button className="text-btn" type="button" onClick={refresh} disabled={status === 'loading'}>
           {status === 'loading' ? 'Refreshing…' : 'Refresh'}
         </button>

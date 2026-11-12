@@ -86,3 +86,8 @@ describe('highlight', () => {
     expect(parts.map((p) => p.text).join('')).toBe('OCR reads PDFs; ocr is fast');
   });
 });
+
+it('marks every repeated match, not every other one (inspection D1)', () => {
+  const parts = highlight('ocr ocr ocr ocr', ['ocr']);
+  expect(parts.filter((p) => p.match)).toHaveLength(4);
+});

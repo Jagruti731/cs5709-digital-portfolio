@@ -208,9 +208,12 @@ export interface Segment {
 export function highlight(text: string, terms: string[]): Segment[] {
   const words = terms.filter((t) => t.length > 1).map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   if (words.length === 0) return [{ text, match: false }];
-  const pattern = new RegExp(`(${words.sort((a, b) => b.length - a.length).join('|')})`, 'gi');
+  const alternatives = words.sort((a, b) => b.length - a.length).join('|');
+  const splitter = new RegExp(`(${alternatives})`, 'gi');
+  // A separate, non-global pattern: a global RegExp keeps lastIndex between test() calls (inspection D1).
+  const isMatch = new RegExp(`^(?:${alternatives})$`, 'i');
   return text
-    .split(pattern)
+    .split(splitter)
     .filter(Boolean)
-    .map((part) => ({ text: part, match: pattern.test(part) && (pattern.lastIndex = 0) === 0 }));
+    .map((part) => ({ text: part, match: isMatch.test(part) }));
 }

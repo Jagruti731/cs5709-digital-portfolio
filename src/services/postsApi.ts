@@ -7,7 +7,7 @@
  * Now the API is used only when the site is built with VITE_API_URL;
  * otherwise posts stay in this browser and no request is made.
  */
-import type { CommentItem, PostItem } from '../store/postsSlice';
+import type { CommentItem, PostItem } from '../types/posts';
 const API_URL: string | undefined = import.meta.env.VITE_API_URL;
 const STORAGE_KEY = 'postfeed.posts';
 
