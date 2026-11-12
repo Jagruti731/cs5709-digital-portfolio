@@ -4,11 +4,13 @@
  * Also sets the browser tab title, scrolls to the top on each navigation, and
  * moves focus to the page content when the skip link is used (CR-14).
  */
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SITE } from '../config/site';
 import { pages } from '../lib/navigation';
 import { Footer } from './Footer';
+import { LoadState } from './LoadState';
+import { PageErrorBoundary } from './PageErrorBoundary';
 import { Navbar } from './Navbar';
 
 /** The app shell shared by every route: skip link, navigation bar, the routed page and the footer. */
@@ -37,7 +39,11 @@ export function Layout() {
       </a>
       <Navbar />
       <main id="main" tabIndex={-1}>
-        <Outlet />
+        <PageErrorBoundary resetKey={pathname}>
+          <Suspense fallback={<LoadState status="loading" />}>
+            <Outlet />
+          </Suspense>
+        </PageErrorBoundary>
       </main>
       <Footer />
     </>

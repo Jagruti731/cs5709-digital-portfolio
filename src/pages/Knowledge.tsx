@@ -36,7 +36,7 @@ export default function Knowledge() {
       <Section title="Case studies" intro="The four projects I learned the most from.">
         {caseStudies.map((c) => (
           <article className="case" id={c.id} key={c.id}>
-            <img src={imagePath(c.image)} alt={c.title} loading="lazy" width={1200} height={800} />
+            <img src={imagePath(c.image)} alt={c.title} loading="lazy" decoding="async" width={1200} height={800} />
             <div>
               <h3 className="case-title">{c.title}</h3>
               <p className="meta">{c.meta}</p>

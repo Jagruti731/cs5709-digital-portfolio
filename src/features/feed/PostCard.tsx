@@ -26,7 +26,7 @@ export function PostCard({ post, me, onLike, onComment }: PostCardProps) {
         {post.author} · {shortDate(post.createdAt)}
       </p>
       <p className="post-text">{post.content}</p>
-      {post.image && <img className="post-image" src={post.image} alt={`Image posted by ${post.author}`} loading="lazy" />}
+      {post.image && <img className="post-image" src={post.image} alt={`Image posted by ${post.author}`} loading="lazy" decoding="async" />}
       <div className="post-actions">
         <button className="text-btn" type="button" aria-pressed={liked} onClick={onLike}>
           {liked ? 'Liked' : 'Like'} ({likedBy.length})
