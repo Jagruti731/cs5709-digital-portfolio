@@ -79,12 +79,23 @@ VITE_API_URL=http://localhost:5000 npm run dev
 │   ├── features/             feature folders: logic in a hook, display in components
 │   │   ├── feed/             usePostFeed · PostForm · PostCard · SignInForm
 │   │   ├── chat/             useChat · answers · Chat
-│   │   └── docs/             README renderer · Requirements · ChangeLog
+│   │   ├── docs/             README renderer · Requirements · ChangeLog
+│   │   ├── search/           search engine · documents · useSearch
+│   │   ├── github/           live GitHub panel
+│   │   ├── quality/          code quality dashboard
+│   │   ├── motion/           GSAP hooks
+│   │   ├── projects/         case-study filter
+│   │   └── pwa/              install, offline and update notices
 │   ├── components/           shared UI: Layout, Navbar, Section, Card, LoadState …
 │   ├── pages/                one file per route
 │   └── styles/global.css     the only stylesheet
-└── tools/                    API test, browser test, diagram renderer, metrics
+└── tools/                    API test, browser test, quality report, code index, diagram renderer
 ```
+
+![Site scheme](public/diagrams/site-scheme-v2.svg)
+
+**Site scheme.** Home and nine menu pages share one navigation bar; Search sits outside the menu and is
+opened with the Search button or the `/` key; unknown addresses show Not found.
 
 Every source file starts with an `@file` JSDoc comment that says what the file does and where its data
 comes from, and exported functions have JSDoc comments.
@@ -178,10 +189,12 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 
 | Level | Tool | What is checked |
 | --- | --- | --- |
-| Unit | Vitest | reducers, content validation of every real JSON file, chat answers, README renderer |
-| Component | Vitest + Testing Library | PostCard, LoadState, image size limit |
-| API | bash + curl (`tools/api-test.sh`) | 16 checks: auth, ownership, body limit, corrupt-file safety |
-| Browser | Playwright (`tools/browser-test.mjs`) | every route renders, navigation, filters, chat, no console errors |
+| Unit | Vitest | reducers; every real JSON file against its shape rule; search engine (tokens, BM25, typos, highlighting); case-study filter; GitHub service with a fake `fetch`; chat answers and limits; README renderer |
+| Component | Vitest + Testing Library (jsdom) | PostCard, LoadState, Requirements and Change log tabs, both Dashboard tabs |
+| API | bash + curl (`tools/api-test.sh`) | 16 checks: accounts, ownership, comment author from the token, body limit, corrupt-file safety |
+| Browser | Playwright (`tools/browser-test.mjs`) | 15 walkthrough checks: every route, skip link, gallery, video, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, no console errors |
+
+All four levels run in the pipeline; the Dashboard shows the latest results (section 12.4).
 
 ### 8.1 Inspection of the Phase 2 code
 
