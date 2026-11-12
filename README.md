@@ -178,7 +178,51 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 | API | bash + curl (`tools/api-test.sh`) | 16 checks: auth, ownership, body limit, corrupt-file safety |
 | Browser | Playwright (`tools/browser-test.mjs`) | every route renders, navigation, filters, chat, no console errors |
 
-## 9. Response to the reviews
+## 9. CI/CD pipeline
+
+`.github/workflows/ci-cd.yml` runs on every push to any branch, on pull requests to `main`, and by hand
+(*Run workflow*). It has four jobs:
+
+![CI/CD pipeline](public/diagrams/pipeline.svg)
+
+**Figure 4. The pipeline.** `quality` and `api` run in parallel; `build` starts only if both pass;
+`deploy` runs only for a push to `main`.
+
+| Job | Steps | Fails when |
+| --- | --- | --- |
+| `quality` | `npm ci`, ESLint, Prettier, `tsc`, Vitest with coverage; reports kept as an artifact | any lint warning, unformatted file, type error, failing test, or coverage below 50% |
+| `api` | `npm ci` in `server/`, `tools/api-test.sh` | any of the 16 API checks returns the wrong status |
+| `build` | `vite build`, Playwright walkthrough of the built site, upload of `build/` as the Pages artifact | the build fails, or any walkthrough step fails |
+| `deploy` | `actions/deploy-pages` to the `github-pages` environment | (only runs after `build` passes on `main`) |
+
+Design decisions:
+
+- **Fail fast, deploy once.** Cheap checks run first and in parallel; the site is built once, tested,
+  and that exact artifact is deployed. Nothing reaches the live site without passing every check.
+- **Least privilege.** The workflow token can only read the repository; only `deploy` gets
+  `pages: write` and `id-token: write`.
+- **Reproducible.** `npm ci` installs exactly the versions in `package-lock.json`; Node 22 everywhere.
+- **No wasted runs.** A newer push cancels the older run on the same branch, but a deployment that
+  has started is never cancelled.
+- **Kept evidence.** Test, coverage and browser reports are uploaded as artifacts for 14 days.
+- **Dependencies stay current.** Dependabot (`.github/dependabot.yml`) opens weekly update pull
+  requests, and each one has to pass the same pipeline.
+
+Run the same checks locally before pushing: `npm run ci`.
+
+## 10. Deployment (GitHub Pages)
+
+The site is static, so GitHub Pages serves it directly; there is no server to run.
+
+1. One-time setup: repository **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Push to `main`. The `deploy` job publishes the tested `build/` folder.
+3. The URL appears on the run summary and under **Environments → github-pages**.
+
+Two choices make the same build work under the repository sub-folder (`/cs5709-digital-portfolio/`):
+Vite builds with relative paths (`base: './'`), and `HashRouter` keeps every route inside `index.html`
+(`/#/about`), so a refresh on any page never returns a 404.
+
+## 13. Response to the reviews
 
 Phase 2 started from two reviews of Phase 1: the lecturer's feedback (12.5/15) and the peer review by
 Chirag Aggarwal (2026).
@@ -198,16 +242,16 @@ Chirag Aggarwal (2026).
 | 11 | 1 MB images exceed the 100 kB body limit | Peer | Limit 2 MB, covered by a test | CR-14 |
 | 12 | Replace hard-coded pass counts with assertions; unit tests | Peer | 16 asserted API checks; Vitest suite | CR-14, CR-16 |
 | 13 | Generate the README page from one source | Peer | Readme page renders this file | CR-17 |
-| 14 | Add the debt register as a numbered table | Peer | Section 12 below | CR-17 |
+| 14 | Add the debt register as a numbered table | Peer | Section 16 | CR-17 |
 | 15 | Name the recovery methods; add a generated dependency graph | Peer | Section 4.1 (partitioning) and the quality dashboard | CR-17, CR-24 |
 | 16 | Add the live link to the README | Peer | First line of this file | CR-17 |
-| 17 | Switch references to APA style | Peer | Section 13 | CR-17 |
+| 17 | Switch references to APA style | Peer | Section 17 | CR-17 |
 | 18 | Remove the 18 pages of CSS from the report | Peer | The Phase 2 report links to the code instead | report |
 
 Not applied: the suggestion to keep stories in a Volere shell. A JSON file in the repository was chosen
 instead, because it is versioned with the code and checked by a unit test.
 
-## 10. Coding standards
+## 14. Coding standards
 
 - TypeScript strict mode; no `any` outside tests.
 - ESLint (`eslint.config.js`): recommended JavaScript and TypeScript rules, React hooks rules,
@@ -216,12 +260,12 @@ instead, because it is versioned with the code and checked by a unit test.
 - File names: components and pages in PascalCase, hooks start with `use`, tests end in `.test.ts(x)`.
 - Commits: `<maintenance type>: <what changed> (CR-nn)`, with the reason in the body.
 
-## 11. Change log
+## 15. Change log
 
 The full list, with a filter by phase and maintenance type, is on the Readme page under **Change log**
 (`public/data/changelog.json`).
 
-## 12. Technical-debt register (Phase 1)
+## 16. Technical-debt register (Phase 1)
 
 | ID | Debt found in the starter | Fixed by |
 | --- | --- | --- |
@@ -238,7 +282,7 @@ The full list, with a filter by phase and maintenance type, is on the Readme pag
 | TD-11 | Video gallery depends on YouTube embeds | CR-05 |
 | TD-12 | README and architecture document out of step with the code | CR-09, CR-17 |
 
-## 13. References
+## 17. References
 
 Aggarwal, C. (2026). *Assessment 2: Project peer review of “Digital Portfolio: Phase 1”* [Unpublished peer review]. University of Limerick.
 

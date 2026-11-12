@@ -1,7 +1,15 @@
-// Smoke test of the built site in Chromium (Playwright).
-// Usage: npm run build, serve build/ (e.g. npx vite preview --port 4173), then
-//   node tools/browser-test.mjs http://localhost:4173/
-// Set PW_CHROMIUM to a Chromium binary if Playwright's own browser is not installed.
+/**
+ * @file End-to-end walkthrough of the built site in Chromium (Playwright).
+ *
+ * Each check follows a step a persona takes (see README section 5, Requirements) and
+ * asserts the result; the script exits with status 1 if any check fails,
+ * so the CI/CD pipeline stops before deployment.
+ * Results are also written to coverage/e2e-results.json for the quality dashboard.
+ * Usage: npm run build && npm run preview, then
+ *   node tools/browser-test.mjs http://localhost:4173/
+ * Set PW_CHROMIUM to a Chromium binary if Playwright's own browser is not installed.
+ */
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { chromium } from 'playwright';
 
 const base = process.argv[2] || 'http://localhost:4173/';
@@ -21,14 +29,29 @@ const go = async (path) => {
 
 // 1. Every route renders a heading; an unknown route renders NotFound.
 const routes = ['/', '/about', '/education', '/knowledge', '/gallery', '/videos', '/blog', '/messages', '/search', '/readme'];
+const failedRoutes = [];
 let rendered = 0;
 for (const r of routes) {
   await go(r);
   if ((await page.locator('main h1').count()) === 1) rendered++;
+  else failedRoutes.push(r);
 }
 await go('/no-such-page');
 const notFound = (await page.locator('main h1').textContent())?.includes('not found');
-check('All ten routes render one h1; unknown route shows NotFound', rendered === 10 && notFound, `${rendered + (notFound ? 1 : 0)}/11`);
+check(
+  `All ${routes.length} routes render one h1; unknown route shows NotFound`,
+  rendered === routes.length && notFound,
+  `${rendered + (notFound ? 1 : 0)}/${routes.length + 1}${failedRoutes.length ? `, failed: ${failedRoutes.join(' ')}` : ''}`,
+);
+
+// 1b. The skip link moves focus to the content without changing the route (CR-14).
+await go('/about');
+await page.keyboard.press('Tab');
+await page.keyboard.press('Enter');
+check(
+  'Skip link focuses the content and keeps the route',
+  page.url().endsWith('#/about') && (await page.evaluate(() => document.activeElement?.id)) === 'main',
+);
 
 // 2. Navbar marks the current page; title follows the route.
 await go('/education');
@@ -55,10 +78,11 @@ const moved = (await page.locator('.lightbox figcaption').textContent())?.includ
 await page.keyboard.press('Escape');
 const closed = (await page.locator('.lightbox').count()) === 0;
 const focusBack = await page.evaluate(() => document.activeElement?.closest('.shot') !== null);
+const galleryParts = [places === 3, open, moved, closed, focusBack];
 check(
   'Gallery filter and Lightbox (filter, open, arrow key, Escape, focus return)',
-  places === 3 && open && moved && closed && focusBack,
-  '5/5',
+  galleryParts.every(Boolean),
+  `${galleryParts.filter(Boolean).length}/${galleryParts.length}`,
 );
 
 // 5. Video playlist.
@@ -82,7 +106,8 @@ const commented = (await page.locator('.comment').count()) >= 1;
 await page.reload();
 await page.waitForTimeout(500);
 const survived = (await page.locator('.post-text', { hasText: 'Hello from the browser test' }).count()) === 1;
-check('Blog feed: publish, like, comment; post survives a reload', posted && liked && commented && survived, '4/4');
+const feedParts = [posted, liked, commented, survived];
+check('Blog feed: publish, like, comment; post survives a reload', feedParts.every(Boolean), `${feedParts.filter(Boolean).length}/4`);
 
 // 7. Messaging: assistant reply and lounge delivery to a second tab.
 await go('/messages');
@@ -99,7 +124,29 @@ await page.locator('.chat-compose button').click();
 await second.waitForTimeout(600);
 const delivered = (await second.locator('.bubble', { hasText: 'Hello other tab' }).count()) === 1;
 await second.close();
-check('Messages: assistant answers; lounge message reaches a second tab once', answered && delivered, '2/2');
+check(
+  'Messages: assistant answers; lounge message reaches a second tab once',
+  answered && delivered,
+  `${[answered, delivered].filter(Boolean).length}/2`,
+);
+
+// 7b. Readme page: README rendered with contents; requirements traced; change log filter.
+await go('/readme');
+const tocItems = await page.locator('.readme-toc li').count();
+await page.getByRole('tab', { name: 'Requirements' }).click();
+await page.waitForTimeout(400);
+const personas = await page.locator('.requirements .card').count();
+await page.getByRole('button', { name: /^Phase 2/ }).click();
+const phase2Rows = await page.locator('.requirements tbody tr').count();
+await page.getByRole('tab', { name: 'Change log' }).click();
+await page.waitForTimeout(400);
+await page.getByRole('button', { name: /^corrective/ }).click();
+const correctiveRows = await page.locator('tbody tr').count();
+check(
+  'Readme: contents, 3 personas, Phase 2 feature filter, change-log type filter',
+  tocItems > 10 && personas === 3 && phase2Rows > 11 && correctiveRows >= 2,
+  `toc ${tocItems}, personas ${personas}, rows ${phase2Rows}/${correctiveRows}`,
+);
 
 // 8. Search.
 await go('/search');
@@ -136,4 +183,9 @@ check('No JavaScript errors in the console during the run', errors.length === 0,
 await browser.close();
 
 for (const r of results) console.log(`${r.ok ? 'PASS' : 'FAIL'}  ${r.name}${r.detail ? `  (${r.detail})` : ''}`);
+mkdirSync(new URL('../coverage/', import.meta.url), { recursive: true });
+writeFileSync(
+  new URL('../coverage/e2e-results.json', import.meta.url),
+  JSON.stringify({ ranAt: new Date().toISOString(), results }, null, 2),
+);
 process.exit(results.every((r) => r.ok) ? 0 : 1);

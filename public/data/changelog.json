@@ -134,5 +134,13 @@
     "closes": "Peer review",
     "commit": "this commit",
     "phase": 2
+  },
+  {
+    "id": "CR-18",
+    "change": "CI/CD pipeline with GitHub Actions: lint, format, types, unit and API tests, build, browser walkthrough, deployment to GitHub Pages; Dependabot",
+    "type": "preventive",
+    "closes": "Brief iteration 4, peer review",
+    "commit": "this commit",
+    "phase": 2
   }
 ]

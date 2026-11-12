@@ -1,0 +1,17 @@
+flowchart LR
+  push(["git push<br/>or pull request"]) --> Q
+  push --> A
+  subgraph Q["quality job"]
+    q1["npm ci"] --> q2["ESLint<br/>0 warnings"] --> q3["Prettier<br/>check"] --> q4["tsc strict"] --> q5["Vitest +<br/>coverage ≥ 50%"]
+  end
+  subgraph A["api job"]
+    a1["npm ci (server)"] --> a2["16 API checks<br/>temp DATA_DIR"]
+  end
+  subgraph B["build job"]
+    b1["vite build"] --> b2["Playwright<br/>walkthrough"] --> b3["quality report"] --> b4["upload Pages<br/>artifact"]
+  end
+  Q --> B
+  A --> B
+  B --> D{"branch = main<br/>and push?"}
+  D -- yes --> E["deploy job<br/>actions/deploy-pages"] --> L(["live: jagruti731.github.io/<br/>cs5709-digital-portfolio"])
+  D -- no --> S(["checks only"])
