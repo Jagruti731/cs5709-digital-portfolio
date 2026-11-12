@@ -9,6 +9,9 @@
  */
 import { useEffect, useState } from 'react';
 
+/** How long the "now works offline" notice stays on screen. */
+const OFFLINE_NOTICE_MS = 6000;
+
 /** The non-standard event Chromium fires when the site can be installed. */
 interface InstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -48,6 +51,13 @@ export function usePwa() {
       });
     });
   }, []);
+
+  // The "works offline" notice is information, not a question: it hides itself after a few seconds.
+  useEffect(() => {
+    if (!offlineReady) return;
+    const timer = window.setTimeout(() => setOfflineReady(false), OFFLINE_NOTICE_MS);
+    return () => window.clearTimeout(timer);
+  }, [offlineReady]);
 
   const install = async () => {
     if (!installEvent) return;
