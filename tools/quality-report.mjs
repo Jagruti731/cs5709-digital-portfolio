@@ -72,13 +72,20 @@ async function lintAndComplexity() {
     if (/\.test\.tsx?$/.test(r.filePath)) continue;
     for (const m of r.messages) {
       const match = /^(.*) has a complexity of (\d+)/.exec(m.message);
-      if (m.ruleId === 'complexity' && match) functions.push({ name: match[1].replace(/^(Async )?(Arrow )?(F|f)unction /, '').replace(/'/g, ''), file: relative(root, r.filePath), line: m.line, complexity: Number(match[2]) });
+      if (m.ruleId === 'complexity' && match)
+        functions.push({
+          name: match[1].replace(/^(Async )?(Arrow )?(F|f)unction /, '').replace(/'/g, ''),
+          file: relative(root, r.filePath),
+          line: m.line,
+          complexity: Number(match[2]),
+        });
     }
   }
   functions.sort((a, b) => b.complexity - a.complexity);
   const values = functions.map((f) => f.complexity);
   const buckets = { '1–4 (simple)': 0, '5–8 (moderate)': 0, '9–12 (complex)': 0, '13+ (too complex)': 0 };
-  for (const v of values) buckets[v <= 4 ? '1–4 (simple)' : v <= 8 ? '5–8 (moderate)' : v <= 12 ? '9–12 (complex)' : '13+ (too complex)'] += 1;
+  for (const v of values)
+    buckets[v <= 4 ? '1–4 (simple)' : v <= 8 ? '5–8 (moderate)' : v <= 12 ? '9–12 (complex)' : '13+ (too complex)'] += 1;
   return {
     lint: { errors, warnings, filesChecked: results.length },
     complexity: {
@@ -127,12 +134,21 @@ function bundle() {
   const html = readFileSync(at('build/index.html'), 'utf8');
   const entry = /src="\.\/assets\/(index-[\w-]+\.js)"/.exec(html)?.[1];
   // GSAP's core also builds to a chunk called "index"; name chunks by what they contain.
-  const label = (f, text) => (f === entry ? 'main (app shell)' : f.startsWith('index-') && text.includes('GreenSock') ? 'gsap (core)' : f.replace(/-[\w-]{8}\.js$/, ''));
+  const label = (f, text) =>
+    f === entry
+      ? 'main (app shell)'
+      : f.startsWith('index-') && text.includes('GreenSock')
+        ? 'gsap (core)'
+        : f.replace(/-[\w-]{8}\.js$/, '');
   const chunks = readdirSync(dir)
     .filter((f) => f.endsWith('.js'))
     .map((f) => {
       const buf = readFileSync(join(dir, f));
-      return { name: label(f, buf.toString('utf8', 0, 4000)), kb: Math.round(buf.length / 102.4) / 10, gzipKb: Math.round(gzipSync(buf).length / 102.4) / 10 };
+      return {
+        name: label(f, buf.toString('utf8', 0, 4000)),
+        kb: Math.round(buf.length / 102.4) / 10,
+        gzipKb: Math.round(gzipSync(buf).length / 102.4) / 10,
+      };
     })
     .sort((a, b) => b.kb - a.kb);
   const main = entry ? gzipSync(readFileSync(join(dir, entry))).length : 0;
@@ -199,7 +215,13 @@ function evolution() {
     const src = files.filter((f) => /^src\/.*\.(ts|tsx|js|jsx|css)$/.test(f) && !f.startsWith('src/assets/'));
     const lines = src.reduce((n, f) => n + git(`show ${ref}:"${f}"`).split('\n').length, 0);
     const pkg = JSON.parse(git(`show ${ref}:package.json`) || '{}');
-    return { ref, sourceFiles: src.length, sourceLines: lines, runtimeDependencies: Object.keys(pkg.dependencies ?? {}).length, commits: Number(git(`rev-list --count ${ref}`)) };
+    return {
+      ref,
+      sourceFiles: src.length,
+      sourceLines: lines,
+      runtimeDependencies: Object.keys(pkg.dependencies ?? {}).length,
+      commits: Number(git(`rev-list --count ${ref}`)),
+    };
   };
   const types = { corrective: 0, adaptive: 0, perfective: 0, preventive: 0 };
   const range = git('rev-parse --verify --quiet v1.0') ? 'v1.0..HEAD' : 'HEAD';
@@ -214,7 +236,9 @@ function evolution() {
 const report = {
   generatedAt: new Date().toISOString(),
   commit: git('rev-parse --short HEAD') || 'unknown',
-  runUrl: process.env.GITHUB_RUN_ID ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}` : null,
+  runUrl: process.env.GITHUB_RUN_ID
+    ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+    : null,
   tests: tests(),
   coverage: coverage(),
   ...(await lintAndComplexity()),
