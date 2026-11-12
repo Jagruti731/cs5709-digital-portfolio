@@ -2,7 +2,7 @@ flowchart LR
   push(["git push<br/>or pull request"]) --> Q
   push --> A
   subgraph Q["quality job"]
-    q1["npm ci"] --> q2["ESLint<br/>0 warnings"] --> q3["Prettier<br/>check"] --> q4["tsc strict"] --> q5["Vitest +<br/>coverage ≥ 50%"]
+    q1["npm ci"] --> q2["ESLint<br/>0 warnings"] --> q3["Prettier<br/>check"] --> q4["tsc strict"] --> q5["Vitest +<br/>coverage ≥ 60%"]
   end
   subgraph A["api job"]
     a1["npm ci (server)"] --> a2["16 API checks<br/>temp DATA_DIR"]
