@@ -1,6 +1,6 @@
 # CI/CD pipeline for the portfolio (CR-18, Phase 2 iteration 4).
 #
-# Every push and pull request runs the checks. A push to main that passes
+# Every push to main and every pull request runs the checks. A push to main that passes
 # every check is built once and deployed to GitHub Pages automatically:
 #
 #   quality ──┐
@@ -10,9 +10,12 @@
 # One-time setup in the repository: Settings > Pages > Source: "GitHub Actions".
 name: CI/CD
 
+# A push to main is checked and deployed; a pull request (including Dependabot's) is
+# checked once before it can be merged. Pushes to other branches are checked through
+# their pull request, so no change is tested twice.
 on:
   push:
-    branches: ['**']
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch: {}
