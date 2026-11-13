@@ -44,7 +44,9 @@ export default defineConfig({
         // App shell: HTML, every JS chunk, CSS, fonts, icons and the JSON content are cached at install,
         // so every page works offline even if it was never opened.
         globPatterns: ['**/*.{js,css,html,svg,woff2,png,ico,webmanifest,json}'],
-        globIgnores: ['**/images/**', '**/videos/**', '**/diagrams/**'],
+        // The Firebase SDK (index.esm-*.js, about 170 kB gzip) is left out of the install download:
+        // it is fetched only when a visitor opens the feed or lounge, then cached (CR-31).
+        globIgnores: ['**/images/**', '**/videos/**', '**/diagrams/**', '**/assets/index.esm-*.js'],
         navigateFallback: 'index.html',
         runtimeCaching: [
           {
@@ -52,6 +54,12 @@ export default defineConfig({
             urlPattern: ({ url }) => url.pathname.includes('/data/') && url.pathname.endsWith('.json'),
             handler: 'NetworkFirst',
             options: { cacheName: 'content', networkTimeoutSeconds: 4, expiration: { maxEntries: 30 } },
+          },
+          {
+            // Firebase SDK chunks: file names change when the code changes, so cache first is safe.
+            urlPattern: ({ url }) => /\/assets\/index\.esm-[\w-]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'firebase-sdk', expiration: { maxEntries: 10 } },
           },
           {
             // Pictures and diagrams rarely change: cache first, refresh after 30 days.

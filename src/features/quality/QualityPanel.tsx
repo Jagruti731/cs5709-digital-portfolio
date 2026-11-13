@@ -37,9 +37,9 @@ function Bars({ rows, max, unit = '', marker }: { rows: [string, number][]; max:
 
 const ZERO = { passed: 0, total: 0 };
 
-/** All automated checks added together: unit, API and browser. */
+/** All automated checks added together: unit, API, security rules and browser. */
 function allChecks(t: QualityReport['tests']) {
-  const parts = [t.unit ?? ZERO, t.api ?? ZERO, t.e2e ?? ZERO];
+  const parts = [t.unit ?? ZERO, t.api ?? ZERO, t.rules ?? ZERO, t.e2e ?? ZERO];
   return { passed: parts.reduce((n, p) => n + p.passed, 0), total: parts.reduce((n, p) => n + p.total, 0) };
 }
 
@@ -127,14 +127,15 @@ function Conformance({ a }: { a: QualityReport['architecture'] }) {
   );
 }
 
-/** "70 unit and component tests in 12 files · 16 API checks · 15 browser checks" */
-const testSummary = ({ unit, api, e2e }: QualityReport['tests']) =>
-  `${unit?.total ?? 0} unit and component tests in ${unit?.files ?? 0} files · ${api?.total ?? 0} API checks · ${e2e?.total ?? 0} browser checks`;
+/** "70 unit and component tests in 12 files · 16 API checks · 28 security rules checks · 15 browser checks" */
+const testSummary = ({ unit, api, rules, e2e }: QualityReport['tests']) =>
+  `${unit?.total ?? 0} unit and component tests in ${unit?.files ?? 0} files · ${api?.total ?? 0} API checks · ${rules?.total ?? 0} security rules checks · ${e2e?.total ?? 0} browser checks`;
 
 function TestsAndCoverage({ r }: { r: QualityReport }) {
   const tests: [string, number][] = [
     ['Unit + component', passRate(r.tests.unit) ?? 0],
     ['API', passRate(r.tests.api) ?? 0],
+    ['Security rules', passRate(r.tests.rules ?? null) ?? 0],
     ['Browser walkthrough', passRate(r.tests.e2e) ?? 0],
   ];
   const c = r.coverage;

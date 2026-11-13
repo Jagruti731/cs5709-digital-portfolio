@@ -9,7 +9,7 @@ import type { PostItem } from '../../store/postsSlice';
 
 interface PostCardProps {
   post: PostItem;
-  /** The current visitor's name, used to show whether they liked this post. */
+  /** What this visitor's like is recorded as (visitor id in the shared feed, name otherwise). */
   me: string;
   onLike: () => void;
   onComment: (text: string) => void;

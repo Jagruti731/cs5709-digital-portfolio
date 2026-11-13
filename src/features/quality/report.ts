@@ -14,7 +14,7 @@ export interface QualityReport {
   generatedAt: string;
   commit: string;
   runUrl: string | null;
-  tests: { unit: (PassCount & { files: number }) | null; api: PassCount | null; e2e: PassCount | null };
+  tests: { unit: (PassCount & { files: number }) | null; api: PassCount | null; e2e: PassCount | null; rules?: PassCount | null };
   coverage: { lines: number; statements: number; functions: number; branches: number } | null;
   lint: { errors: number; warnings: number; filesChecked: number };
   complexity: {

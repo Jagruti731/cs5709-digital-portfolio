@@ -4,7 +4,8 @@
  * Run by the CI/CD pipeline after the tests and the build; writes build/quality.json,
  * which is deployed with the site. Every number comes from a tool, not from a person:
  *
- *  - tests: Vitest (unit, component), the API script and the Playwright walkthrough
+ *  - tests: Vitest (unit, component), the API script, the Firestore security rules
+ *    tests (emulator) and the Playwright walkthrough
  *  - coverage: Vitest v8 coverage summary
  *  - lint: ESLint errors and warnings, run through its Node API
  *  - complexity: cyclomatic complexity of every function (ESLint's complexity rule at 0)
@@ -42,11 +43,13 @@ function tests() {
   const unit = readJson(at('coverage/test-results.json'));
   const api = readJson(at('coverage/api-results.json'));
   const e2e = readJson(at('coverage/e2e-results.json'));
+  const rules = readJson(at('coverage/rules-results.json'));
   const count = (list) => ({ passed: list.filter((r) => r.ok).length, total: list.length });
   return {
     unit: unit ? { passed: unit.numPassedTests, total: unit.numTotalTests, files: unit.testResults.length } : null,
     api: api ? count(api.results) : null,
     e2e: e2e ? count(e2e.results) : null,
+    rules: rules ? count(rules.results) : null,
   };
 }
 
@@ -251,7 +254,7 @@ const out = existsSync(at('build')) ? at('build/quality.json') : at('public/qual
 writeFileSync(out, JSON.stringify(report, null, 2) + '\n');
 console.log(`quality report: ${relative(root, out)}`);
 console.log(
-  `tests ${report.tests.unit?.passed}/${report.tests.unit?.total} unit, ${report.tests.api?.passed}/${report.tests.api?.total} API, ${report.tests.e2e?.passed}/${report.tests.e2e?.total} browser · ` +
+  `tests ${report.tests.unit?.passed}/${report.tests.unit?.total} unit, ${report.tests.api?.passed}/${report.tests.api?.total} API, ${report.tests.e2e?.passed}/${report.tests.e2e?.total} browser, ${report.tests.rules?.passed}/${report.tests.rules?.total} rules · ` +
     `coverage ${report.coverage?.lines}% · lint ${report.lint.errors}/${report.lint.warnings} · complexity avg ${report.complexity.average} max ${report.complexity.max} · ` +
     `divergences ${report.architecture.divergences.length}`,
 );

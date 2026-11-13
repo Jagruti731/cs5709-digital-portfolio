@@ -4,12 +4,16 @@
  * Peer review: "do the same [split] for Chat.tsx", and "magic numbers (Chat:98)".
  * Two conversations:
  *   - assistant: answers at once from the rule table in answers.ts
- *   - lounge: delivers messages live to every open tab through BroadcastChannel
- * History is kept in localStorage and capped at LIMITS.chatHistory messages per room.
+ *   - lounge: shared live with every visitor on every device through Firestore
+ *     (CR-31, F20); without a Firebase project it falls back to BroadcastChannel,
+ *     which reaches only the other open tabs of this browser
+ * History is kept in localStorage and capped at LIMITS.chatHistory messages per room;
+ * in the cloud the lounge shows the newest messages from the database instead.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CHAT_TIMING, LIMITS } from '../../config/site';
 import { useStoredState } from '../../hooks/useStoredState';
+import { cloudEnabled, sendLoungeMessage, subscribeLounge } from '../../services/cloud';
 import { newId } from '../../lib/ids';
 import { answerFor } from './answers';
 
@@ -26,6 +30,9 @@ export const ROOMS: Record<Room, { name: string; status: string }> = {
   assistant: { name: 'Ask Jagruti', status: 'answers straight away' },
   lounge: { name: 'Visitor lounge', status: 'live between open tabs' },
 };
+
+/** The lounge status line for the backend in use. */
+export const loungeStatus = (cloud: boolean): string => (cloud ? 'live with every visitor' : ROOMS.lounge.status);
 
 const CHANNEL_NAME = 'jb-portfolio-chat';
 const ASSISTANT = 'Jagruti';
@@ -66,6 +73,27 @@ export function useChat() {
   const channel = useRef<BroadcastChannel | null>(null);
   const lastTypingPing = useRef(0);
   const replyTimers = useRef<number[]>([]);
+  const [cloud] = useState(cloudEnabled);
+  const [shared, setShared] = useState<ChatMessage[]>([]);
+  const [error, setError] = useState('');
+
+  // Cloud lounge: newest messages from every visitor, live.
+  useEffect(() => {
+    if (!cloud) return;
+    let stop: (() => void) | undefined;
+    let closed = false;
+    const fail = () => setError('The shared lounge is not reachable right now.');
+    subscribeLounge((list) => {
+      setShared(list.map((m) => parseIncoming({ type: 'msg', msg: m })).filter((m): m is ChatMessage => m !== null));
+      setError('');
+    }, fail)
+      .then((s) => (closed ? s() : (stop = s)))
+      .catch(fail);
+    return () => {
+      closed = true;
+      stop?.();
+    };
+  }, [cloud]);
 
   // Cancel pending assistant replies when the chat closes (inspection D3: they used to fire after unmount).
   useEffect(() => () => replyTimers.current.forEach((t) => window.clearTimeout(t)), []);
@@ -100,6 +128,10 @@ export function useChat() {
     const clean = text.trim();
     if (!clean) return;
     const msg: ChatMessage = { id: newId(), from: me, text: clean, t: Date.now() };
+    if (room === 'lounge' && cloud) {
+      sendLoungeMessage(me, clean).catch(() => setError('Your message was not sent.'));
+      return;
+    }
     append(room, msg);
     if (room === 'assistant') {
       setTyping(`${ASSISTANT} is typing…`);
@@ -126,5 +158,6 @@ export function useChat() {
     setTyping('');
   };
 
-  return { me, room, switchRoom, messages: log[room], typing, send, notifyTyping };
+  const messages = room === 'lounge' && cloud ? shared : log[room];
+  return { me, room, switchRoom, messages, typing: room === 'lounge' && error ? error : typing, send, notifyTyping, cloud };
 }

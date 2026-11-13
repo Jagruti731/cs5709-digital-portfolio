@@ -4,8 +4,8 @@
 # every check is built once and deployed to GitHub Pages automatically:
 #
 #   quality ──┐
-#             ├──> build + browser test + quality report ──> deploy (main only)
-#   api ──────┘
+#   api ──────┼──> build + browser test + quality report ──> deploy (main only)
+#   rules ────┘   (Firestore security rules in the emulator, CR-31)
 #
 # One-time setup in the repository: Settings > Pages > Source: "GitHub Actions".
 name: CI/CD
@@ -83,9 +83,39 @@ jobs:
           path: coverage/api-results.json
           retention-days: 14
 
+  rules:
+    name: Firestore security rules tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - uses: actions/setup-java@v4 # the Firestore emulator runs on Java
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Cache the Firestore emulator
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/firebase/emulators
+          key: firebase-emulators-${{ hashFiles('package-lock.json') }}
+      - run: npm ci
+      - name: Allowed and refused reads and writes, checked in the emulator
+        run: npm run test:rules
+      - name: Keep the rules test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rules-test-results
+          path: coverage/rules-results.json
+          retention-days: 14
+
   build:
     name: Build and browser walkthrough
-    needs: [quality, api]
+    needs: [quality, api, rules]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

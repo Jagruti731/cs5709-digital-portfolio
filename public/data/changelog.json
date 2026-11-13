@@ -236,6 +236,14 @@
     "change": "Leaner site from my LinkedIn profile: 7 menu items, Pictures and Videos merged into Gallery, shorter text everywhere, Blog excerpts, fewer animations",
     "type": "perfective",
     "closes": "Owner feedback: 'too bulky'",
+    "commit": "c68c618",
+    "phase": 2
+  },
+  {
+    "id": "CR-31",
+    "change": "Shared community feed and visitor lounge on Firebase: anonymous sign-in, Cloud Firestore with live listeners, security rules tested in the emulator in CI; falls back to this browser when no project is set",
+    "type": "adaptive",
+    "closes": "F18, F19, F20 (planned in Phase 1)",
     "commit": "this commit",
     "phase": 2
   }

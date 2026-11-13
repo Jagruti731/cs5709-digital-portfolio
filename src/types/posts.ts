@@ -16,6 +16,8 @@ export interface CommentItem {
 export interface PostItem {
   id: string;
   author: string;
+  /** The anonymous visitor id of the author (shared feed only, CR-31). */
+  authorId?: string;
   content: string;
   createdAt: string;
   image?: string | null;

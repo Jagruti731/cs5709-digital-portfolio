@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { LIMITS } from '../../config/site';
 import { clockTime } from '../../lib/ids';
 import { SUGGESTIONS } from './answers';
-import { ROOMS, useChat, type Room } from './useChat';
+import { loungeStatus, ROOMS, useChat, type Room } from './useChat';
 
 export function Chat() {
   const chat = useChat();
@@ -29,7 +29,7 @@ export function Chat() {
         {(Object.keys(ROOMS) as Room[]).map((r) => (
           <button key={r} role="tab" type="button" aria-selected={chat.room === r} onClick={() => chat.switchRoom(r)}>
             <b>{ROOMS[r].name}</b>
-            <small>{ROOMS[r].status}</small>
+            <small>{r === 'lounge' ? loungeStatus(chat.cloud) : ROOMS[r].status}</small>
           </button>
         ))}
       </div>

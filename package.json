@@ -6,6 +6,7 @@
   "dependencies": {
     "@fontsource/carlito": "^5.3.0",
     "@reduxjs/toolkit": "^2.9.0",
+    "firebase": "^12.19.0",
     "gsap": "3.13",
     "marked": "^15.0.12",
     "react": "^18.3.1",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@firebase/rules-unit-testing": "^5.0.2",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^22.20.5",
@@ -25,6 +27,7 @@
     "eslint": "^9.39.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.26",
+    "firebase-tools": "^15.36.0",
     "globals": "^15.15.0",
     "jsdom": "^25.0.1",
     "mermaid": "^11.17.2",
@@ -48,6 +51,7 @@
     "test:coverage": "vitest run --coverage",
     "test:api": "bash tools/api-test.sh",
     "test:e2e": "node tools/browser-test.mjs",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-portfolio \"node tools/rules-test.mjs\"",
     "quality": "node tools/quality-report.mjs",
     "ci": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run build",
     "codeindex": "node tools/build-code-index.mjs",

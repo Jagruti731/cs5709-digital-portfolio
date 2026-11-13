@@ -11,13 +11,19 @@
 import { PostCard } from './PostCard';
 import { PostForm } from './PostForm';
 import { SignInForm } from './SignInForm';
-import { usePostFeed } from './usePostFeed';
+import { usePostFeed, type FeedMode } from './usePostFeed';
+
+const SAVED_WHERE: Record<FeedMode, string> = {
+  cloud: 'Posts are shared live with every visitor.',
+  server: 'Posts are saved on the server.',
+  local: 'Posts are saved in this browser.',
+};
 
 export function CommunityFeed() {
   const feed = usePostFeed();
   return (
     <div className="feed">
-      {feed.usesServer && <SignInForm signedInAs={feed.signedInAs} onSignIn={feed.signIn} onSignOut={feed.signOut} />}
+      {feed.mode === 'server' && <SignInForm signedInAs={feed.signedInAs} onSignIn={feed.signIn} onSignOut={feed.signOut} />}
       <PostForm
         askName={!feed.signedInAs}
         guestName={feed.guestName}
@@ -25,14 +31,14 @@ export function CommunityFeed() {
         onPublish={feed.publish}
         status={feed.status}
         onStatus={feed.setStatus}
-        savedWhere={feed.usesServer ? 'Posts are saved on the server.' : 'Posts are saved in this browser.'}
+        savedWhere={SAVED_WHERE[feed.mode]}
       />
       {feed.posts.length === 0 && <p className="muted">No posts yet. Be the first to write one.</p>}
       {feed.posts.map((post) => (
         <PostCard
           key={post.id}
           post={post}
-          me={feed.me}
+          me={feed.likeId}
           onLike={() => feed.like(post.id)}
           onComment={(text) => feed.comment(post.id, text)}
         />

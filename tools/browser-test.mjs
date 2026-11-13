@@ -18,6 +18,8 @@ const check = (name, ok, detail = '') => results.push({ name, ok: Boolean(ok), d
 
 const browser = await chromium.launch(process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {});
 const context = await browser.newContext({ viewport: { width: 1360, height: 900 } });
+// The test must never write to the real shared feed: keep the feed and lounge in this browser (CR-31).
+await context.addInitScript(() => localStorage.setItem('jb.backend', 'local'));
 // The GitHub API is replaced by a recorded-style answer, so the test never depends on
 // the network or on GitHub's hourly limit (shared CI machines often reach it).
 const hoursAgo = (h) => new Date(Date.now() - h * 3600e3).toISOString();
@@ -279,6 +281,7 @@ check(
 
 // 11. Installable offline app (CR-23): a manifest, a service worker, and pages that open with no network.
 const appContext = await browser.newContext();
+await appContext.addInitScript(() => localStorage.setItem('jb.backend', 'local'));
 const app = await appContext.newPage();
 await app.goto(base);
 await app.evaluate(() => navigator.serviceWorker.ready);

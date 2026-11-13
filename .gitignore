@@ -20,3 +20,6 @@ server/posts.json
 coverage/
 public/data/codeindex.json
 public/quality.json
+firebase-debug.log
+firestore-debug.log
+.firebase/

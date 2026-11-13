@@ -68,12 +68,14 @@ VITE_API_URL=http://localhost:5000 npm run dev
 │   ├── diagrams/             rendered diagrams (SVG)
 │   └── images/ videos/       media
 ├── server/                   optional Express API (posts, comments, likes, accounts)
+├── firestore.rules           security rules of the shared feed and lounge (Firebase)
 ├── src/
 │   ├── main.tsx · App.tsx    entry point and router
 │   ├── routes.tsx            page list joined with page components
 │   ├── config/site.ts        site constants and limits (no magic numbers in components)
+│   ├── config/firebase.ts    Firebase project settings (public) and collection names
 │   ├── types/content.ts      typed contracts for every JSON file
-│   ├── services/             the only code that talks to the network or storage
+│   ├── services/             the only code that talks to the network or storage (cloud.ts: Firebase)
 │   ├── store/                Redux slices: content, posts, auth, github
 │   ├── hooks/                useContent, useStoredState, typed Redux hooks
 │   ├── features/             feature folders: logic in a hook, display in components
@@ -90,7 +92,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 │   ├── components/           shared UI: Layout, Navbar, Section, Card, LoadState …
 │   ├── pages/                one file per route
 │   └── styles/global.css     the only stylesheet
-└── tools/                    API test, browser test, quality report, code index, diagram renderer
+└── tools/                    API, rules and browser tests, quality report, code index, diagram renderer
 ```
 
 ![Site scheme](public/diagrams/site-scheme-v2.svg)
@@ -192,11 +194,12 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 | Level | Tool | What is checked |
 | --- | --- | --- |
 | Unit | Vitest | reducers; every real JSON file against its shape rule; search engine (tokens, BM25, typos, highlighting); case-study filter; GitHub service with a fake `fetch`; chat answers and limits; README renderer |
-| Component | Vitest + Testing Library (jsdom) | PostCard, LoadState, Requirements and Change log tabs, both Dashboard tabs |
+| Component | Vitest + Testing Library (jsdom) | PostCard, LoadState, Requirements and Change log tabs, both Dashboard tabs; the shared feed and lounge with a fake cloud service |
 | API | bash + curl (`tools/api-test.sh`) | 16 checks: accounts, ownership, comment author from the token, body limit, corrupt-file safety |
+| Security rules | Firestore emulator + `@firebase/rules-unit-testing` (`tools/rules-test.mjs`) | 28 checks of what a visitor may and may not read or write: posting in someone else's name, fake times, unknown fields, liking for someone else, editing comments, deleting other people's posts |
 | Browser | Playwright (`tools/browser-test.mjs`) | 15 walkthrough checks: every route, skip link, gallery, video, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, no console errors |
 
-All four levels run in the pipeline; the Dashboard shows the latest results (section 12.4).
+All five levels run in the pipeline; the Dashboard shows the latest results (section 12.4).
 
 ### 8.1 Inspection of the Phase 2 code
 
@@ -224,17 +227,18 @@ Exit criteria: every finding fixed, all checks green, and no divergence left in 
 ## 9. CI/CD pipeline
 
 `.github/workflows/ci-cd.yml` runs on every push to `main`, on every pull request to `main` (including
-Dependabot's), and by hand (*Run workflow*). It has four jobs:
+Dependabot's), and by hand (*Run workflow*). It has five jobs:
 
 ![CI/CD pipeline](public/diagrams/pipeline.svg)
 
-**Figure 4. The pipeline.** `quality` and `api` run in parallel; `build` starts only if both pass;
+**Figure 4. The pipeline.** `quality`, `api` and `rules` run in parallel; `build` starts only if all three pass;
 `deploy` runs only for a push to `main`.
 
 | Job | Steps | Fails when |
 | --- | --- | --- |
 | `quality` | `npm ci`, ESLint, Prettier, `tsc`, Vitest with coverage; reports kept as an artifact | any lint warning, unformatted file, type error, failing test, or coverage below 60% |
 | `api` | `npm ci` in `server/`, `tools/api-test.sh` | any of the 16 API checks returns the wrong status |
+| `rules` | Java 21, the Firestore emulator (cached), `tools/rules-test.mjs` | any security rules check is allowed when it should be refused, or the other way round |
 | `build` | `vite build`, Playwright walkthrough of the built site, the quality report (`quality.json`, section 12.4), upload of `build/` as the Pages artifact | the build fails, or any walkthrough step fails |
 | `deploy` | `actions/deploy-pages` to the `github-pages` environment | (only runs after `build` passes on `main`) |
 
@@ -423,6 +427,23 @@ The first run found two divergences, which were then fixed (see the change log, 
 `services/postsApi.ts` imported its types from the Redux store, and `components/LoadState.tsx`
 imported a type from the store. Both now import from `types/`, so the matrix has no red cells.
 
+### 12.5 Shared live feed and lounge (Firebase)
+
+In Phase 1 the community feed lived in one browser and the visitor lounge only reached other tabs of
+the same browser, so features F18–F20 were planned for "later". CR-31 delivers them without a server
+to run: the feed and lounge are stored in **Cloud Firestore** and every visitor, on any device, sees
+new posts, likes, comments and messages within about a second (Firestore listeners, no polling).
+
+| Concern | How it is handled |
+| --- | --- |
+| Who wrote it | Visitors are signed in **anonymously** (Firebase Authentication). The anonymous id is saved with each post, comment and message. |
+| Protecting the data | The web config is public, so the protection is in `firestore.rules`, checked by Firebase for every request: public reading; writing only as yourself; only known fields; text lengths; image type and size; server time only; a like adds or removes only your own id; no editing of comments or messages; only the author deletes a post. |
+| Testing the rules | `tools/rules-test.mjs` runs 28 allowed/refused checks in the Firestore emulator in the `rules` CI job. The browser test switches the cloud off (`jb.backend = local`) so CI never writes to the real database. |
+| Untrusted input | Documents pass through `services/cloudMap.ts` (types forced, lengths capped, only `data:image/…` pictures) before React sees them. |
+| Picture size | `features/feed/shrinkImage.ts` redraws a picture at most 1000 px and saves it as JPEG under 400 KB, as a Firestore document holds at most 1 MiB. |
+| Page weight | The Firebase SDK is loaded with `import()` only when the feed or lounge opens, so the main bundle did not grow. |
+| Design | `usePostFeed` picks one of three modes (cloud, server, local). No component changed, which is what the CR-13 split was meant to allow. Without a Firebase project (for example in a fork) the site keeps the Phase 1 behaviour. |
+
 ## 13. Response to the reviews
 
 Phase 2 started from two reviews of Phase 1: the lecturer's feedback (12.5/15) and the peer review by
@@ -492,6 +513,8 @@ Carroll, J. M. (2000). *Making use: Scenario-based design of human-computer inte
 Cooper, A. (2004). *The inmates are running the asylum: Why high-tech products drive us crazy and how to restore the sanity*. Sams.
 
 Fagan, M. E. (1976). Design and code inspections to reduce errors in program development. *IBM Systems Journal, 15*(3), 182–211. https://doi.org/10.1147/sj.153.0182
+
+Google. (2026). *Get started with Cloud Firestore Security Rules*. Firebase documentation. https://firebase.google.com/docs/firestore/security/get-started
 
 Levenshtein, V. I. (1966). Binary codes capable of correcting deletions, insertions, and reversals. *Soviet Physics Doklady, 10*(8), 707–710.
 

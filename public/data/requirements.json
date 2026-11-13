@@ -215,24 +215,24 @@
     },
     {
       "id": "F18",
-      "name": "Hosted API so every visitor shares one feed",
+      "name": "Shared feed: every visitor sees the same posts (Firebase)",
       "group": "Platform",
-      "phase": 3,
-      "status": "planned"
+      "phase": 2,
+      "status": "done"
     },
     {
       "id": "F19",
-      "name": "Database instead of JSON files on the server",
+      "name": "Database instead of browser storage (Cloud Firestore, security rules)",
       "group": "Platform",
-      "phase": 3,
-      "status": "planned"
+      "phase": 2,
+      "status": "done"
     },
     {
       "id": "F20",
-      "name": "Real-time messaging across devices (WebSockets)",
+      "name": "Real-time feed and lounge across devices (Firestore listeners)",
       "group": "Community",
-      "phase": 3,
-      "status": "planned"
+      "phase": 2,
+      "status": "done"
     },
     {
       "id": "F21",

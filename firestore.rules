@@ -1,0 +1,88 @@
+rules_version = '2';
+
+// Security rules for the shared community feed and visitor lounge (CR-31).
+// The web config in src/config/firebase.ts is public, so these rules are what
+// actually protect the data. Firebase checks them on its servers for every request.
+//
+//  - Anyone may read (the feed is public, like the rest of the site).
+//  - Writing needs a signed-in (anonymous) visitor, and the author id must be the
+//    caller's own id, so nobody can post in someone else's name.
+//  - Every field is checked: only known fields, string lengths, image type and size,
+//    and the time must be the server's time, not one sent by the browser.
+//  - A like may add or remove only the caller's own id; nothing else in a post changes.
+//  - Comments and lounge messages cannot be edited or deleted; a post only by its author.
+//  - Everything else is closed.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function text(value, max) {
+      return value is string && value.size() >= 1 && value.size() <= max;
+    }
+
+    function ownedNew() {
+      return signedIn() && request.resource.data.authorId == request.auth.uid;
+    }
+
+    function validImage(image) {
+      return image == null
+        || (image is string && image.size() <= 400000 && image.matches('data:image/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+'));
+    }
+
+    // Only the caller's own id is added to, or removed from, likedBy.
+    function onlyOwnLike() {
+      let before = resource.data.likedBy.toSet();
+      let after = request.resource.data.likedBy.toSet();
+      let me = [request.auth.uid].toSet();
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy'])
+        && request.resource.data.likedBy is list
+        && request.resource.data.likedBy.size() <= 10000
+        && ((after.difference(before) == me && before.difference(after).size() == 0)
+          || (before.difference(after) == me && after.difference(before).size() == 0));
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if ownedNew()
+        && request.resource.data.keys().hasOnly(['author', 'authorId', 'content', 'image', 'createdAt', 'likedBy'])
+        && request.resource.data.keys().hasAll(['author', 'authorId', 'content', 'image', 'createdAt', 'likedBy'])
+        && text(request.resource.data.author, 40)
+        && text(request.resource.data.content, 1000)
+        && validImage(request.resource.data.image)
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.likedBy == [];
+      allow update: if signedIn() && onlyOwnLike();
+      allow delete: if signedIn() && resource.data.authorId == request.auth.uid;
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if ownedNew()
+        && request.resource.data.keys().hasOnly(['postId', 'author', 'authorId', 'content', 'createdAt'])
+        && request.resource.data.postId is string
+        && exists(/databases/$(database)/documents/posts/$(request.resource.data.postId))
+        && text(request.resource.data.author, 40)
+        && text(request.resource.data.content, 400)
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    match /lounge/{messageId} {
+      allow read: if true;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['from', 'fromId', 'text', 't'])
+        && request.resource.data.fromId == request.auth.uid
+        && text(request.resource.data.from, 40)
+        && text(request.resource.data.text, 1000)
+        && request.resource.data.t == request.time;
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
