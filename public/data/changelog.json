@@ -244,6 +244,14 @@
     "change": "Shared community feed and visitor lounge on Firebase: anonymous sign-in, Cloud Firestore with live listeners, security rules tested in the emulator in CI; falls back to this browser when no project is set",
     "type": "adaptive",
     "closes": "F18, F19, F20 (planned in Phase 1)",
+    "commit": "26a3bf3",
+    "phase": 2
+  },
+  {
+    "id": "CR-32",
+    "change": "Visitor lounge: the empty-room hint describes the shared lounge, not the old 'open a second tab' test",
+    "type": "corrective",
+    "closes": "Found while testing CR-31 on the live site",
     "commit": "this commit",
     "phase": 2
   }

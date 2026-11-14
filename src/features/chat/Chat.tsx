@@ -35,7 +35,11 @@ export function Chat() {
       </div>
       <div className="chat-log" ref={logRef} aria-live="polite">
         {chat.room === 'lounge' && chat.messages.length === 0 && (
-          <p className="note">Open this page in a second tab or window and send a message. It appears in the other tab straight away.</p>
+          <p className="note">
+            {chat.cloud
+              ? 'No messages yet. Say hello: everyone visiting the site sees it straight away, on any device.'
+              : 'Open this page in a second tab or window and send a message. It appears in the other tab straight away.'}
+          </p>
         )}
         {chat.messages.map((m) => (
           <div key={m.id} className={`bubble${m.from === chat.me ? ' me' : ''}`}>
