@@ -386,6 +386,15 @@ line by line, the Nashik to Limerick route draws itself, the photo arch opens fr
 bars sweep in and the status dots pulse. It is CSS only (no new JavaScript), runs once, and is switched
 off completely when the visitor's system asks for reduced motion (WCAG 2.2, 2.3.3).
 
+CR-40 is a complete redesign, after the owner said she did not like the vibe and wanted everything aligned
+with the assignments. The portfolio is a software-evolution project, so it now looks like one: a dark
+"evolution log" (section 11 of `global.css`) with a lime accent, mono labels and the four maintenance types
+(corrective, adaptive, perfective, preventive) as the only other colours. Home tells the story of the three
+assignments (A1 lecturer feedback, A2 peer review, A3 this site), draws a git log of the versions, and shows
+the change requests by maintenance type with the newest commits, all read from `changelog.json`
+(`features/evolution`). The motion is in the style of motion-graphics prompts: two kinetic type lines, an
+underline that draws, a log that writes itself and bars that fill. It is CSS only and is off for reduced motion.
+
 ## 12. Innovation
 
 Four features go beyond a static GitHub Pages portfolio and beyond what was covered in class.

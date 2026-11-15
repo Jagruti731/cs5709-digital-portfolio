@@ -1,11 +1,13 @@
 /**
  * @file Home page: introduction with my photo, a live system status strip, four key numbers and three featured projects.
  * Content: profile.json and projects.json; the status strip reads quality.json from the pipeline (CR-33).
- * CR-36: "Nashik to Limerick" design: route line, serif name, arched portrait.
+ * CR-40: redesigned around the CS5709 assignments: version log, three assignments, evolution numbers.
  */
 import { Link } from 'react-router-dom';
 import { LoadState } from '../components/LoadState';
 import { Section } from '../components/Section';
+import { Assignments, GitLog } from '../features/evolution/Parts';
+import { EvolutionLog } from '../features/evolution/EvolutionLog';
 import { SiteStatus } from '../features/quality/SiteStatus';
 import { useContent } from '../hooks/useContent';
 import { imagePath } from '../lib/assets';
@@ -24,38 +26,32 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-text">
-            <p className="route" aria-label="From Nashik, India to Limerick, Ireland">
-              <span>Nashik</span>
+            <p className="route" aria-label="CS5709 Software Engineering Evolution, University of Limerick">
+              <span>CS5709</span>
               <i aria-hidden="true" />
-              <span>Limerick</span>
+              <span>evolution</span>
             </p>
             <h1>
-              {profile.name.split(' ')[0]} <em>{profile.name.split(' ').slice(1).join(' ')}</em>
+              <span className="line">Software is never finished.</span>
+              <span className="line">
+                It <em>evolves.</em>
+              </span>
             </h1>
-            <p className="hello">Tech Consultant · .NET · Azure · Agentic AI · MSc @ UL</p>
-            <p className="intro">{profile.intro}</p>
-            <ul className="quick-facts">
-              {profile.facts.map((f) => (
-                <li key={f.label}>
-                  <b>{f.label}</b> {f.value}
-                </li>
-              ))}
-            </ul>
+            <p className="hello">{profile.name} · Tech Consultant · .NET · Azure · Agentic AI · MSc @ UL</p>
+            <p className="intro">
+              This portfolio is my evolution project. I took my Phase 1 site, listened to the lecturer and to my peer reviewer, and changed
+              it one change request at a time, with a type, a commit and a test for each.
+            </p>
             <div className="btn-row">
-              <Link className="btn" to="/knowledge">
-                See my work
+              <Link className="btn" to="/readme">
+                See the evolution
               </Link>
-              <Link className="btn outline" to="/messages">
-                Contact me
+              <Link className="btn outline" to="/knowledge">
+                See my work
               </Link>
             </div>
           </div>
-          {profile.photo && (
-            <figure className="hero-portrait">
-              <img src={imagePath(profile.photo)} alt={profile.name} width={400} height={400} decoding="async" />
-              <figcaption>MSc Software Engineering · University of Limerick</figcaption>
-            </figure>
-          )}
+          <GitLog name={profile.name} photo={profile.photo} />
         </div>
       </section>
       <div className="status-band">
@@ -64,7 +60,15 @@ export default function Home() {
         </div>
       </div>
 
-      <Section alt>
+      <Section kicker="01 / the three assignments" title="Every assignment became a change on this site">
+        <Assignments />
+      </Section>
+
+      <Section kicker="02 / evolution in numbers" title="Four kinds of maintenance, one change log" alt>
+        <EvolutionLog />
+      </Section>
+
+      <Section>
         <div className="numbers">
           {profile.numbers.map((n) => (
             <div key={n.label}>
@@ -75,7 +79,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section kicker="01 / selected work" title="Systems I have built and led">
+      <Section kicker="03 / selected work" title="Systems I have built and led">
         <div className="grid g3">
           {featured.map((c, i) => (
             <article className="work-card" key={c.id}>

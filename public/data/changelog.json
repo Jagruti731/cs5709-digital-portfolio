@@ -308,6 +308,14 @@
     "change": "Opening quality.json or a data file directly now shows the file; the offline app used to answer every address with the Home page",
     "type": "corrective",
     "closes": "Found by the owner on the live site",
+    "commit": "4c50076",
+    "phase": 2
+  },
+  {
+    "id": "CR-40",
+    "change": "Complete redesign as an \"evolution log\": dark engineered look with a lime accent, mono labels and the four maintenance types as colours; Home now tells the three assignments (A1, A2, A3), shows the change requests by maintenance type and the newest commits from the change log, with a git-log of versions; kinetic type, a log that writes itself and bars that fill (CSS only, off for reduced motion)",
+    "type": "perfective",
+    "closes": "Owner feedback: did not like the portfolio vibe; align with the assignments",
     "commit": "this commit",
     "phase": 2
   }

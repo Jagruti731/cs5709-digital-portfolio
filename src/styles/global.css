@@ -3180,3 +3180,676 @@ h2 {
     box-shadow: 0 0 0 5px rgba(60, 207, 158, 0.25);
   }
 }
+
+/* ------------------------------------------------------------------------
+ * 11 "Evolution log" theme (CR-40)
+ *
+ * Owner feedback on CR-37: "I am not liking the portfolio vibe, redesign everything and align it
+ * with the assignments". The portfolio is a software-evolution project, so it now looks like the
+ * thing it is about: a dark, engineered log. Near-black ink, hairline grid, mono labels, one
+ * lime accent and one blue, and the four maintenance types as the only other colours.
+ * Headings are Inter (heavy, tight); labels are JetBrains Mono. The Fraunces serif and the
+ * saffron/green paper theme of section 9 are replaced. Tokens are redefined, so every component
+ * from sections 1-9 picks the new look up; rules below restyle the shapes. Dark is the default;
+ * the theme toggle switches to a light version.
+ * --------------------------------------------------------------------- */
+:root,
+:root:not([data-theme='light']),
+:root[data-theme='dark'] {
+  --bg: #0a0e17;
+  --bg-alt: #0e1422;
+  --card: #111a2b;
+  --text: #e8edf7;
+  --muted: #93a1bb;
+  --border: #1f2b42;
+  --accent: #b8f34a;
+  --accent-soft: #1a2a12;
+  --saffron: #b8f34a;
+  --green: #5cc8ff;
+  --green-soft: #0f2536;
+  --ink: #0a0e17;
+  --paper: #e8edf7;
+  --on-primary: #0a0e17;
+  --nav-bg: rgba(10, 14, 23, 0.88);
+  --nav-text: #e8edf7;
+  --nav-muted: #93a1bb;
+  --nav-line: #1f2b42;
+  --t-corrective: #ff6b6b;
+  --t-adaptive: #5cc8ff;
+  --t-perfective: #b8f34a;
+  --t-preventive: #ffc857;
+  --radius: 8px;
+  --heading: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --flag: linear-gradient(90deg, var(--t-corrective), var(--t-adaptive), var(--t-perfective), var(--t-preventive));
+  --grid-line: rgba(147, 161, 187, 0.07);
+}
+:root[data-theme='light'] {
+  --bg: #f5f7fb;
+  --bg-alt: #eaeff7;
+  --card: #ffffff;
+  --text: #0b1020;
+  --muted: #53607a;
+  --border: #d3dbea;
+  --accent: #1d4ed8;
+  --accent-soft: #dfe7fb;
+  --saffron: #1d4ed8;
+  --green: #0a7ea4;
+  --green-soft: #d9eef6;
+  --ink: #0b1020;
+  --paper: #f5f7fb;
+  --on-primary: #ffffff;
+  --nav-bg: rgba(245, 247, 251, 0.9);
+  --nav-text: #0b1020;
+  --nav-muted: #53607a;
+  --nav-line: #d3dbea;
+  --t-corrective: #d92d2d;
+  --t-adaptive: #0a7ea4;
+  --t-perfective: #3f7d00;
+  --t-preventive: #b8860b;
+  --grid-line: rgba(11, 16, 32, 0.06);
+}
+body {
+  font: 400 16.5px/1.65 var(--body);
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--heading);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  font-variation-settings: normal;
+}
+h2 {
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  line-height: 1.1;
+}
+.section,
+.section.alt {
+  background: transparent;
+  border-top: 1px solid var(--border);
+}
+.section.alt {
+  background: color-mix(in srgb, var(--bg-alt) 85%, transparent);
+}
+.section-title .kicker,
+.kicker {
+  font: 500 12px/1 var(--code);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+.section-title .kicker:before {
+  content: '> ';
+}
+
+/* Navigation: flat bar, lime underline, square logo mark. */
+.logo-mark {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-primary);
+  border-radius: 6px;
+  font: 700 13px/1 var(--code);
+}
+.logo-name {
+  font: 700 1.05rem/1 var(--heading);
+  letter-spacing: -0.02em;
+}
+.nav-links a {
+  font: 500 13px/1 var(--code);
+  text-transform: lowercase;
+}
+.nav-links a[aria-current='page'] {
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.navbar .icon-btn {
+  border-radius: 6px;
+  font-family: var(--code);
+  font-size: 12px;
+}
+
+/* Buttons: square-ish, mono. */
+.btn,
+.hero .btn {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: var(--on-primary);
+  border-radius: 6px;
+  font: 600 13px/1 var(--code);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 14px 20px;
+}
+.btn:hover,
+.hero .btn:hover,
+.hero .btn.outline:hover {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+.btn.outline,
+.hero .btn.outline,
+.section .btn.outline {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* Hero: two big lines, and a git log of the versions. */
+.hero {
+  background: transparent;
+  background-image:
+    radial-gradient(45% 55% at 85% 0%, rgba(92, 200, 255, 0.12), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, rgba(184, 243, 74, 0.08), transparent 70%);
+  padding-block: 84px 72px;
+}
+.hero .container.hero-grid {
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+  gap: 56px;
+  align-items: start;
+}
+.route {
+  font: 500 12px/1 var(--code);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+.route i {
+  background: linear-gradient(90deg, var(--t-corrective), var(--t-adaptive), var(--t-perfective), var(--t-preventive));
+}
+.route i:before,
+.route i:after {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.hero h1 {
+  font: 800 clamp(2.6rem, 6.4vw, 5.2rem) / 1 var(--heading);
+  letter-spacing: -0.05em;
+  color: var(--text);
+}
+.hero h1 .line {
+  display: block;
+}
+.hero h1 em {
+  display: inline;
+  font: 800 1em/1 var(--heading);
+  font-style: normal;
+  color: var(--accent);
+  background: linear-gradient(transparent 82%, color-mix(in srgb, var(--accent) 35%, transparent) 82%);
+}
+.hero .hello {
+  font: 500 13px/1.5 var(--code);
+  color: var(--muted);
+}
+.hero .hello:before {
+  content: '$ ';
+  color: var(--accent);
+}
+.hero p.intro {
+  font-size: 1.12rem;
+  color: var(--text);
+  max-width: 56ch;
+}
+.gitlog {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--code);
+  font-size: 13px;
+  overflow: hidden;
+}
+.gitlog-head {
+  margin: 0;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+.gitlog-head:before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--t-corrective);
+  box-shadow:
+    16px 0 0 var(--t-preventive),
+    32px 0 0 var(--t-perfective);
+  margin-right: 46px;
+}
+.gitlog ol {
+  list-style: none;
+  margin: 0;
+  padding: 18px 16px 10px 26px;
+  position: relative;
+}
+.gitlog ol:before {
+  content: '';
+  position: absolute;
+  left: 31px;
+  top: 28px;
+  bottom: 24px;
+  width: 2px;
+  background: var(--border);
+}
+.gitlog li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 10px;
+  padding: 0 0 16px 18px;
+  line-height: 1.45;
+}
+.gitlog li:before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 4px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+}
+.gitlog li:first-child:before {
+  background: var(--accent);
+}
+.gitlog code {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+.gitlog li span {
+  color: var(--muted);
+}
+.gitlog-me {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+.gitlog-me img {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: center 20%;
+  border: 1px solid var(--border);
+}
+
+/* Status band: a terminal strip. */
+.status-band {
+  background: var(--bg-alt);
+  border-block: 1px solid var(--border);
+}
+.site-status {
+  font-family: var(--code);
+}
+
+/* Banners on inner pages. */
+.page-banner {
+  background: transparent;
+  border-bottom: 0;
+  padding-block: 56px 36px;
+}
+.page-banner:after {
+  background: var(--flag);
+  height: 3px;
+}
+.page-banner h1 {
+  font: 800 clamp(2.2rem, 5vw, 3.6rem) / 1.02 var(--heading);
+  letter-spacing: -0.045em;
+}
+.page-banner .crumbs {
+  font: 500 12px/1 var(--code);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Cards: hairline panels, lime top edge on hover. */
+.card,
+.work-card,
+.track,
+.cert-list li,
+.assign-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: none;
+}
+.work-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 24px 50px -32px var(--accent);
+}
+.work-card .kind,
+.case .meta,
+.timeline time {
+  font: 500 12px/1.4 var(--code);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.work-card h3 {
+  font-size: 1.3rem;
+}
+.tags li {
+  font: 500 11.5px/1.4 var(--code);
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 4px;
+}
+.chip {
+  font: 500 12px/1.3 var(--code);
+  border-radius: 4px;
+}
+.chip[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--on-primary);
+  border-color: var(--accent);
+}
+.numbers b {
+  font: 800 clamp(2rem, 3.6vw, 3rem) / 1.05 var(--heading);
+  letter-spacing: -0.04em;
+}
+.numbers b:first-letter {
+  color: var(--accent);
+}
+.numbers span {
+  font: 500 12px/1.4 var(--code);
+  color: var(--muted);
+}
+
+/* The three assignments. */
+.assign-card {
+  position: relative;
+  padding: 26px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.assign-card h3 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+.assign-card p {
+  margin: 0;
+  color: var(--muted);
+}
+.assign-card .score {
+  font: 700 1.05rem/1.2 var(--code);
+  color: var(--accent);
+}
+.assign-card .more {
+  margin-top: auto;
+  padding-top: 10px;
+}
+.assign-no {
+  font: 800 4.2rem/0.9 var(--heading);
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--border);
+}
+
+/* Evolution: maintenance-type bars and the commit rail. */
+.evo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 40px;
+  align-items: start;
+}
+.evo-types {
+  display: grid;
+  gap: 18px;
+}
+.evo-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 14px;
+  align-items: end;
+}
+.evo-bar p {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.evo-bar b {
+  font: 700 15px/1.2 var(--code);
+  color: var(--c);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.evo-bar p span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.evo-bar strong {
+  font: 800 1.8rem/1 var(--heading);
+  letter-spacing: -0.04em;
+}
+.evo-bar small {
+  font: 500 12px var(--code);
+  color: var(--muted);
+}
+.evo-track {
+  grid-column: 1 / -1;
+  height: 10px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.evo-track i {
+  display: block;
+  height: 100%;
+  width: var(--w);
+  min-width: 3px;
+  background: var(--c);
+  transform-origin: left;
+}
+.t-corrective {
+  --c: var(--t-corrective);
+}
+.t-adaptive {
+  --c: var(--t-adaptive);
+}
+.t-perfective {
+  --c: var(--t-perfective);
+}
+.t-preventive {
+  --c: var(--t-preventive);
+}
+.evo-note {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.commit-rail {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 26px;
+  position: relative;
+}
+.commit-rail:before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border);
+}
+.commit-rail li {
+  position: relative;
+  padding: 0 0 18px;
+}
+.commit-rail li:before {
+  content: '';
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--c);
+}
+.commit-rail code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: 700 13px var(--code);
+  color: var(--c);
+}
+.commit-rail .tag {
+  font: 500 11px var(--code);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-left: 10px;
+}
+.commit-rail p {
+  margin: 2px 0 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+/* Timeline, tracks, footer in the new palette. */
+.timeline:before {
+  background: var(--border);
+}
+.timeline li:before {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.timeline li:first-child:before {
+  background: var(--accent);
+}
+.track-no {
+  font: 700 12px var(--code);
+  color: var(--accent);
+}
+.site-footer {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  font: 500 12px/1.6 var(--code);
+  color: var(--muted);
+}
+.logo-mark,
+.hero-portrait img {
+  box-shadow: none;
+}
+
+.status-band {
+  color: var(--text);
+  border-image: none;
+}
+.site-status-head,
+.site-status .k {
+  color: var(--muted);
+}
+.site-status-foot a,
+.site-footer a {
+  color: var(--accent);
+}
+.site-status .v {
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .hero .container.hero-grid,
+  .evo {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .hero {
+    padding-block: 56px 48px;
+  }
+}
+
+/* Motion (CR-40): kinetic type, a log that writes itself, bars that fill. Once, CSS only. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1 .line:first-child {
+    animation: rise 0.8s 0.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero h1 .line:last-child {
+    animation: rise 0.9s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero h1,
+  .hero h1 em {
+    animation: none;
+  }
+  .hero h1 em {
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    animation: underline 0.9s 1s cubic-bezier(0.6, 0, 0.2, 1) both;
+  }
+  .gitlog {
+    animation: rise 0.8s 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .gitlog ol:before {
+    transform-origin: top;
+    animation: drawY 1.2s 0.6s cubic-bezier(0.6, 0, 0.2, 1) both;
+  }
+  .gitlog li {
+    animation: slide 0.5s both;
+  }
+  .gitlog li:nth-child(4) {
+    animation-delay: 0.7s;
+  }
+  .gitlog li:nth-child(3) {
+    animation-delay: 0.95s;
+  }
+  .gitlog li:nth-child(2) {
+    animation-delay: 1.2s;
+  }
+  .gitlog li:nth-child(1) {
+    animation-delay: 1.45s;
+  }
+  .assign-card {
+    animation: rise 0.7s both;
+  }
+  .assign-card:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .assign-card:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .evo-track i {
+    animation: draw 1.1s calc(0.2s + var(--i, 0) * 0.15s) cubic-bezier(0.6, 0, 0.2, 1) both;
+  }
+  .commit-rail li {
+    animation: slide 0.5s calc(0.3s + var(--i, 0) * 0.12s) both;
+  }
+  .commit-rail:before {
+    transform-origin: top;
+    animation: drawY 1.2s 0.2s cubic-bezier(0.6, 0, 0.2, 1) both;
+  }
+  .page-banner:after {
+    animation: draw 0.9s 0.1s cubic-bezier(0.6, 0, 0.2, 1) both;
+  }
+}
+@keyframes underline {
+  to {
+    background-size: 100% 100%;
+  }
+}
+@keyframes drawY {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes slide {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
