@@ -352,6 +352,24 @@ hover lift on project cards. Both fonts are self-hosted, so the installed offlin
 with no network. Every test passed after the change, and the status logic (`statusRows`) has its own
 unit tests.
 
+### 11.6 Showing what I really do (CR-34)
+
+After CR-33 the site looked right but said too little: four case studies with three bullets each,
+while my work covers engineering, team leadership, presales and AI adoption. CR-34 adds content, not
+features, and follows one rule: **no client names anywhere**, because naming a client in public
+material would breach confidentiality. Client and bank names were removed from the pages, the blog and
+the pipeline diagram, and the case studies describe clients only by their sector.
+
+| Before | After |
+| --- | --- |
+| No photo | my LinkedIn photo on Home and About |
+| About: story, experience, education | adds *How I work*: engineering, leadership and presales, AI adoption and teaching, each with evidence |
+| 4 case studies, problem + what I did | 7 case studies, each with **my role** and, where I have them, **real results** (team of 15; about 1,000 documents processed) |
+| Gallery: places, diagrams, two stock-style photos | adds *Talks & awards*: Guest of Honour at Genesis 2K26, a Git session I taught, Town Hall recognition, Winspire awards, my CK metrics research poster |
+| 3 blog articles | 5: two new ones written from my LinkedIn posts on AI-generated code quality and tech leadership |
+
+Only numbers I can state are shown; case studies without measured results have no results line.
+
 ## 12. Innovation
 
 Four features go beyond a static GitHub Pages portfolio and beyond what was covered in class.

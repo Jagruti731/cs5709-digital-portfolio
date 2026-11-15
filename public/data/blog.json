@@ -1,5 +1,29 @@
 [
   {
+    "id": "ai-code-quality",
+    "title": "We can generate code in seconds. Are we building better software?",
+    "date": "2026-11-01",
+    "tags": ["ai-tools", "software-evolution"],
+    "body": [
+      "AI-assisted development is changing how we write, test and deliver software. Productivity is going up. But someone still has to ask about the quality, maintainability and security of the code being generated.",
+      "The question took me back to my research on CK metrics and software fault prediction. I asked whether coupling (CBO) still predicts faulty classes once class size is controlled. The evidence says the CK metrics do predict faulty classes, but only until size is taken into account. Measuring software quality is not as simple as reading one number or checking that the code works.",
+      "In the age of AI this matters even more. AI can generate code, but engineering judgement, validation and accountability cannot be prompted away. Perhaps it is time to measure not only how fast we build software, but how well we build it.",
+      "This portfolio tries to practise that. Every push is measured by the pipeline (tests, coverage, complexity and architecture rules), and the result is shown on the Home page."
+    ]
+  },
+  {
+    "id": "tech-lead-ai-era",
+    "title": "What does a great tech lead need to be good at in the AI era?",
+    "date": "2026-10-30",
+    "tags": ["msc", "ai-tools", "personal"],
+    "body": [
+      "For a while I watched AI change how my team writes software. Code that took a day started taking an hour. Reviews got faster. Juniors ramped up quicker.",
+      "So I kept asking one question: if AI writes more of the code, what does a great tech lead need to be good at? My answer is designing the systems, making the hard trade-offs, and leading people through the change.",
+      "I wanted to get ahead of that shift, not just keep up with it. After more than six years at Winjit Technologies, growing from intern to Project Engineer, I moved from India to Ireland and became a student again. I am now doing an MSc in Software Engineering (Architecture and Project Management) at the University of Limerick.",
+      "Some days I am the most experienced person in the room. Other days I am the one asking the basic questions. Both feel right."
+    ]
+  },
+  {
     "id": "lehman-in-production",
     "title": "Lehman's laws, seen from inside a loan origination platform",
     "date": "2026-09-28",

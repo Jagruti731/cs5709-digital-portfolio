@@ -5,6 +5,7 @@
  * GSAP Flip moves the cards smoothly to their new places.
  * CR-33: the "Other projects" and "Skills" lists were removed; they repeated the case studies,
  * and each case study already lists its tools.
+ * CR-34: seven case studies, each with my role and, where I have them, real results.
  */
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -41,7 +42,7 @@ export default function Knowledge() {
       <PageHeader
         title="Professional knowledge"
         crumb="Professional Knowledge"
-        intro="Four systems I have built and led: the problem, what I did and the tools."
+        intro="Seven systems I have built and led: the problem, my role, what I did, the results and the tools."
       />
       <Section kicker="case studies" title="Filter by technology or search">
         <div className="filter-bar">
@@ -69,9 +70,22 @@ export default function Knowledge() {
               <div>
                 <h3 className="case-title">{c.title}</h3>
                 <p className="meta">{c.meta}</p>
+                {c.impact && (
+                  <ul className="impact" aria-label="Results">
+                    {c.impact.map((x) => (
+                      <li key={x}>{x}</li>
+                    ))}
+                  </ul>
+                )}
                 <dl>
                   <dt>The problem</dt>
                   <dd>{c.problem}</dd>
+                  {c.role && (
+                    <>
+                      <dt>My role</dt>
+                      <dd>{c.role}</dd>
+                    </>
+                  )}
                   <dt>What I did</dt>
                   <dd>
                     <ul>

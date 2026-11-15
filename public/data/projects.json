@@ -9,7 +9,9 @@
       "summary": "Vehicle loans from application to payout, built as .NET microservices.",
       "problem": "One system for applications, document checks, credit rules, decision and payout.",
       "did": ["Led the team and planned sprints", "Split the platform into .NET microservices", "Added OCR and Gemini document checks"],
-      "tools": [".NET", "Microservices", "SQL Server", "OCR", "Gemini"]
+      "tools": [".NET", "Microservices", "SQL Server", "OCR", "Gemini"],
+      "role": "Team lead for a team of 15",
+      "impact": ["A team of 15 delivering one platform", "About 1,000 documents processed through OCR and Gemini checks"]
     },
     {
       "id": "ocr",
@@ -20,11 +22,14 @@
       "summary": "Turns bank statement PDFs into clean transactions with Gemini.",
       "problem": "Credit teams typed transactions from bank statements by hand.",
       "did": [
-        "Built per-bank extractors with Gemini as a fallback",
-        "Fixed sign, digit and batching errors",
-        "Added validation, de-duplication and Excel export"
+        "Built positional extractors for four bank layouts with PdfPig",
+        "Called Gemini on the whole PDF first, with a batch-by-batch fallback",
+        "Fixed sign, digit and truncation errors, and a race condition in parallel processing",
+        "Added validation, de-duplication and a hardened Excel export (EPPlus)"
       ],
-      "tools": ["ASP.NET Core", "C#", "Google Gemini", "PdfPig"]
+      "tools": ["ASP.NET Core", "C#", "Google Gemini", "PdfPig"],
+      "role": "Designed and built the extractors",
+      "impact": ["Four bank layouts supported, each a separate extractor", "Credit teams no longer type transactions by hand"]
     },
     {
       "id": "legacy",
@@ -35,7 +40,44 @@
       "summary": "Replaced paid DevExpress controls with AG Grid, ApexCharts and Bootstrap 5.",
       "problem": "An older MVC app depended on paid controls that were hard to update.",
       "did": ["Swapped every control, keeping all business logic", "Moved charts to ApexCharts and grids to AG Grid"],
-      "tools": ["ASP.NET MVC", "AG Grid", "ApexCharts", "Bootstrap 5"]
+      "tools": ["ASP.NET MVC", "AG Grid", "ApexCharts", "Bootstrap 5"],
+      "role": "Developer"
+    },
+    {
+      "id": "payslip",
+      "image": "payslip-ocr.jpg",
+      "title": "Payslip extraction to SQL Server",
+      "kind": "Document AI",
+      "meta": "Winjit · earlier OCR work",
+      "summary": "Reads payslips with Gemini and stores the details in SQL Server.",
+      "problem": "Payslip details had to be read and entered by hand.",
+      "did": ["Built the Gemini extraction", "Stored the results in SQL Server"],
+      "tools": [".NET", "Gemini", "OCR", "SQL Server"],
+      "role": "Developer"
+    },
+    {
+      "id": "assistant",
+      "image": "ai-assistant.jpg",
+      "title": "AI assistant portal for finance reconciliation",
+      "kind": "Applied AI",
+      "meta": "Winjit",
+      "summary": "A portal where a finance team gets help with reconciliation from an AI assistant.",
+      "problem": "A finance team needed quicker help with reconciliation work.",
+      "did": ["Built the assistant portal"],
+      "tools": [".NET", "LLM APIs"],
+      "role": "Developer"
+    },
+    {
+      "id": "workflows",
+      "image": "workflow-automation.jpg",
+      "title": "WhatsApp and Power Automate workflows",
+      "kind": "Automation",
+      "meta": "Winjit",
+      "summary": "Business events send WhatsApp messages through Power Automate flows.",
+      "problem": "Routine updates were sent by hand.",
+      "did": ["Built the Power Automate flows", "Connected them to WhatsApp"],
+      "tools": ["Power Automate", "WhatsApp", ".NET"],
+      "role": "Developer"
     },
     {
       "id": "lexaura",
@@ -46,7 +88,8 @@
       "summary": "AI portal for contracts, compliance and legal workflows, pitched at WinTank 2026.",
       "problem": "Legal teams track contracts and deadlines across email and spreadsheets.",
       "did": ["Designed the portal and AI contract analysis", "Built prototype screens and the pitch"],
-      "tools": ["React", "AI contract analysis", "Product design"]
+      "tools": ["React", "AI contract analysis", "Product design"],
+      "role": "Designed the concept and prototype"
     }
   ]
 }

@@ -5,12 +5,16 @@
       "label": "All"
     },
     {
-      "value": "places",
-      "label": "Places"
+      "value": "talks",
+      "label": "Talks & awards"
     },
     {
       "value": "work",
       "label": "Work"
+    },
+    {
+      "value": "places",
+      "label": "Places"
     },
     {
       "value": "life",
@@ -19,28 +23,52 @@
   ],
   "pictures": [
     {
-      "file": "nashik-godavari.jpg",
-      "category": "places",
-      "title": "Nashik",
-      "caption": "My home town, on the Godavari"
+      "file": "genesis-guest-of-honour.jpg",
+      "category": "talks",
+      "title": "Guest of Honour",
+      "caption": "Genesis 2K26 inauguration, K. K. Wagh Institute, Nashik"
     },
     {
-      "file": "limerick-shannon.jpg",
-      "category": "places",
-      "title": "Limerick",
-      "caption": "River Shannon and King John's Castle"
+      "file": "genesis-stage.jpg",
+      "category": "talks",
+      "title": "Genesis 2K26",
+      "caption": "On stage at the festival inauguration"
     },
     {
-      "file": "ul-campus.jpg",
-      "category": "places",
-      "title": "University of Limerick",
-      "caption": "Where I'm studying this year"
+      "file": "git-session.jpg",
+      "category": "talks",
+      "title": "Teaching Git",
+      "caption": "Branching and merging session at an internal learning week"
     },
     {
-      "file": "desk-dotnet.jpg",
+      "file": "town-hall-recognition.jpg",
+      "category": "talks",
+      "title": "Town Hall recognition",
+      "caption": "Winjit company Town Hall, May 2025"
+    },
+    {
+      "file": "award-medal.jpg",
+      "category": "talks",
+      "title": "Winspire award",
+      "caption": "Recognition at Winjit Technologies"
+    },
+    {
+      "file": "extra-miler-award.jpg",
+      "category": "talks",
+      "title": "Extra Miler Award",
+      "caption": "Winspire, Winjit Technologies"
+    },
+    {
+      "file": "ck-metrics-research.jpg",
       "category": "work",
-      "title": "My desk",
-      "caption": "C#, .NET and Angular"
+      "title": "CK metrics research",
+      "caption": "Does coupling still predict faults once class size is controlled?"
+    },
+    {
+      "file": "winjit-office.jpg",
+      "category": "work",
+      "title": "Winjit, Nashik",
+      "caption": "Where I grew from intern to consultant"
     },
     {
       "file": "ocr-pipeline.jpg",
@@ -65,6 +93,24 @@
       "category": "work",
       "title": "LexAura",
       "caption": "WinTank 2026 prototype"
+    },
+    {
+      "file": "ul-campus-me.jpg",
+      "category": "places",
+      "title": "University of Limerick",
+      "caption": "Where I'm studying this year"
+    },
+    {
+      "file": "nashik-godavari.jpg",
+      "category": "places",
+      "title": "Nashik",
+      "caption": "My home town, on the Godavari"
+    },
+    {
+      "file": "limerick-shannon.jpg",
+      "category": "places",
+      "title": "Limerick",
+      "caption": "River Shannon and King John's Castle"
     },
     {
       "file": "music.jpg",

@@ -260,6 +260,14 @@
     "change": "Engineer's portfolio: live system status panel on Home, new visual theme (ink grid, Space Grotesk, JetBrains Mono, signal colour); Education merged into About; repeated Other projects, Skills and What I do lists removed; simpler Contact",
     "type": "perfective",
     "closes": "Owner feedback: 'feels like a basic portfolio'",
+    "commit": "38c6cc8",
+    "phase": 2
+  },
+  {
+    "id": "CR-34",
+    "change": "The portfolio shows what I really do: photo from LinkedIn; How I work in three tracks (engineering, leadership and presales, AI adoption and teaching); seven case studies with my role and real results (team of 15, about 1,000 documents); talks and awards in the gallery; two articles from my LinkedIn posts. All client and bank names removed",
+    "type": "perfective",
+    "closes": "Owner feedback: 'this is not what I do, it is really less'; no client names in public material",
     "commit": "this commit",
     "phase": 2
   }

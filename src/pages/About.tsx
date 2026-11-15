@@ -2,6 +2,7 @@
  * @file About page: short story, quick facts, experience, education, certifications and recognition.
  * Content: profile.json, career.json and education.json (from my LinkedIn profile, CR-30).
  * CR-33: the Education page was merged in here; /education and ?section=education scroll to it.
+ * CR-34: photo, and "How I work" in three tracks (engineering, leadership and presales, AI adoption).
  */
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -12,6 +13,7 @@ import { Section } from '../components/Section';
 import { Timeline } from '../components/Timeline';
 import { SITE } from '../config/site';
 import { useContent } from '../hooks/useContent';
+import { imagePath } from '../lib/assets';
 
 export default function About() {
   const profileFile = useContent('profile');
@@ -45,6 +47,9 @@ export default function About() {
             ))}
           </div>
           <div className="card facts-card">
+            {profile.photo && (
+              <img className="portrait" src={imagePath(profile.photo)} alt={profile.name} width={400} height={400} decoding="async" />
+            )}
             <table className="facts-table">
               <tbody>
                 {profile.quickFacts.map(([label, value]) => (
@@ -64,10 +69,25 @@ export default function About() {
           </div>
         </div>
       </Section>
-      <Section kicker="01 / experience" title="Experience" alt>
+      <Section kicker="01 / how I work" title="Engineering, leadership and AI adoption" alt>
+        <div className="tracks">
+          {profile.tracks.map((t, i) => (
+            <article className="track" key={t.title}>
+              <span className="track-no">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{t.title}</h3>
+              <ul>
+                {t.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </Section>
+      <Section kicker="02 / experience" title="Experience">
         <Timeline items={careerFile.data.experience} />
       </Section>
-      <Section kicker="02 / education" title="Education" id="education">
+      <Section kicker="03 / education" title="Education" id="education" alt>
         <Timeline items={education} />
         <h3 className="sub-head">Certifications</h3>
         <ul className="cert-list">
@@ -79,7 +99,7 @@ export default function About() {
           ))}
         </ul>
       </Section>
-      <Section kicker="03 / recognition" title="Recognition" alt>
+      <Section kicker="04 / recognition" title="Recognition and talks">
         <div className="grid g3">
           {profile.extras.map((x) => (
             <Card key={x.code} title={x.title}>

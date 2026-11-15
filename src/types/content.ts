@@ -41,6 +41,10 @@ export interface Profile {
   numbers: { value: string; label: string }[];
   story: string[];
   quickFacts: [string, string][];
+  /** profile.jpg in public/images (my LinkedIn photo, CR-34). */
+  photo?: string;
+  /** "How I work" on About: engineering, leadership and presales, AI adoption (CR-34). */
+  tracks: { title: string; items: string[] }[];
   /** Awards and recognition, shown on About. */
   extras: { code: string; title: string; text: string }[];
 }
@@ -56,6 +60,10 @@ export interface CaseStudy {
   problem: string;
   did: string[];
   tools: string[];
+  /** My part in the project, e.g. "Team lead for a team of 15" (CR-34). */
+  role?: string;
+  /** Results I can state; only numbers I was given, never estimates (CR-34). */
+  impact?: string[];
 }
 
 /** projects.json */
@@ -83,7 +91,7 @@ export interface EducationData {
   certifications: TitledText[];
 }
 
-export type PictureCategory = 'places' | 'work' | 'life';
+export type PictureCategory = 'talks' | 'places' | 'work' | 'life';
 
 /** One picture in the gallery; `file` is a name inside public/images. */
 export interface Picture {

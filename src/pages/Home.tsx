@@ -23,7 +23,10 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <p className="hello">Consultant · .NET + Azure + AI · MSc @ UL</p>
+            <div className="hero-id">
+              {profile.photo && <img className="avatar" src={imagePath(profile.photo)} alt="" width={400} height={400} decoding="async" />}
+              <p className="hello">Consultant · .NET + Azure + AI · MSc @ UL</p>
+            </div>
             <h1>
               {profile.name.split(' ')[0]}
               <br />

@@ -38,7 +38,7 @@
   ],
   "story": [
     "I started at Winjit Technologies (RIB Group) in Nashik as an intern in 2020 and grew to Consultant, delivering enterprise platforms for lending, ERP integration, accounting and manufacturing.",
-    "Along the way I brought AI into how my teams work. Now I am doing an MSc in Software Engineering at the University of Limerick and completing Azure AI Engineer (AI-102)."
+    "Along the way I brought AI into how my teams work. Now I am doing an MSc in Software Engineering (Architecture and Project Management) at the University of Limerick and completing Azure AI Engineer (AI-102)."
   ],
   "quickFacts": [
     ["From", "Nashik, India"],
@@ -66,6 +66,49 @@
       "code": "AI",
       "title": "AI adoption tracker",
       "text": "Governance tracker used by all team leads in the PMO"
+    },
+    {
+      "code": "TH",
+      "title": "Town Hall recognition, May 2025",
+      "text": "Recognised at Winjit's company Town Hall for project contributions"
+    },
+    {
+      "code": "GH",
+      "title": "Guest of Honour, Genesis 2K26",
+      "text": "Inauguration of the student tech festival at K. K. Wagh Institute of Engineering Education"
+    }
+  ],
+  "photo": "profile.jpg",
+  "tracks": [
+    {
+      "title": "Engineering",
+      "items": [
+        "Full-stack .NET, C#, Angular and SQL Server",
+        "Microservices on Azure",
+        "Document AI with OCR and Gemini",
+        "Legacy modernisation without breaking business logic"
+      ]
+    },
+    {
+      "title": "Leadership & presales",
+      "items": [
+        "Led a team of 15 on a loan origination platform",
+        "Sprint planning and code reviews",
+        "Credit decisioning documents and decks for business stakeholders",
+        "Product comparison reports and capability case studies for presales",
+        "Status reporting across seven active projects",
+        "Taught Git branching and merging at an internal learning week"
+      ]
+    },
+    {
+      "title": "AI adoption & teaching",
+      "items": [
+        "Launched Winjit's internal GitHub Copilot Community",
+        "Built the PMO's AI adoption governance tracker, at sprint-task level",
+        "Ran a CI/CD and DevOps practices checklist across project teams",
+        "Talk on the future of AI in the software industry for IT students, K. K. Wagh Institute, Nashik",
+        "Guest of Honour at the Genesis 2K26 inauguration"
+      ]
     }
   ]
 }

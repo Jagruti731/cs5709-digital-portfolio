@@ -53,7 +53,7 @@ const list: Check = (v) => (Array.isArray(v) ? null : 'expected a list');
 
 /** One shape rule per content file. Exported so the unit tests can run them against the real files. */
 export const contentRules: Record<ContentName, Check> = {
-  profile: objectWith({ name: text, intro: text, facts: arrayOf('label', 'value'), story: list }),
+  profile: objectWith({ name: text, intro: text, facts: arrayOf('label', 'value'), story: list, tracks: arrayOf('title') }),
   projects: objectWith({
     caseStudies: arrayOf('id', 'title', 'summary', 'image'),
   }),

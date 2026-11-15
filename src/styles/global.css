@@ -2886,3 +2886,91 @@ h2 {
     display: none;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * 10 Real content (CR-34): photo, "How I work" tracks, case-study results.
+ * --------------------------------------------------------------------- */
+.hero-id {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.hero-id .hello {
+  margin: 0;
+}
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--signal);
+  box-shadow: 0 0 0 5px rgba(46, 230, 193, 0.15);
+}
+.portrait {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 14px 0 6px;
+  border: 3px solid var(--accent);
+}
+.tracks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 20px;
+}
+.track {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 24px 20px;
+}
+.track-no {
+  font: 500 13px/1 var(--code);
+  color: var(--accent);
+}
+.track h3 {
+  margin: 10px 0 12px;
+  font-size: 1.35rem;
+}
+.track ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.track li {
+  position: relative;
+  padding: 7px 0 7px 18px;
+  border-top: 1px dashed var(--border);
+  font-size: 15.5px;
+}
+.track li:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.impact {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 0;
+}
+.impact li {
+  font: 500 13px/1.4 var(--code);
+  background: var(--ink);
+  color: var(--signal);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.case .impact {
+  padding: 0;
+}
