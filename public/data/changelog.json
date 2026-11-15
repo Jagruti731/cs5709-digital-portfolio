@@ -420,6 +420,14 @@
     "change": "Requirements kept honest: the Videos feature is marked removed (CR-47) and the accessibility feature names the automated WCAG checks and the manual test still to do",
     "type": "perfective",
     "closes": "Final consistency check before submission",
+    "commit": "fce5a0b",
+    "phase": 2
+  },
+  {
+    "id": "CR-54",
+    "change": "Video gallery restored (Gallery → Videos tab, three local videos, playlist and its browser check), because the brief requires a Pictures gallery and a Video gallery",
+    "type": "corrective",
+    "closes": "Final check against the brief",
     "commit": "this commit",
     "phase": 2
   }

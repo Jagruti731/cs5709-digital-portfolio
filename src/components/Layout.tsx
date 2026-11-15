@@ -56,7 +56,7 @@ export function Layout() {
     document.addEventListener('focusin', intent);
     const timer = window.setTimeout(() => {
       preloadPages();
-      prefetch(['profile', 'projects', 'career', 'education', 'gallery', 'blog']);
+      prefetch(['profile', 'projects', 'career', 'education', 'gallery', 'blog', 'videos']);
     }, 6000);
     return () => {
       document.removeEventListener('pointerover', intent);

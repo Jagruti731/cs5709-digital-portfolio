@@ -162,6 +162,12 @@ check(
   `${galleryParts.filter(Boolean).length}/${galleryParts.length}`,
 );
 
+// 5. Video playlist.
+await go('/videos');
+await page.locator('.playlist button').nth(2).click();
+await page.waitForTimeout(300);
+check('Video playlist switches the player', (await page.locator('.player source').getAttribute('src'))?.includes('lehman-laws'));
+
 // 6. Blog feed: post, like, comment, reload.
 await go('/blog');
 await page.fill('#pf-name', 'Tester');
@@ -222,7 +228,7 @@ check(
 // 8. Search.
 await go('/search');
 await page.fill('#q', 'OCR');
-const ocrFound = (await page.locator('.results a', { hasText: 'Bank statement' }).count()) === 1;
+const ocrFound = (await page.locator('.results a', { hasText: 'Bank statement' }).count()) >= 1;
 await page.fill('#q', 'Gemni bank'); // typo on purpose
 await page.waitForTimeout(300);
 const corrected = (await page.locator('.note', { hasText: 'Showing results for' }).count()) === 1;

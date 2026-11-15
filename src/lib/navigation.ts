@@ -66,8 +66,8 @@ export const pages: PageMeta[] = [
     path: '/gallery',
     label: 'Gallery',
     title: 'Gallery',
-    description: 'Pictures: talks, work and places.',
-    keywords: ['photos', 'images', 'pictures', 'talks'],
+    description: 'Pictures and videos: places, work and life.',
+    keywords: ['photos', 'images', 'pictures', 'video', 'film'],
     inNav: true,
   },
   {

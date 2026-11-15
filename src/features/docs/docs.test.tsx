@@ -51,7 +51,7 @@ describe('Change log tab', () => {
 
 describe('useContent', () => {
   it('returns cached data without a request', () => {
-    const { result } = renderHook(() => useContent('blog'), { wrapper: wrap({ blog: { status: 'ready', data: [] } }) });
+    const { result } = renderHook(() => useContent('videos'), { wrapper: wrap({ videos: { status: 'ready', data: [] } }) });
     expect(result.current.status).toBe('ready');
     expect(result.current.data).toEqual([]);
   });

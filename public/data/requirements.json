@@ -131,10 +131,10 @@
     },
     {
       "id": "F06",
-      "name": "Gallery, Videos tab (Phase 1; removed in CR-47 so the gallery shows photos only)",
+      "name": "Gallery, Videos tab: player and playlist with local video files",
       "group": "Media",
       "phase": 1,
-      "status": "removed"
+      "status": "done"
     },
     {
       "id": "F07",
