@@ -418,8 +418,8 @@ reads her profile like a scanned document (a beam sweeps the card, boxes snap ro
 confidence score, the JSON appears and an EXTRACTED stamp lands). A section shows readiness for agentic AI
 work in three pillars, each with a line of proof. All eight systems (the seven case studies and this site)
 are shown as live automated runs: a document moves through the steps, agent and human steps are labelled,
-and a run log writes as it goes (`features/showcase`). The tech stack is a radar with three rings (core,
-growing, learning now), placed by a unit-tested function (`radarLayout.ts`). Home text lives in
+and a run log writes as it goes (`features/showcase`). The tech stack (CR-46) is shown as four AI-era layers with a
+core / growing / learning-now level per technology and a filter by 2026 trend (`TechStack.tsx`, `stackFilter.ts`). Home text lives in
 `showcase.json`, checked like every other content file. Motion uses GSAP (already a dependency) and Lenis
 for smooth scrolling, plus magnetic buttons and a scanner cursor; all of it is off for reduced motion and
 the cursor only appears for a mouse. The footer credits Claude (Anthropic) as the AI pair programmer the

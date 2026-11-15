@@ -10,7 +10,7 @@ import { Pillars } from './Pillars';
 import { ScanHero } from './ScanHero';
 import { SkillTicker } from './SkillTicker';
 import { SystemsPlayer } from './SystemsPlayer';
-import { TechRadar } from './TechRadar';
+import { TechStack } from './TechStack';
 
 afterEach(cleanup);
 
@@ -52,21 +52,17 @@ describe('showcase components (at rest, as with reduced motion)', () => {
     expect(screen.getByText('statement.pdf received')).toBeTruthy();
   });
 
-  it('TechRadar draws a dot per item and links dots and names on hover', () => {
-    const { container } = render(<TechRadar radar={data.radar} />);
-    const blips = container.querySelectorAll('.blip');
-    expect(blips).toHaveLength(data.radar.items.length);
-    fireEvent.mouseEnter(blips[0]);
-    const name = data.radar.items.find((i) => blips[0].getAttribute('aria-label')?.startsWith(i[0]))?.[0];
-    expect(screen.getByText(name as string, { selector: 'li' }).className).toBe('hi');
-    fireEvent.mouseLeave(blips[0]);
-    const chip = screen.getByText('Claude', { selector: 'li' });
-    fireEvent.mouseEnter(chip);
-    expect(container.querySelector('.blip.hi')?.getAttribute('aria-label')).toBe('Claude: Growing');
-    fireEvent.mouseLeave(chip);
-    fireEvent.focus(blips[1]);
-    expect(blips[1].getAttribute('class')).toContain('hi');
-    fireEvent.blur(blips[1]);
+  it('TechStack lights up the technologies behind a trend and shows its evidence', () => {
+    const { container } = render(<TechStack stack={data.stack} />);
+    expect(container.querySelectorAll('.layer')).toHaveLength(4);
+    expect(container.querySelectorAll('.tech.dim')).toHaveLength(0);
+    fireEvent.click(screen.getByRole('button', { name: 'Agentic AI' }));
+    expect(screen.getByRole('button', { name: 'Agentic AI' }).getAttribute('aria-pressed')).toBe('true');
+    expect(container.querySelector('.trend-evidence')?.textContent).toContain('Azure AI Foundry agents');
+    expect(container.querySelectorAll('.tech:not(.dim)').length).toBeGreaterThan(1);
+    expect(container.querySelectorAll('.tech.dim').length).toBeGreaterThan(5);
+    fireEvent.click(screen.getByRole('button', { name: 'Agentic AI' }));
+    expect(container.querySelectorAll('.tech.dim')).toHaveLength(0);
   });
 
   it('SkillTicker and CareerPath render their items', () => {

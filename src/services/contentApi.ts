@@ -73,7 +73,11 @@ export const contentRules: Record<ContentName, Check> = {
     hero: objectWith({ lead: text, lines: list, greetings: list, fields: list }),
     pillars: arrayOf('label', 'title', 'proof', 'icon'),
     systems: arrayOf('id', 'name', 'kind', 'headline'),
-    radar: objectWith({ quadrants: list, rings: arrayOf('name', 'note'), items: list }),
+    stack: objectWith({
+      trends: arrayOf('id', 'label', 'evidence'),
+      layers: arrayOf('name', 'note'),
+      levels: arrayOf('id', 'name', 'note'),
+    }),
     path: list,
   }),
 };

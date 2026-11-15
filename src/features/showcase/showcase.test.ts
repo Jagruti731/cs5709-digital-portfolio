@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { highlight } from './highlight';
-import { placeBlips, RADAR } from './radarLayout';
+import { countLevels, matches, trendCoverage } from './stackFilter';
 
 describe('highlight', () => {
   it('marks text between stars', () => {
@@ -17,36 +17,29 @@ describe('highlight', () => {
   });
 });
 
-describe('placeBlips', () => {
-  const dist = (b: { x: number; y: number }) => Math.hypot(b.x - RADAR.centre, b.y - RADAR.centre);
-  it('keeps every dot inside its own ring', () => {
-    const blips = placeBlips([
-      ['a', 0, 0],
-      ['b', 1, 1],
-      ['c', 2, 2],
-    ]);
-    blips.forEach((b) => {
-      expect(dist(b)).toBeGreaterThan(RADAR.rings[b.ring]);
-      expect(dist(b)).toBeLessThan(RADAR.rings[b.ring + 1]);
-    });
+describe('tech stack', () => {
+  const data = JSON.parse(readFileSync(new URL('../../../public/data/showcase.json', import.meta.url), 'utf8'));
+  it('matches every item when no trend is picked, and only tagged items otherwise', () => {
+    expect(matches([], null)).toBe(true);
+    expect(matches(['llm'], 'llm')).toBe(true);
+    expect(matches(['llm'], 'agentic')).toBe(false);
   });
-  it('puts each dot in its quadrant', () => {
-    const [tl, tr, br, bl] = placeBlips([
-      ['tl', 0, 1],
-      ['tr', 1, 1],
-      ['br', 2, 1],
-      ['bl', 3, 1],
-    ]);
-    expect(tl.x < RADAR.centre && tl.y < RADAR.centre).toBe(true);
-    expect(tr.x > RADAR.centre && tr.y < RADAR.centre).toBe(true);
-    expect(br.x > RADAR.centre && br.y > RADAR.centre).toBe(true);
-    expect(bl.x < RADAR.centre && bl.y > RADAR.centre).toBe(true);
+  it('counts the technologies per level', () => {
+    const c = countLevels(data.stack);
+    const all = data.stack.layers.reduce((n: number, l: { items: unknown[] }) => n + l.items.length, 0);
+    expect(c.core + c.grow + c.learn).toBe(all);
+    expect(c.core).toBeGreaterThan(c.learn);
   });
-  it('places every item of the real radar, with no two dots on the same spot', () => {
-    const data = JSON.parse(readFileSync(new URL('../../../public/data/showcase.json', import.meta.url), 'utf8'));
-    const blips = placeBlips(data.radar.items);
-    expect(blips).toHaveLength(data.radar.items.length);
-    const spots = new Set(blips.map((b) => `${Math.round(b.x)},${Math.round(b.y)}`));
-    expect(spots.size).toBe(blips.length);
+  it('backs every trend with at least two technologies', () => {
+    Object.values(trendCoverage(data.stack)).forEach((n) => expect(n).toBeGreaterThanOrEqual(2));
+  });
+  it('uses only known levels and trends', () => {
+    const trends = new Set(data.stack.trends.map((t: { id: string }) => t.id));
+    data.stack.layers.forEach((l: { items: [string, string, string[]][] }) =>
+      l.items.forEach(([, level, ts]) => {
+        expect(['core', 'grow', 'learn']).toContain(level);
+        ts.forEach((t) => expect(trends.has(t)).toBe(true));
+      }),
+    );
   });
 });

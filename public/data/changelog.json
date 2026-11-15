@@ -356,6 +356,14 @@
     "change": "Home headline is now about me as a tech consultant, not about one kind of system: \"Tech consultant. Engineer. Team lead. AI-ready.\"",
     "type": "perfective",
     "closes": "Owner feedback: the title should describe me as a tech consultant",
+    "commit": "01033af",
+    "phase": 2
+  },
+  {
+    "id": "CR-46",
+    "change": "Tech stack shown as AI-era layers (AI and agents, apps and APIs, cloud and data, delivery and automation) instead of a radar, with every name visible, a core / growing / learning-now level per technology, and a filter by 2026 trend (agentic AI, LLM integration, Document AI, AI-assisted development, cloud-native .NET, automation and CI/CD, responsible AI) that lights up the technologies behind the trend and shows one line of evidence; learning items follow the Azure AI Engineer skills (agents, RAG, content safety)",
+    "type": "perfective",
+    "closes": "Owner feedback: the tech presentation should be the best and match current tech trends",
     "commit": "this commit",
     "phase": 2
   }

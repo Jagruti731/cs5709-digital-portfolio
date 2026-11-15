@@ -49,7 +49,7 @@
     {
       "label": "Guardrails",
       "title": "Guardrails first",
-      "points": ["Built the PMO's AI adoption tracker", "Completing Azure AI Engineer (AI-102)"],
+      "points": ["Built the PMO's AI adoption tracker", "Learning Azure AI agents, RAG and content safety"],
       "proof": "A person checks every AI decision that matters",
       "icon": "shield"
     }
@@ -183,47 +183,6 @@
       "log": ["change request opened", "code written with Claude", "reviewed by me", "all checks passed", "deployed ✓"]
     }
   ],
-  "radar": {
-    "quadrants": ["Languages & frameworks", "Cloud & data", "AI & agents", "Delivery & practice"],
-    "rings": [
-      {
-        "name": "Core",
-        "note": "Shipped in production at work."
-      },
-      {
-        "name": "Growing",
-        "note": "Used on real work and getting deeper, mostly with AI agents."
-      },
-      {
-        "name": "Learning now",
-        "note": "Where I am heading next."
-      }
-    ],
-    "items": [
-      ["C#", 0, 0],
-      [".NET / ASP.NET Core", 0, 0],
-      ["Angular", 0, 0],
-      ["React", 0, 1],
-      ["TypeScript", 0, 1],
-      ["SQL Server", 1, 0],
-      ["Azure", 1, 0],
-      ["Microservices", 1, 0],
-      ["Firebase", 1, 1],
-      ["Google Gemini", 2, 0],
-      ["OCR (PdfPig)", 2, 0],
-      ["LLM APIs", 2, 1],
-      ["GitHub Copilot", 2, 1],
-      ["Claude", 2, 1],
-      ["Azure AI (AI-102)", 2, 2],
-      ["Agentic AI workflows", 2, 2],
-      ["Git", 3, 0],
-      ["Power Automate", 3, 0],
-      ["Sprint leadership", 3, 0],
-      ["CI/CD (GitHub Actions)", 3, 1],
-      ["Automated testing", 3, 1],
-      ["Software architecture", 3, 2]
-    ]
-  },
   "path": [
     ["Intern", "Loan origination, C# and SQL Server"],
     ["Software Developer", ".NET MVC, Blazor, REST APIs"],
@@ -231,5 +190,114 @@
     ["Senior Engineer", "Document AI and modernisation"],
     ["Project Engineer", "Team lead for 15"],
     ["Consultant", "Architecture, delivery, AI adoption"]
-  ]
+  ],
+  "stack": {
+    "trends": [
+      {
+        "id": "agentic",
+        "label": "Agentic AI",
+        "evidence": "Agent steps with a person in the loop in the systems I build. Learning Azure AI Foundry agents and multi-agent orchestration."
+      },
+      {
+        "id": "llm",
+        "label": "LLM integration",
+        "evidence": "Gemini and LLM APIs inside .NET products: document extraction, an AI assistant, contract analysis."
+      },
+      {
+        "id": "docai",
+        "label": "Document AI",
+        "evidence": "OCR and Gemini pipelines for bank statements and payslips; about 1,000 documents checked by AI."
+      },
+      {
+        "id": "aidev",
+        "label": "AI-assisted development",
+        "evidence": "Claude and GitHub Copilot every day; started Winjit's Copilot Community; this site was built with Claude."
+      },
+      {
+        "id": "cloud",
+        "label": "Cloud-native .NET",
+        "evidence": ".NET microservices on Azure for a loan origination platform, led with a team of 15."
+      },
+      {
+        "id": "devops",
+        "label": "Automation & CI/CD",
+        "evidence": "Power Automate and WhatsApp flows; a tested CI/CD pipeline for this site; a DevOps checklist across project teams."
+      },
+      {
+        "id": "responsible",
+        "label": "Responsible AI",
+        "evidence": "The PMO's AI adoption governance tracker; a person checks every AI decision that matters; learning content safety and evals."
+      }
+    ],
+    "layers": [
+      {
+        "name": "AI & agents",
+        "note": "models, agents and the tools around them",
+        "items": [
+          ["Google Gemini", "core", ["llm", "docai"]],
+          ["OCR / PdfPig", "core", ["docai"]],
+          ["LLM APIs", "grow", ["llm"]],
+          ["Claude", "grow", ["aidev", "agentic"]],
+          ["GitHub Copilot", "grow", ["aidev"]],
+          ["Azure AI Foundry agents", "learn", ["agentic"]],
+          ["RAG + Azure AI Search", "learn", ["llm", "agentic"]],
+          ["Multi-agent orchestration", "learn", ["agentic"]],
+          ["Content safety & evals", "learn", ["responsible"]]
+        ]
+      },
+      {
+        "name": "Apps & APIs",
+        "note": "what users and systems talk to",
+        "items": [
+          ["C#", "core", ["cloud"]],
+          [".NET / ASP.NET Core", "core", ["cloud", "llm"]],
+          ["REST APIs", "core", ["cloud"]],
+          ["Angular", "core", []],
+          ["Blazor", "core", []],
+          ["React", "grow", []],
+          ["TypeScript", "grow", ["aidev"]]
+        ]
+      },
+      {
+        "name": "Cloud & data",
+        "note": "where it runs and what it stores",
+        "items": [
+          ["Azure", "core", ["cloud"]],
+          ["Microservices", "core", ["cloud"]],
+          ["SQL Server", "core", ["docai"]],
+          ["Firebase", "grow", []]
+        ]
+      },
+      {
+        "name": "Delivery & automation",
+        "note": "how it ships and stays healthy",
+        "items": [
+          ["Git", "core", ["devops"]],
+          ["Power Automate", "core", ["devops"]],
+          ["Sprint leadership", "core", []],
+          ["AI adoption governance", "core", ["responsible", "aidev"]],
+          ["CI/CD (GitHub Actions)", "grow", ["devops"]],
+          ["Automated testing", "grow", ["devops", "responsible"]],
+          ["Software architecture", "learn", []]
+        ]
+      }
+    ],
+    "levels": [
+      {
+        "id": "core",
+        "name": "Core",
+        "note": "shipped in production"
+      },
+      {
+        "id": "grow",
+        "name": "Growing",
+        "note": "used on real work"
+      },
+      {
+        "id": "learn",
+        "name": "Learning now",
+        "note": "where I am heading"
+      }
+    ]
+  }
 }

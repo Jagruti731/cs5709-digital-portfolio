@@ -1,6 +1,6 @@
 /**
  * @file Home page (CR-43): a scanned-profile hero, skills ticker, key numbers, how I am ready for
- * agentic work, every system I have built as a live automated run, my tech stack as a radar,
+ * agentic work, every system I have built as a live automated run, my tech stack as AI-era layers with 2026 trends,
  * my career path and a contact band. Content: profile.json and showcase.json.
  * Home speaks to employers and clients; the assignment material (lecturer feedback, peer review,
  * iterations) lives on the Readme page, linked from the footer.
@@ -14,7 +14,7 @@ import { Pillars } from '../features/showcase/Pillars';
 import { ScanHero } from '../features/showcase/ScanHero';
 import { SkillTicker } from '../features/showcase/SkillTicker';
 import { SystemsPlayer } from '../features/showcase/SystemsPlayer';
-import { TechRadar } from '../features/showcase/TechRadar';
+import { TechStack } from '../features/showcase/TechStack';
 import { SiteStatus } from '../features/quality/SiteStatus';
 import { useContent } from '../hooks/useContent';
 
@@ -51,8 +51,8 @@ export default function Home() {
           <SiteStatus />
         </div>
       </section>
-      <Section kicker="Tech stack" title="My stack, mapped for what’s next." id="stack" alt>
-        <TechRadar radar={show.radar} />
+      <Section kicker="Tech stack" title="Built for the AI era, layer by layer." id="stack" alt>
+        <TechStack stack={show.stack} />
       </Section>
       <Section kicker="Career" title="Intern to consultant. Six roles, one company." intro="Then Nashik to Limerick for the MSc.">
         <CareerPath path={show.path} />

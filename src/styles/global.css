@@ -2351,7 +2351,7 @@ main:focus {
  * ready for agentic AI work. The idea comes from her own work in Document AI: the site reads like a
  * scanner. Scanner-glass background, toner-ink text, detection-box blue, highlighter yellow and an
  * "OK" green; Bricolage Grotesque for display, Instrument Sans for text, JetBrains Mono for labels.
- * Dark bands carry the live systems player and the tech radar. This is the only theme layer on top
+ * Dark bands carry the live systems player. This is the only theme layer on top
  * of sections 1 to 8 (the CR-42 editorial layer was replaced).
  * --------------------------------------------------------------------- */
 :root {
@@ -3308,142 +3308,253 @@ a {
   color: var(--scan2);
 }
 
-/* Tech radar. */
-.radar-wrap {
+/* Tech stack as AI-era layers (CR-46). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.stack {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 48px;
-  align-items: center;
+  gap: 28px;
 }
-.radar {
-  width: 100%;
-  max-width: 520px;
-  aspect-ratio: 1;
-  justify-self: center;
-  color: var(--accent);
-}
-.radar svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.radar .ring {
-  fill: none;
-  stroke: var(--border);
-}
-.radar .ring-1 {
-  fill: color-mix(in srgb, var(--accent) 12%, transparent);
-}
-.radar .ring-2 {
-  fill: color-mix(in srgb, var(--accent) 6%, transparent);
-}
-.radar .axis {
-  stroke: var(--border);
-}
-.radar .rl {
-  font: 500 10px var(--code);
-  fill: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-.radar .ql {
-  font: 600 12px var(--body);
-  fill: var(--text);
-}
-.sweep {
-  transform-origin: 260px 260px;
-}
-.blip {
-  cursor: default;
-  outline: none;
-}
-.blip.core {
-  color: var(--ok);
-}
-.blip.grow {
-  color: var(--accent);
-}
-.blip.learn {
-  color: #d9a400;
-}
-.blip circle {
-  fill: currentColor;
-  transition: r 0.25s;
-}
-.blip.hi circle:not(.pulse) {
-  r: 9;
-}
-.blip text {
-  font: 600 11px var(--code);
-  fill: var(--text);
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-  paint-order: stroke;
-  stroke: var(--bg-alt);
-  stroke-width: 4px;
-}
-.blip.hi text {
-  opacity: 1;
-}
-.blip .pulse {
-  fill: none;
-  stroke: currentColor;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.legend {
+.trend-bar {
   display: grid;
-  gap: 22px;
+  gap: 14px;
 }
-.legend h3 {
-  font-size: 1.35rem;
+.trend-chips {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.trend {
+  font: 600 14px/1 var(--body);
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s,
+    transform 0.25s var(--ease);
+}
+.trend:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.trend[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.trend-evidence {
+  margin: 0;
+  min-height: 3.2em;
+  color: var(--muted);
+  font-size: 15.5px;
+  max-width: 80ch;
+}
+.trend-evidence b {
+  color: var(--text);
+}
+.layers {
+  position: relative;
+  display: grid;
+  gap: 14px;
+}
+.signal {
+  position: absolute;
+  left: 39px;
+  top: 30px;
+  bottom: 30px;
+  width: 2px;
+  background: linear-gradient(var(--accent), color-mix(in srgb, var(--accent) 20%, transparent));
+  z-index: 0;
+}
+.signal::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mark);
+  box-shadow: 0 0 16px 4px color-mix(in srgb, var(--mark) 60%, transparent);
+  bottom: 0;
+}
+.layer {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 24px;
   align-items: center;
-  gap: 10px;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition:
+    transform 0.4s var(--ease),
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+.layer:hover {
+  transform: translateX(6px);
+  border-color: var(--accent);
+  box-shadow: 0 18px 40px -30px var(--accent);
+}
+.layer-0 {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    conic-gradient(from var(--spin, 0deg), var(--accent), var(--mark), var(--ok), var(--accent)) border-box;
+}
+.layer header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.layer-ic {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font: 700 14px/1 var(--code);
+}
+.layer h3 {
+  font-size: 1.3rem;
   margin: 0;
 }
-.legend h3 i {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: currentColor;
-}
-.legend .core h3 i {
-  color: var(--ok);
-}
-.legend .grow h3 i {
-  color: var(--accent);
-}
-.legend .learn h3 i {
-  color: #d9a400;
-}
-.legend p {
-  margin: 4px 0 10px;
+.layer header p {
+  margin: 2px 0 0;
+  font-size: 13.5px;
   color: var(--muted);
-  font-size: 14.5px;
 }
-.chips {
+.layer ul {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
-.chips li {
-  font: 500 12.5px/1 var(--code);
-  padding: 8px 11px;
+.tech {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 13.5px/1 var(--code);
+  padding: 10px 13px;
+  border-radius: 10px;
   border: 1px solid var(--border);
-  border-radius: 999px;
-  cursor: default;
+  background: var(--bg);
   transition:
-    background 0.2s,
-    color 0.2s;
+    opacity 0.3s,
+    filter 0.3s,
+    transform 0.3s var(--ease),
+    border-color 0.3s;
 }
-.chips li.hi {
-  background: var(--text);
-  color: var(--bg);
+.tech i,
+.levels i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+.tech.core i,
+.levels .core i {
+  background: var(--ok);
+}
+.tech.grow i,
+.levels .grow i {
+  background: var(--accent);
+}
+.tech.learn i,
+.levels .learn i {
+  background: #d9a400;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #d9a400 25%, transparent);
+}
+.tech.learn {
+  border-style: dashed;
+}
+.tech.dim {
+  opacity: 0.25;
+  filter: grayscale(1);
+}
+.stack:has(.trend[aria-pressed='true']:not(:first-child)) .tech:not(.dim) {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px -12px var(--accent);
+}
+.levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.levels li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.levels b {
+  color: var(--text);
+}
+@property --spin {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .layer-0 {
+    animation: spin-border 6s linear infinite;
+  }
+  .signal::after {
+    animation: signal-up 3.2s var(--ease) infinite;
+  }
+}
+@keyframes spin-border {
+  to {
+    --spin: 360deg;
+  }
+}
+@keyframes signal-up {
+  0% {
+    bottom: 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    bottom: 100%;
+    opacity: 0;
+  }
+}
+@media (max-width: 900px) {
+  .layer {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .signal {
+    display: none;
+  }
 }
 
 /* Career path. */
@@ -3941,7 +4052,6 @@ select {
   .hero .container.hero-grid,
   .section-title.split,
   .pillars,
-  .radar-wrap,
   .sys-player,
   .case,
   .tracks,
@@ -4029,12 +4139,6 @@ select {
   }
   .orbit {
     animation: spin 9s linear infinite;
-  }
-  .sweep {
-    animation: spin 6s linear infinite;
-  }
-  .blip .pulse {
-    animation: ping 3s infinite;
   }
   .page-banner h1 {
     animation: rise 0.9s var(--ease) both;

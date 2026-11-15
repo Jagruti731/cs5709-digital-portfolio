@@ -201,14 +201,21 @@ export interface ShowcasePillar {
   icon: 'doc' | 'pair' | 'shield';
 }
 
-/** Content of the Home page (CR-43): hero, skills, numbers, pillars, systems, tech radar and career path. */
+/** How well I know a technology: shipped in production, used on real work, or learning now. */
+export type StackLevel = 'core' | 'grow' | 'learn';
+
+/** Content of the Home page (CR-43): hero, skills, numbers, pillars, systems, tech stack and career path. */
 export interface Showcase {
   hero: { greetings: string[]; lines: string[]; lead: string; fields: [label: string, value: string, confidence: string][] };
   skills: string[];
   numbers: { value: number; prefix?: string; suffix?: string; label: string }[];
   pillars: ShowcasePillar[];
   systems: ShowcaseSystem[];
-  radar: { quadrants: string[]; rings: { name: string; note: string }[]; items: [name: string, quadrant: number, ring: number][] };
+  stack: {
+    trends: { id: string; label: string; evidence: string }[];
+    layers: { name: string; note: string; items: [name: string, level: StackLevel, trends: string[]][] }[];
+    levels: { id: StackLevel; name: string; note: string }[];
+  };
   path: [title: string, note: string][];
 }
 

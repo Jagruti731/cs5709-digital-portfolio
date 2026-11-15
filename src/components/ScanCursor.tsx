@@ -6,7 +6,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { loadMotion, reducedMotion } from '../features/motion/gsap';
 
-const HOVER = '.sys-tab, .pillar, .case, .blip, .work-index a';
+const HOVER = '.sys-tab, .pillar, .case, .layer';
 
 export function ScanCursor() {
   const el = useRef<HTMLDivElement>(null);
