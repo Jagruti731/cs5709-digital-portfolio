@@ -395,6 +395,12 @@ the change requests by maintenance type with the newest commits, all read from `
 (`features/evolution`). The motion is in the style of motion-graphics prompts: two kinetic type lines, an
 underline that draws, a log that writes itself and bars that fill. It is CSS only and is off for reduced motion.
 
+CR-41 replaced that with a "clean corporate" look (section 12 of `global.css`), because the owner wanted a
+professional site ready to submit: white page, navy text, one blue accent, Inter only and soft cards. Home now
+speaks to employers and clients (intro, photo card, key numbers, selected work, how I build software, a contact
+band); the assignment material (lecturer feedback, peer review, iterations, change log) stays on this Readme
+page, linked from the footer, so the marker still finds it.
+
 ## 12. Innovation
 
 Four features go beyond a static GitHub Pages portfolio and beyond what was covered in class.

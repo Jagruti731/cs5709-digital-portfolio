@@ -316,6 +316,14 @@
     "change": "Complete redesign as an \"evolution log\": dark engineered look with a lime accent, mono labels and the four maintenance types as colours; Home now tells the three assignments (A1, A2, A3), shows the change requests by maintenance type and the newest commits from the change log, with a git-log of versions; kinetic type, a log that writes itself and bars that fill (CSS only, off for reduced motion)",
     "type": "perfective",
     "closes": "Owner feedback: did not like the portfolio vibe; align with the assignments",
+    "commit": "0f3d0f8",
+    "phase": 2
+  },
+  {
+    "id": "CR-41",
+    "change": "Professional \"clean corporate\" redesign: white page, navy text, one blue accent, Inter only, soft cards; Home now speaks to employers (name, intro, photo card, key numbers, selected work, how I build software, contact band) and the assignment material stays on the Readme page; calm load animation, off for reduced motion",
+    "type": "perfective",
+    "closes": "Owner feedback: keep it professional and ready to submit; module and assignment details do not belong on a personal Home page",
     "commit": "this commit",
     "phase": 2
   }

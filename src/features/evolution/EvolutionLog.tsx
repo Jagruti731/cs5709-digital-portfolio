@@ -1,11 +1,18 @@
 /**
- * @file EvolutionLog: Home section that shows the software-evolution work behind this site (CR-40).
- * Left: the four kinds of maintenance with their share of all change requests. Right: the newest commits as a
- * commit rail. Both read changelog.json, so they grow with every change request.
+ * @file EvolutionLog: Home section "How I build software" (CR-40, CR-41).
+ * Left: the four kinds of maintenance with their share of all change requests. Right: the engineering practices
+ * every change goes through. The bars read changelog.json, so they grow with every change request.
  */
 import { Link } from 'react-router-dom';
 import { useContent } from '../../hooks/useContent';
-import { countByType, latest } from './summary';
+import { countByType } from './summary';
+
+const PRACTICES: [string, string][] = [
+  ['Automated tests', 'Unit, API, browser and security-rule tests run on every push.'],
+  ['CI/CD pipeline', 'Each commit is linted, type-checked, tested, built and deployed by GitHub Actions.'],
+  ['Live quality report', 'The pipeline publishes test results, coverage and complexity for the exact version that is live.'],
+  ['Architecture check', 'Imports are compared with the planned architecture, so drift shows up early.'],
+];
 
 const LABEL = {
   corrective: 'fix what is broken',
@@ -46,15 +53,14 @@ export function EvolutionLog() {
           <Link to="/readme">Read the change log →</Link>
         </p>
       </div>
-      <ol className="commit-rail" aria-label="Newest commits">
-        {latest(data, 6).map((c, i) => (
-          <li className={`t-${c.type}`} key={c.id} style={{ ['--i' as string]: i }}>
-            <code>{c.id}</code>
-            <span className="tag">{c.type}</span>
-            <p>{c.change}</p>
+      <ul className="practice" aria-label="How every change is checked">
+        {PRACTICES.map(([title, text]) => (
+          <li key={title}>
+            <b>{title}</b>
+            <span>{text}</span>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   );
 }

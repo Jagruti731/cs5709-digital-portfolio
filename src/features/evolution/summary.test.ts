@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Change } from '../../types/content';
-import { countByType, latest } from './summary';
+import { countByType } from './summary';
 
 const c = (id: string, type: string): Change => ({ id, change: id, type, closes: '—', commit: 'x', phase: 2 }) as Change;
 
@@ -15,11 +15,5 @@ describe('countByType', () => {
   });
   it('ignores unknown types', () => {
     expect(countByType([c('1', 'other')]).reduce((s, x) => s + x.count, 0)).toBe(0);
-  });
-});
-
-describe('latest', () => {
-  it('returns the newest changes first', () => {
-    expect(latest([c('1', 'adaptive'), c('2', 'adaptive'), c('3', 'adaptive')], 2).map((x) => x.id)).toEqual(['3', '2']);
   });
 });

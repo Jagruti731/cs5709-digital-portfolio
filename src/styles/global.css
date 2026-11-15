@@ -3853,3 +3853,537 @@ h2 {
     transform: translateX(-14px);
   }
 }
+
+/* ------------------------------------------------------------------------
+ * 12 "Clean corporate" theme (CR-41)
+ *
+ * Owner feedback on CR-40: keep it professional and ready to submit; the dark log
+ * still did not feel right. She chose a clean corporate look: white page, navy
+ * text, one blue accent, Inter throughout, generous white space, soft cards.
+ * Home speaks to employers; assignment material stays on the Readme page.
+ * This section overrides the tokens and shapes of sections 9 and 11.
+ * --------------------------------------------------------------------- */
+:root,
+:root:not([data-theme='dark']),
+:root[data-theme='light'] {
+  --bg: #ffffff;
+  --bg-alt: #f5f7fb;
+  --card: #ffffff;
+  --text: #0f1b2d;
+  --muted: #5b6678;
+  --border: #e3e8ef;
+  --accent: #1f4fd1;
+  --accent-soft: #e8eefc;
+  --saffron: #1f4fd1;
+  --green: #0f7b5f;
+  --green-soft: #e3f4ee;
+  --ink: #0f1b2d;
+  --paper: #ffffff;
+  --on-primary: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.92);
+  --nav-text: #0f1b2d;
+  --nav-muted: #5b6678;
+  --nav-line: #e3e8ef;
+  --t-corrective: #d64545;
+  --t-adaptive: #0e86b3;
+  --t-perfective: #1f4fd1;
+  --t-preventive: #c98a0b;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(15, 27, 45, 0.04), 0 8px 24px -12px rgba(15, 27, 45, 0.12);
+  --flag: var(--accent);
+}
+:root[data-theme='dark'] {
+  --bg: #0c1424;
+  --bg-alt: #111b2e;
+  --card: #14203a;
+  --text: #eef2f8;
+  --muted: #9aa6ba;
+  --border: #22314d;
+  --accent: #7aa2ff;
+  --accent-soft: #1a2950;
+  --saffron: #7aa2ff;
+  --green: #4fd1a5;
+  --green-soft: #12302a;
+  --ink: #0c1424;
+  --paper: #eef2f8;
+  --on-primary: #0c1424;
+  --nav-bg: rgba(12, 20, 36, 0.92);
+  --nav-text: #eef2f8;
+  --nav-muted: #9aa6ba;
+  --nav-line: #22314d;
+  --t-corrective: #ff7b7b;
+  --t-adaptive: #5cc8ff;
+  --t-perfective: #7aa2ff;
+  --t-preventive: #ffc857;
+  --shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0c1424;
+    --bg-alt: #111b2e;
+    --card: #14203a;
+    --text: #eef2f8;
+    --muted: #9aa6ba;
+    --border: #22314d;
+    --accent: #7aa2ff;
+    --accent-soft: #1a2950;
+    --saffron: #7aa2ff;
+    --green: #4fd1a5;
+    --green-soft: #12302a;
+    --ink: #0c1424;
+    --paper: #eef2f8;
+    --on-primary: #0c1424;
+    --nav-bg: rgba(12, 20, 36, 0.92);
+    --nav-text: #eef2f8;
+    --nav-muted: #9aa6ba;
+    --nav-line: #22314d;
+    --t-corrective: #ff7b7b;
+    --t-adaptive: #5cc8ff;
+    --t-perfective: #7aa2ff;
+    --t-preventive: #ffc857;
+    --shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  }
+}
+body {
+  font: 400 16.5px/1.7 var(--body);
+  background: var(--bg);
+  background-image: none;
+  color: var(--text);
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--body);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+h2 {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+.section {
+  border-top: 0;
+  padding-block: 88px;
+}
+.section.alt {
+  background: var(--bg-alt);
+}
+.section-title .kicker,
+.kicker {
+  font: 600 13px/1 var(--body);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.section-title .kicker:before {
+  content: none;
+}
+
+/* Navigation. */
+.navbar {
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-line);
+}
+.logo-mark {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  font: 700 13px/1 var(--body);
+}
+.logo-name {
+  font: 700 1.05rem/1 var(--body);
+}
+.nav-links a {
+  font: 500 15px/1 var(--body);
+  text-transform: none;
+  color: var(--nav-muted);
+}
+.nav-links a[aria-current='page'] {
+  color: var(--accent);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.navbar .icon-btn {
+  font: 500 13px/1 var(--body);
+  border-radius: 8px;
+}
+
+/* Buttons. */
+.btn,
+.hero .btn {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: var(--on-primary);
+  border-radius: 10px;
+  font: 600 15px/1 var(--body);
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 14px 22px;
+}
+.btn:hover,
+.hero .btn:hover,
+.hero .btn.outline:hover {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+.btn.outline,
+.hero .btn.outline,
+.section .btn.outline {
+  background: var(--card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* Hero: name, one paragraph, photo card, key numbers. */
+.hero {
+  background: linear-gradient(180deg, var(--accent-soft) 0%, var(--bg) 100%);
+  background-image: linear-gradient(180deg, var(--accent-soft) 0%, var(--bg) 100%);
+  padding-block: 88px 64px;
+  border-bottom: 1px solid var(--border);
+}
+.hero .container.hero-grid {
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.8fr);
+  gap: 64px;
+  align-items: center;
+}
+.hero .eyebrow {
+  display: inline-block;
+  font: 600 13px/1 var(--body);
+  color: var(--accent);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  margin: 0 0 22px;
+}
+.hero h1 {
+  font: 800 clamp(2.6rem, 6vw, 4.4rem) / 1.02 var(--body);
+  letter-spacing: -0.04em;
+  margin: 0 0 20px;
+  color: var(--text);
+}
+.hero h1 span {
+  color: var(--accent);
+}
+.hero p.intro {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 58ch;
+  margin-bottom: 30px;
+}
+.hero-photo {
+  margin: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 12px;
+  box-shadow: var(--shadow);
+}
+.hero-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 12px;
+}
+.hero-photo figcaption {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 6px 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.hero-photo figcaption b {
+  color: var(--text);
+  font-size: 16px;
+}
+.hero .numbers {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.hero .numbers > div {
+  padding: 22px 24px;
+  border-left: 1px solid var(--border);
+  border-top: 0;
+}
+.hero .numbers > div:first-child {
+  border-left: 0;
+}
+.numbers b {
+  font: 800 clamp(1.6rem, 2.6vw, 2.1rem) / 1.1 var(--body);
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+.numbers b:first-letter {
+  color: var(--accent);
+}
+.numbers span {
+  font: 400 14px/1.45 var(--body);
+  color: var(--muted);
+  display: block;
+  margin-top: 4px;
+}
+
+/* Inner page banners. */
+.page-banner {
+  background: linear-gradient(180deg, var(--accent-soft) 0%, var(--bg) 100%);
+  padding-block: 64px 40px;
+  border-bottom: 1px solid var(--border);
+}
+.page-banner:after {
+  content: none;
+}
+.page-banner h1 {
+  font: 800 clamp(2.2rem, 4.6vw, 3.2rem) / 1.05 var(--body);
+  letter-spacing: -0.035em;
+}
+.page-banner .crumbs {
+  font: 500 14px/1 var(--body);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Cards. */
+.card,
+.work-card,
+.track,
+.cert-list li,
+.gitlog {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.work-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border);
+  box-shadow: 0 20px 40px -20px rgba(15, 27, 45, 0.25);
+}
+.work-card .kind,
+.case .meta,
+.timeline time {
+  font: 600 12.5px/1.4 var(--body);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.work-card h3 {
+  font-size: 1.25rem;
+}
+.tags li {
+  font: 500 12.5px/1.4 var(--body);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 999px;
+}
+.chip {
+  font: 500 13px/1.3 var(--body);
+  border-radius: 999px;
+}
+.more {
+  color: var(--accent);
+  font-weight: 600;
+}
+.center-link {
+  text-align: center;
+  margin: 40px 0 0;
+}
+
+/* How I build software: bars, commits and the live status, in soft cards. */
+.evo {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+}
+.evo-bar b {
+  font: 600 14px/1.2 var(--body);
+  text-transform: capitalize;
+  letter-spacing: 0;
+}
+.evo-bar strong {
+  font: 800 1.6rem/1 var(--body);
+}
+.evo-bar small {
+  font: 400 13px var(--body);
+}
+.evo-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-alt);
+}
+.evo-track i {
+  border-radius: 999px;
+}
+.commit-rail code {
+  font: 600 13px var(--code);
+}
+.commit-rail .tag {
+  font: 500 12px var(--body);
+  text-transform: capitalize;
+  letter-spacing: 0;
+}
+.section .site-status {
+  margin-top: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  font: 400 14px/1.5 var(--body);
+  color: var(--text);
+}
+
+/* Call to action. */
+.cta-band {
+  background: var(--text);
+  color: var(--bg);
+  padding-block: 64px;
+}
+.cta-band .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+}
+.cta-band h2 {
+  color: var(--bg);
+  margin: 0 0 6px;
+}
+.cta-band p {
+  margin: 0;
+  color: color-mix(in srgb, var(--bg) 75%, transparent);
+}
+.cta-band .btn.outline {
+  background: transparent;
+  color: var(--bg);
+  border-color: color-mix(in srgb, var(--bg) 40%, transparent);
+}
+
+/* Timeline, tracks, portrait and footer. */
+.timeline li:before {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.timeline li:first-child:before {
+  background: var(--accent);
+}
+.portrait {
+  border-radius: 16px;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+}
+.track-no {
+  font: 700 13px var(--body);
+  color: var(--accent);
+}
+.site-footer {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  font: 400 14px/1.6 var(--body);
+  color: var(--muted);
+}
+.site-footer a,
+.site-status-foot a {
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .hero .container.hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .hero-photo {
+    max-width: 320px;
+  }
+  .hero .numbers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero .numbers > div:nth-child(3) {
+    border-left: 0;
+  }
+  .hero .numbers > div:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+  .section {
+    padding-block: 64px;
+  }
+  .evo {
+    padding: 22px;
+  }
+}
+
+/* Motion (CR-41): calm and professional. A soft rise on load, bars that fill. Off for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero .eyebrow,
+  .hero h1,
+  .hero p.intro,
+  .hero .btn-row,
+  .hero-photo,
+  .hero .numbers {
+    animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero h1 {
+    animation-delay: 0.08s;
+  }
+  .hero p.intro {
+    animation-delay: 0.16s;
+  }
+  .hero .btn-row {
+    animation-delay: 0.24s;
+  }
+  .hero-photo {
+    animation-delay: 0.2s;
+  }
+  .hero .numbers {
+    animation-delay: 0.34s;
+  }
+}
+.practice {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.practice li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  background: var(--bg-alt);
+}
+.practice b {
+  font-size: 15px;
+}
+.practice span {
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.facts-table th,
+.case dt {
+  font: 600 13px/1.5 var(--body);
+  font-style: normal;
+  color: var(--muted);
+}
+.case dt {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+}

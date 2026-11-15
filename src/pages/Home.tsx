@@ -1,12 +1,13 @@
 /**
- * @file Home page: introduction with my photo, a live system status strip, four key numbers and three featured projects.
- * Content: profile.json and projects.json; the status strip reads quality.json from the pipeline (CR-33).
- * CR-40: redesigned around the CS5709 assignments: version log, three assignments, evolution numbers.
+ * @file Home page: who I am, key numbers, selected work, how I build software, and a contact call to action.
+ * Content: profile.json, projects.json and changelog.json; the status strip reads quality.json from the pipeline (CR-33).
+ * CR-41: "clean corporate" redesign. Home is for employers and clients; the assignment material
+ * (lecturer feedback, peer review, iterations) lives on the Readme page, linked from the footer.
  */
 import { Link } from 'react-router-dom';
 import { LoadState } from '../components/LoadState';
 import { Section } from '../components/Section';
-import { Assignments, GitLog } from '../features/evolution/Parts';
+import { SITE } from '../config/site';
 import { EvolutionLog } from '../features/evolution/EvolutionLog';
 import { SiteStatus } from '../features/quality/SiteStatus';
 import { useContent } from '../hooks/useContent';
@@ -26,68 +27,49 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-text">
-            <p className="route" aria-label="CS5709 Software Engineering Evolution, University of Limerick">
-              <span>CS5709</span>
-              <i aria-hidden="true" />
-              <span>evolution</span>
-            </p>
+            <p className="eyebrow">Tech Consultant · .NET · Azure · Agentic AI</p>
             <h1>
-              <span className="line">Software is never finished.</span>
-              <span className="line">
-                It <em>evolves.</em>
-              </span>
+              {profile.name.split(' ')[0]} <span>{profile.name.split(' ').slice(1).join(' ')}</span>
             </h1>
-            <p className="hello">{profile.name} · Tech Consultant · .NET · Azure · Agentic AI · MSc @ UL</p>
-            <p className="intro">
-              This portfolio is my evolution project. I took my Phase 1 site, listened to the lecturer and to my peer reviewer, and changed
-              it one change request at a time, with a type, a commit and a test for each.
-            </p>
+            <p className="intro">{profile.intro}</p>
             <div className="btn-row">
-              <Link className="btn" to="/readme">
-                See the evolution
+              <Link className="btn" to="/knowledge">
+                View my work
               </Link>
-              <Link className="btn outline" to="/knowledge">
-                See my work
+              <Link className="btn outline" to="/messages">
+                Contact me
               </Link>
             </div>
           </div>
-          <GitLog name={profile.name} photo={profile.photo} />
+          {profile.photo && (
+            <figure className="hero-photo">
+              <img src={imagePath(profile.photo)} alt={profile.name} width={400} height={400} decoding="async" />
+              <figcaption>
+                <b>{profile.name}</b>
+                <span>MSc Software Engineering, University of Limerick</span>
+              </figcaption>
+            </figure>
+          )}
+        </div>
+        <div className="container">
+          <div className="numbers">
+            {profile.numbers.map((n) => (
+              <div key={n.label}>
+                <b>{n.value}</b>
+                <span>{n.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
-      <div className="status-band">
-        <div className="container">
-          <SiteStatus />
-        </div>
-      </div>
 
-      <Section kicker="01 / the three assignments" title="Every assignment became a change on this site">
-        <Assignments />
-      </Section>
-
-      <Section kicker="02 / evolution in numbers" title="Four kinds of maintenance, one change log" alt>
-        <EvolutionLog />
-      </Section>
-
-      <Section>
-        <div className="numbers">
-          {profile.numbers.map((n) => (
-            <div key={n.label}>
-              <b>{n.value}</b>
-              <span>{n.label}</span>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section kicker="03 / selected work" title="Systems I have built and led">
+      <Section kicker="Selected work" title="Systems I have built and led">
         <div className="grid g3">
-          {featured.map((c, i) => (
+          {featured.map((c) => (
             <article className="work-card" key={c.id}>
               <img src={imagePath(c.image)} alt={c.title} loading="lazy" decoding="async" width={1200} height={800} />
               <div className="body">
-                <span className="kind">
-                  {String(i + 1).padStart(2, '0')} · {c.kind}
-                </span>
+                <span className="kind">{c.kind}</span>
                 <h3>{c.title}</h3>
                 <p>{c.summary}</p>
                 <ul className="tags">
@@ -102,7 +84,34 @@ export default function Home() {
             </article>
           ))}
         </div>
+        <p className="center-link">
+          <Link className="btn outline" to="/knowledge">
+            All case studies
+          </Link>
+        </p>
       </Section>
+
+      <Section kicker="How I build software" title="Every change tracked, typed and tested" alt>
+        <EvolutionLog />
+        <SiteStatus />
+      </Section>
+
+      <section className="cta-band">
+        <div className="container">
+          <div>
+            <h2>Let's work together</h2>
+            <p>Have a question about my work, or a role in mind? I would like to hear from you.</p>
+          </div>
+          <div className="btn-row">
+            <a className="btn" href={SITE.linkedin} target="_blank" rel="noopener">
+              Message me on LinkedIn
+            </a>
+            <Link className="btn outline" to="/about">
+              About me
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

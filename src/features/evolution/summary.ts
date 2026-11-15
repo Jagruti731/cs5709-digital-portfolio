@@ -21,6 +21,3 @@ export function countByType(changes: Change[]): TypeShare[] {
     return { type, count, percent: known.length ? Math.round((count / known.length) * 100) : 0 };
   });
 }
-
-/** The newest `n` changes, newest first. */
-export const latest = (changes: Change[], n: number): Change[] => changes.slice(-n).reverse();
