@@ -428,6 +428,14 @@
     "change": "Video gallery restored (Gallery → Videos tab, three local videos, playlist and its browser check), because the brief requires a Pictures gallery and a Video gallery",
     "type": "corrective",
     "closes": "Final check against the brief",
+    "commit": "d9a8bf1",
+    "phase": 2
+  },
+  {
+    "id": "CR-55",
+    "change": "Gallery photos checked against my LinkedIn posts: two titles corrected (OG Connect session, Town Hall medal) and client details blurred in both photos",
+    "type": "corrective",
+    "closes": "Wrong photo titles found in review",
     "commit": "this commit",
     "phase": 2
   }
