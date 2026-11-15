@@ -19,8 +19,8 @@ export default function App() {
           {routes.map(({ id, path, Component }) =>
             path === '/' ? <Route key={id} index element={<Component />} /> : <Route key={id} path={path} element={<Component />} />,
           )}
-          {/* Pictures and Videos were merged into Gallery (CR-30); old links still work. */}
-          <Route path="/videos" element={<Navigate to="/gallery?tab=videos" replace />} />
+          {/* The old Videos page (merged into Gallery in CR-30, removed in CR-47) opens the gallery. */}
+          <Route path="/videos" element={<Navigate to="/gallery" replace />} />
           {/* Education became a section of About (CR-33). */}
           <Route path="/education" element={<Navigate to="/about?section=education" replace />} />
           <Route path="*" element={<NotFound />} />

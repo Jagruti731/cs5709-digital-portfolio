@@ -43,7 +43,7 @@
       "label": "Agents in my workflow",
       "title": "Agents on my team",
       "points": ["Claude, Copilot, OpenAI and Gemini, daily", "Started Winjit's GitHub Copilot Community"],
-      "proof": "This site: built with Claude, every change tested",
+      "proof": "This site: every change typed, tested and shipped",
       "icon": "pair"
     },
     {
@@ -170,17 +170,17 @@
     {
       "id": "portfolio",
       "name": "This portfolio",
-      "kind": "Built with an AI pair programmer",
-      "headline": "*Every change typed, tested and shipped.* Built with Claude.",
-      "tools": ["React", "TypeScript", "GitHub Actions", "Claude"],
+      "kind": "Designed and built by me",
+      "headline": "*Every change typed, tested and shipped.*",
+      "tools": ["React", "TypeScript", "GitHub Actions", "Firebase"],
       "steps": [
         ["📝", "Change request", "typed and numbered"],
-        ["🤖", "Pair-program", "with Claude", "agent"],
-        ["🧑‍💻", "Review", "I decide what ships", "human"],
-        ["🧪", "Checks", "CI/CD pipeline"],
+        ["🧑‍💻", "Build", "React + TypeScript"],
+        ["🧪", "Checks", "158 automated"],
+        ["🔍", "Review", "live quality report"],
         ["🚀", "Deploy", "GitHub Pages"]
       ],
-      "log": ["change request opened", "code written with Claude", "reviewed by me", "all checks passed", "deployed ✓"]
+      "log": ["change request opened", "feature built", "158 / 158 checks passed", "quality report published", "deployed ✓"]
     }
   ],
   "path": [
@@ -211,7 +211,7 @@
       {
         "id": "aidev",
         "label": "AI-assisted development",
-        "evidence": "Claude and GitHub Copilot every day; started Winjit's Copilot Community; this site was built with Claude."
+        "evidence": "Claude and GitHub Copilot in my daily work; started Winjit's GitHub Copilot Community."
       },
       {
         "id": "cloud",

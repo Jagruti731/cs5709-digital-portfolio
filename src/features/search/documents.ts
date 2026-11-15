@@ -3,7 +3,7 @@
  * One function per source, so adding new content to search is one more function.
  */
 import { pages } from '../../lib/navigation';
-import type { Article, CareerData, CodeIndex, EducationData, GalleryData, ProjectsData, Video } from '../../types/content';
+import type { Article, CareerData, CodeIndex, EducationData, GalleryData, ProjectsData } from '../../types/content';
 import type { SearchDoc } from './searchIndex';
 
 export interface SiteContent {
@@ -12,7 +12,6 @@ export interface SiteContent {
   education?: EducationData;
   career?: CareerData;
   gallery?: GalleryData;
-  videos?: Video[];
 }
 
 /** Every page in the menu, with its keywords. */
@@ -77,7 +76,7 @@ const careerDocs = (c?: CareerData): SearchDoc[] =>
     text: `${x.when}. ${x.text}`,
   }));
 
-const mediaDocs = (gallery?: GalleryData, videos: Video[] = []): SearchDoc[] => [
+const mediaDocs = (gallery?: GalleryData): SearchDoc[] => [
   ...(gallery?.pictures ?? []).map((p) => ({
     id: `pic-${p.file}`,
     kind: 'Picture',
@@ -86,7 +85,6 @@ const mediaDocs = (gallery?: GalleryData, videos: Video[] = []): SearchDoc[] => 
     text: p.caption,
     tags: [p.category],
   })),
-  ...videos.map((v) => ({ id: `video-${v.id}`, kind: 'Video', title: v.title, to: '/videos', text: v.description })),
 ];
 
 /** Everything a visitor can read on the site. */
@@ -96,7 +94,7 @@ export const siteDocs = (c: SiteContent): SearchDoc[] => [
   ...articleDocs(c.blog),
   ...educationDocs(c.education),
   ...careerDocs(c.career),
-  ...mediaDocs(c.gallery, c.videos),
+  ...mediaDocs(c.gallery),
 ];
 
 /** Every source file, for concept location in the code. Links open the file on GitHub. */

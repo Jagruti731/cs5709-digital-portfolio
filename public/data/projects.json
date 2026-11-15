@@ -25,7 +25,7 @@
         "Fixed sign, digit and truncation errors, and a race condition in parallel processing",
         "Added validation, de-duplication and a hardened Excel export (EPPlus)"
       ],
-      "tools": ["ASP.NET Core", "C#", "Google Gemini", "PdfPig"],
+      "tools": ["ASP.NET Core", "C#", "OCR", "Google Gemini", "PdfPig"],
       "role": "Designed and built the extractors",
       "impact": ["Four bank layouts supported, each a separate extractor", "Credit teams no longer type transactions by hand"]
     },

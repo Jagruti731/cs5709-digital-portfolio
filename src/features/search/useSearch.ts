@@ -2,7 +2,7 @@
  * @file useSearch: loads what can be searched, builds the index once, and runs queries (CR-21).
  *
  * Two collections:
- *  - site: pages, case studies, projects, skills, articles, education, experience, pictures, videos
+ *  - site: pages, case studies, projects, skills, articles, education, experience and pictures
  *  - code: every source file (concept location), from codeindex.json
  * Each index is built only when its content has loaded, and rebuilt only if that content changes.
  */
@@ -19,12 +19,11 @@ export function useSearch(scope: Scope, query: string) {
   const education = useContent('education').data;
   const career = useContent('career').data;
   const gallery = useContent('gallery').data;
-  const videos = useContent('videos').data;
   const code = useContent('codeindex');
 
   const siteIndex = useMemo(
-    () => buildIndex(siteDocs({ projects, blog, education, career, gallery, videos })),
-    [projects, blog, education, career, gallery, videos],
+    () => buildIndex(siteDocs({ projects, blog, education, career, gallery })),
+    [projects, blog, education, career, gallery],
   );
   const codeIndex = useMemo(() => buildIndex(codeDocs(code.data)), [code.data]);
   const index = scope === 'site' ? siteIndex : codeIndex;

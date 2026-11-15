@@ -39,12 +39,12 @@ const fakeFetch = (body: string, status = 200) => (async () => new Response(body
 
 describe('loadContent', () => {
   it('returns checked data', async () => {
-    const data = await loadContent('videos', fakeFetch('[{"id":"v","title":"t","description":"d","duration":"0:10"}]'));
+    const data = await loadContent('blog', fakeFetch('[{"id":"v","title":"t","date":"2026-01-01"}]'));
     expect(data[0].id).toBe('v');
   });
 
   it('explains a missing file', async () => {
-    await expect(loadContent('videos', fakeFetch('', 404))).rejects.toThrow('videos.json: the server returned 404');
+    await expect(loadContent('blog', fakeFetch('', 404))).rejects.toThrow('blog.json: the server returned 404');
   });
 
   it('explains a file that is not JSON', async () => {
@@ -78,9 +78,9 @@ describe('contentSlice', () => {
       calls += 1;
       return new Response('[]');
     }) as unknown as typeof fetch;
-    await store.dispatch(fetchContent('videos'));
-    await store.dispatch(fetchContent('videos'));
+    await store.dispatch(fetchContent('blog'));
+    await store.dispatch(fetchContent('blog'));
     expect(calls).toBe(1);
-    expect(store.getState().content.videos?.status).toBe('ready');
+    expect(store.getState().content.blog?.status).toBe('ready');
   });
 });

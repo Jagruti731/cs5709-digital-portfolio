@@ -106,14 +106,6 @@ export interface GalleryData {
   pictures: Picture[];
 }
 
-/** One local video; `id` names both public/videos/<id>.mp4 and its .jpg poster. */
-export interface Video {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-}
-
 export type ChangeType = 'corrective' | 'adaptive' | 'perfective' | 'preventive';
 
 /** One change request in the change log (CR-01 ... CR-nn). */
@@ -227,7 +219,6 @@ export interface ContentMap {
   career: CareerData;
   education: EducationData;
   gallery: GalleryData;
-  videos: Video[];
   changelog: Change[];
   requirements: RequirementsData;
   codeindex: CodeIndex;

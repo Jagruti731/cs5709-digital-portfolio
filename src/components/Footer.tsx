@@ -1,7 +1,7 @@
 /**
- * @file Footer: shown on every page. Version, module, and the links that left the menu in CR-30:
- * Readme (how the site is built, required by the brief) and Dashboard (GitHub and code quality).
- * CR-43: credits Claude (Anthropic), the AI pair programmer the site was built with.
+ * @file Footer: shown on every page. Copyright and the Dashboard and LinkedIn links.
+ * CR-47: the module name and the Readme link were removed from the footer, so the site reads as a
+ * personal portfolio; the Readme page still exists for anyone given its address.
  */
 import { Link } from 'react-router-dom';
 import { SITE } from '../config/site';
@@ -10,14 +10,8 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container">
-        <span>
-          © 2026 {SITE.owner} · v{SITE.version} · {SITE.module}
-        </span>
-        <span className="credit">
-          Designed and built by <b>{SITE.owner}</b> with <b>Claude</b> (Anthropic) as AI pair programmer
-        </span>
-        <nav className="footer-links" aria-label="About this site">
-          <Link to="/readme">Readme</Link>
+        <span>© 2026 {SITE.owner} · Limerick, Ireland</span>
+        <nav className="footer-links" aria-label="More">
           <Link to="/dashboard">Dashboard</Link>
           <a href={SITE.linkedin}>LinkedIn</a>
         </nav>

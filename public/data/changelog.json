@@ -337,7 +337,7 @@
   },
   {
     "id": "CR-43",
-    "change": "Custom \"Scan\" design researched from top portfolios and chosen from a live prototype: the hero reads my profile like a scanned document; a section on readiness for agentic AI work; all eight systems (seven case studies and this site) shown as live automated runs with agent and human steps; the tech stack as a radar (core, growing, learning now); career path; smooth scrolling, magnetic buttons and a scanner cursor; footer credits Claude as AI pair programmer. Home content moved to showcase.json; the editorial layer and its fonts were replaced",
+    "change": "Custom \"Scan\" design researched from top portfolios and chosen from a live prototype: the hero reads my profile like a scanned document; a section on readiness for agentic AI work; all eight systems (seven case studies and this site) shown as live automated runs with agent and human steps; the tech stack as a radar (core, growing, learning now); career path; smooth scrolling, magnetic buttons and a scanner cursor. Home content moved to showcase.json; the editorial layer and its fonts were replaced",
     "type": "perfective",
     "closes": "Owner feedback: show readiness for agentic AI work, all case studies and the tech stack, livelier, with workflows automated",
     "commit": "c3911a9",
@@ -364,6 +364,14 @@
     "change": "Tech stack shown as AI-era layers (AI and agents, apps and APIs, cloud and data, delivery and automation) instead of a radar, with every name visible, a core / growing / learning-now level per technology, and a filter by 2026 trend (agentic AI, LLM integration, Document AI, AI-assisted development, cloud-native .NET, automation and CI/CD, responsible AI) that lights up the technologies behind the trend and shows one line of evidence; learning items follow the Azure AI Engineer skills (agents, RAG, content safety)",
     "type": "perfective",
     "closes": "Owner feedback: the tech presentation should be the best and match current tech trends",
+    "commit": "2cdc87e",
+    "phase": 2
+  },
+  {
+    "id": "CR-47",
+    "change": "Made the site read as a personal portfolio: videos removed from the Gallery (pictures only; /videos opens the gallery), the module name and Readme link removed from the footer and the status line, the chat answer about the site rewritten, and the 8th system now shows how I build and ship this site",
+    "type": "perfective",
+    "closes": "Owner feedback: remove the videos, the footer credit and the module wording",
     "commit": "this commit",
     "phase": 2
   }

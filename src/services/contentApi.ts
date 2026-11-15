@@ -61,7 +61,6 @@ export const contentRules: Record<ContentName, Check> = {
   career: objectWith({ experience: arrayOf('when', 'title', 'text') }),
   education: objectWith({ education: arrayOf('when', 'title', 'text'), certifications: arrayOf('title', 'text') }),
   gallery: objectWith({ filters: arrayOf('value', 'label'), pictures: arrayOf('file', 'category', 'title', 'caption') }),
-  videos: arrayOf('id', 'title', 'description', 'duration'),
   changelog: arrayOf('id', 'change', 'type', 'commit'),
   requirements: objectWith({
     personas: arrayOf('id', 'name', 'role', 'goal', 'scenario'),

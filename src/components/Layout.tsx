@@ -51,7 +51,7 @@ export function Layout() {
     const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200));
     idle(() => {
       preloadPages();
-      (['profile', 'projects', 'career', 'education', 'gallery', 'blog', 'videos'] as const).forEach((n) => void dispatch(fetchContent(n)));
+      (['profile', 'projects', 'career', 'education', 'gallery', 'blog'] as const).forEach((n) => void dispatch(fetchContent(n)));
     });
   }, [dispatch]);
 

@@ -46,11 +46,11 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,woff2,png,ico,webmanifest,json}'],
         // The Firebase SDK (index.esm-*.js, about 170 kB gzip) is left out of the install download:
         // it is fetched only when a visitor opens the feed or lounge, then cached (CR-31).
-        globIgnores: ['**/images/**', '**/videos/**', '**/diagrams/**', '**/assets/index.esm-*.js'],
+        globIgnores: ['**/images/**', '**/diagrams/**', '**/assets/index.esm-*.js'],
         navigateFallback: 'index.html',
-        // Files opened directly (the pipeline's quality.json, data, diagrams, videos) must not be
+        // Files opened directly (the pipeline's quality.json, data, diagrams) must not be
         // answered with the app shell (CR-39: /quality.json showed the Home page).
-        navigateFallbackDenylist: [/\.json$/, /\/(data|diagrams|videos|images)\//],
+        navigateFallbackDenylist: [/\.json$/, /\/(data|diagrams|images)\//],
         runtimeCaching: [
           {
             // Content: fresh when online, last copy when offline.

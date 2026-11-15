@@ -36,7 +36,6 @@ export function SiteStatus() {
             Pipeline run
           </a>
         )}
-        <Link to="/readme">How it is built</Link>
       </p>
     </aside>
   );

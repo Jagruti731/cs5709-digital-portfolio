@@ -161,12 +161,6 @@ check(
   `${galleryParts.filter(Boolean).length}/${galleryParts.length}`,
 );
 
-// 5. Video playlist.
-await go('/videos');
-await page.locator('.playlist button').nth(2).click();
-await page.waitForTimeout(300);
-check('Video playlist switches the player', (await page.locator('.player source').getAttribute('src'))?.includes('lehman-laws'));
-
 // 6. Blog feed: post, like, comment, reload.
 await go('/blog');
 await page.fill('#pf-name', 'Tester');

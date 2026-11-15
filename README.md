@@ -14,7 +14,7 @@ shows the same file on its **Readme** page (`src/pages/Readme.tsx` imports it), 
 
 | Item | Detail |
 | --- | --- |
-| What | A personal portfolio: Home, About (with education), Professional Knowledge (Work), Gallery (pictures and videos), Blog with a community feed, Contact (instant messaging), plus Readme, Dashboard and Search |
+| What | A personal portfolio: Home, About (with education), Professional Knowledge (Work), Gallery (pictures), Blog with a community feed, Contact (instant messaging), plus Readme, Dashboard and Search |
 | Stack | React 18, TypeScript (strict), Vite 6, React Router 6 (HashRouter), Redux Toolkit, plain CSS |
 | Phase 1 (v1.0) | Starter analysed and evolved: 10 typed change requests, CR-01 to CR-10 |
 | Phase 2 (v2.0) | Peer review and lecturer feedback applied, JSON content, CI/CD, live on GitHub Pages, innovation features |
@@ -66,7 +66,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 ├── public/
 │   ├── data/                 JSON content files (dynamic data, loaded at run time)
 │   ├── diagrams/             rendered diagrams (SVG)
-│   └── images/ videos/       media
+│   └── images/               media
 ├── server/                   optional Express API (posts, comments, likes, accounts)
 ├── firestore.rules           security rules of the shared feed and lounge (Firebase)
 ├── src/
@@ -86,7 +86,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 │   │   ├── github/           live GitHub panel
 │   │   ├── quality/          code quality dashboard
 │   │   ├── motion/           GSAP hooks
-│   │   ├── media/            picture and video galleries
+│   │   ├── media/            picture gallery
 │   │   ├── projects/         case-study filter
 │   │   └── pwa/              install, offline and update notices
 │   ├── components/           shared UI: Layout, Navbar, Section, Card, LoadState …
@@ -170,7 +170,6 @@ component, and the files are fetched at run time, cached in the Redux store, and
 | `career.json` | Home, About |
 | `education.json` | About (Education section) |
 | `gallery.json` | Gallery → Pictures |
-| `videos.json` | Gallery → Videos |
 | `blog.json` | Blog |
 | `requirements.json` | Readme → Requirements |
 | `changelog.json` | Readme → Change log |
@@ -197,7 +196,7 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 | Component | Vitest + Testing Library (jsdom) | PostCard, LoadState, Requirements and Change log tabs, both Dashboard tabs; the shared feed and lounge with a fake cloud service |
 | API | bash + curl (`tools/api-test.sh`) | 16 checks: accounts, ownership, comment author from the token, body limit, corrupt-file safety |
 | Security rules | Firestore emulator + `@firebase/rules-unit-testing` (`tools/rules-test.mjs`) | 28 checks of what a visitor may and may not read or write: posting in someone else's name, fake times, unknown fields, liking for someone else, editing comments, deleting other people's posts |
-| Browser | Playwright (`tools/browser-test.mjs`) | 15 walkthrough checks: every route, skip link, gallery, video, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, no console errors |
+| Browser | Playwright (`tools/browser-test.mjs`) | 14 walkthrough checks: every route, skip link, gallery, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, no console errors |
 
 All five levels run in the pipeline; the Dashboard shows the latest results (section 12.4).
 
@@ -310,7 +309,7 @@ Rules every animation follows:
   (skeleton while loading) and an error boundary (reload button if a chunk cannot be fetched).
   The main bundle fell from 257 kB to 206 kB.
 - **Libraries:** GSAP and the Markdown renderer load only on the pages that use them.
-- **Media:** images use `loading="lazy"` and `decoding="async"`; videos load metadata only.
+- **Media:** images use `loading="lazy"` and `decoding="async"`.
 - **Data:** each JSON file is fetched only when a page first needs it.
 
 ### 11.4 A leaner site (CR-30)
@@ -422,8 +421,11 @@ and a run log writes as it goes (`features/showcase`). The tech stack (CR-46) is
 core / growing / learning-now level per technology and a filter by 2026 trend (`TechStack.tsx`, `stackFilter.ts`). Home text lives in
 `showcase.json`, checked like every other content file. Motion uses GSAP (already a dependency) and Lenis
 for smooth scrolling, plus magnetic buttons and a scanner cursor; all of it is off for reduced motion and
-the cursor only appears for a mouse. The footer credits Claude (Anthropic) as the AI pair programmer the
-site was built with. Section 9 of `global.css` is the only theme layer.
+the cursor only appears for a mouse. Section 9 of `global.css` is the only theme layer.
+
+CR-47 made the site read as a personal portfolio: the videos were removed from the Gallery (the old `/videos`
+address opens the gallery), and the footer no longer shows the module name or the Readme link. This
+Readme page is still part of the site for anyone given its address.
 
 ## 12. Innovation
 
@@ -444,7 +446,7 @@ every step can be read and tested:
 
 Two collections can be searched:
 
-- **This site:** pages, case studies, articles, qualifications, jobs, pictures and videos.
+- **This site:** pages, case studies, articles, qualifications, jobs and pictures.
   Results can be filtered by type, and the query is kept in the URL, so a search can be shared.
 - **Source code:** *concept location*, a core software-evolution task (Rajlich & Wilde, 2002): given a
   concept, find the code that implements it. `tools/build-code-index.mjs` indexes every source file

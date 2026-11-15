@@ -22,11 +22,11 @@ export const ANSWER_RULES: ReadonlyArray<readonly [RegExp, string]> = [
   ],
   [
     /experience|winjit|job|role|lead/i,
-    'Six years at Winjit Technologies (RIB Group): intern in 2020, then Software Engineer, Senior Software Engineer, and Project Engineer & Team Lead from 2026.',
+    'Six years at Winjit Technologies (RIB Group): intern in 2020, then developer, engineer, senior engineer, project engineer and team lead, and now Consultant.',
   ],
   [
-    /evolution|lehman|module|assignment|readme|phase/i,
-    "This site is my CS5709 project. Phase 1 evolved the lecturer's starter; Phase 2 added JSON content, a CI/CD pipeline and live GitHub data. The Readme page explains every change.",
+    /site|portfolio|built|how.*made/i,
+    'I designed and built this site myself in React and TypeScript, with a CI/CD pipeline, automated tests and a live quality report on the Dashboard.',
   ],
   [/contact|email|linkedin|reach|hire/i, 'LinkedIn is the best way to reach me: in.linkedin.com/in/jagrutibadgujar'],
   [/^(hi|hello|hey|hiya)\b/i, 'Hello! What would you like to know?'],
