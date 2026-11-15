@@ -48,6 +48,9 @@ export default defineConfig({
         // it is fetched only when a visitor opens the feed or lounge, then cached (CR-31).
         globIgnores: ['**/images/**', '**/videos/**', '**/diagrams/**', '**/assets/index.esm-*.js'],
         navigateFallback: 'index.html',
+        // Files opened directly (the pipeline's quality.json, data, diagrams, videos) must not be
+        // answered with the app shell (CR-39: /quality.json showed the Home page).
+        navigateFallbackDenylist: [/\.json$/, /\/(data|diagrams|videos|images)\//],
         runtimeCaching: [
           {
             // Content: fresh when online, last copy when offline.

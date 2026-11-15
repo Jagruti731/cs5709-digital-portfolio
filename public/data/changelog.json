@@ -300,6 +300,14 @@
     "change": "Diploma in Computer Engineering: awarding body corrected to the University of Mumbai",
     "type": "corrective",
     "closes": "Owner correction",
+    "commit": "29dd42b",
+    "phase": 2
+  },
+  {
+    "id": "CR-39",
+    "change": "Opening quality.json or a data file directly now shows the file; the offline app used to answer every address with the Home page",
+    "type": "corrective",
+    "closes": "Found by the owner on the live site",
     "commit": "this commit",
     "phase": 2
   }
