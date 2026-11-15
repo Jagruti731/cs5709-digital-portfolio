@@ -370,6 +370,17 @@ the pipeline diagram, and the case studies describe clients only by their sector
 
 Only numbers I can state are shown; case studies without measured results have no results line.
 
+### 11.7 A design that is mine: "Nashik to Limerick" (CR-36)
+
+The dark engineering theme of CR-33 still looked like many developer sites. CR-36 gives the site an
+idea of its own: the flags of India and Ireland share saffron, white and green, and my story runs
+from Nashik to Limerick. So the site uses warm paper, ink text and only those two colours; Fraunces (a
+soft serif) for headings, Inter for text and JetBrains Mono for small labels; a route line from Nashik
+to Limerick above my name; my photo in an arch; and a three-colour bar on banners, cards and the footer.
+The live pipeline status from CR-33 stays, as a slim ink band under the hero. The gallery keeps only
+real photos (the four drawings and four diagrams were removed; the diagrams stay on Work), and the
+videos have new thumbnails. All of it is section 9 of `global.css`, so no component logic changed.
+
 ## 12. Innovation
 
 Four features go beyond a static GitHub Pages portfolio and beyond what was covered in class.

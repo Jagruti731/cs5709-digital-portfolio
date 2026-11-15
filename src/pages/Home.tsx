@@ -1,6 +1,7 @@
 /**
- * @file Home page: introduction with a live system status panel, four key numbers and three featured projects.
- * Content: profile.json and projects.json; the status panel reads quality.json from the pipeline (CR-33).
+ * @file Home page: introduction with my photo, a live system status strip, four key numbers and three featured projects.
+ * Content: profile.json and projects.json; the status strip reads quality.json from the pipeline (CR-33).
+ * CR-36: "Nashik to Limerick" design: route line, serif name, arched portrait.
  */
 import { Link } from 'react-router-dom';
 import { LoadState } from '../components/LoadState';
@@ -22,16 +23,16 @@ export default function Home() {
     <>
       <section className="hero">
         <div className="container hero-grid">
-          <div>
-            <div className="hero-id">
-              {profile.photo && <img className="avatar" src={imagePath(profile.photo)} alt="" width={400} height={400} decoding="async" />}
-              <p className="hello">Consultant · .NET + Azure + AI · MSc @ UL</p>
-            </div>
+          <div className="hero-text">
+            <p className="route" aria-label="From Nashik, India to Limerick, Ireland">
+              <span>Nashik</span>
+              <i aria-hidden="true" />
+              <span>Limerick</span>
+            </p>
             <h1>
-              {profile.name.split(' ')[0]}
-              <br />
-              <span>{profile.name.split(' ').slice(1).join(' ')}</span>
+              {profile.name.split(' ')[0]} <em>{profile.name.split(' ').slice(1).join(' ')}</em>
             </h1>
+            <p className="hello">Tech Consultant · .NET · Azure · Agentic AI · MSc @ UL</p>
             <p className="intro">{profile.intro}</p>
             <ul className="quick-facts">
               {profile.facts.map((f) => (
@@ -49,9 +50,19 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <SiteStatus />
+          {profile.photo && (
+            <figure className="hero-portrait">
+              <img src={imagePath(profile.photo)} alt={profile.name} width={400} height={400} decoding="async" />
+              <figcaption>MSc Software Engineering · University of Limerick</figcaption>
+            </figure>
+          )}
         </div>
       </section>
+      <div className="status-band">
+        <div className="container">
+          <SiteStatus />
+        </div>
+      </div>
 
       <Section alt>
         <div className="numbers">

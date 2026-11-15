@@ -151,7 +151,7 @@ const moved = (await page.locator('.lightbox figcaption').textContent())?.includ
 await page.keyboard.press('Escape');
 const closed = (await page.locator('.lightbox').count()) === 0;
 const focusBack = await page.evaluate(() => document.activeElement?.closest('.shot') !== null);
-const galleryParts = [places === 3, open, moved, closed, focusBack];
+const galleryParts = [places >= 1 && places < allShots, open, moved, closed, focusBack];
 check(
   'Gallery filter and Lightbox (filter, open, arrow key, Escape, focus return)',
   galleryParts.every(Boolean),

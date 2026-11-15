@@ -4,9 +4,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-// CR-33: self-hosted fonts, so the installed offline app looks the same with no network.
-// Space Grotesk for headings, JetBrains Mono for labels, numbers and the status panel.
-import '@fontsource-variable/space-grotesk';
+// Self-hosted fonts, so the installed offline app looks the same with no network.
+// CR-36: Fraunces for headings, Inter for text, JetBrains Mono for small labels.
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/inter';
 import '@fontsource/jetbrains-mono/latin-400.css';
 import '@fontsource/jetbrains-mono/latin-500.css';
 import './styles/global.css';

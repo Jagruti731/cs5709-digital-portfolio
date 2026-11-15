@@ -276,6 +276,14 @@
     "change": "Client names removed from the whole git history, not only from the latest files; commit IDs from CR-03 onwards changed, and the change log was updated to the new IDs",
     "type": "preventive",
     "closes": "Confidentiality: no client names in public material",
+    "commit": "718e5d6",
+    "phase": 2
+  },
+  {
+    "id": "CR-36",
+    "change": "New 'Nashik to Limerick' design: warm paper, saffron and green (the colours both flags share), Fraunces serif headings, my photo in an arch on Home, the live pipeline status as a slim band; gallery keeps only real photos; new video thumbnails",
+    "type": "perfective",
+    "closes": "Owner feedback: change the design to something unique; remove the blank-looking gallery pictures",
     "commit": "this commit",
     "phase": 2
   }
