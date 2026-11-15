@@ -20,7 +20,7 @@
     "change": "Home page; About, Education, Professional Knowledge and Pictures rebuilt from typed data and shared components",
     "type": "perfective",
     "closes": "—",
-    "commit": "72be324",
+    "commit": "62a33a5",
     "phase": 1
   },
   {
@@ -28,7 +28,7 @@
     "change": "One hand-written stylesheet with dark mode replaces 58 KB of pre-compiled utilities",
     "type": "perfective",
     "closes": "TD-10",
-    "commit": "d76a532",
+    "commit": "1a39adf",
     "phase": 1
   },
   {
@@ -36,7 +36,7 @@
     "change": "Video gallery, blog and feed evolved; instant messaging and search added; one storage path; API address setting",
     "type": "perfective",
     "closes": "TD-03, TD-04, TD-11",
-    "commit": "e0e52d9",
+    "commit": "663d9bb",
     "phase": 1
   },
   {
@@ -44,7 +44,7 @@
     "change": "Strict TypeScript in every build; matching type packages; 43 unused packages and 40 import aliases removed",
     "type": "preventive",
     "closes": "TD-05, TD-07",
-    "commit": "f8b856c",
+    "commit": "35050fa",
     "phase": 1
   },
   {
@@ -52,7 +52,7 @@
     "change": "API server: salted password hashes; only the signed-in author can delete a post",
     "type": "corrective",
     "closes": "TD-06",
-    "commit": "1ccb76b",
+    "commit": "7e1bf72",
     "phase": 1
   },
   {
@@ -60,7 +60,7 @@
     "change": "Relative asset paths, page metadata, cross-platform deploy script",
     "type": "adaptive",
     "closes": "TD-09",
-    "commit": "373e8df",
+    "commit": "8416643",
     "phase": 1
   },
   {
@@ -68,7 +68,7 @@
     "change": "README and ARCHITECTURE rewritten; this Readme page, diagrams, metrics and tests",
     "type": "preventive",
     "closes": "TD-12",
-    "commit": "126464f",
+    "commit": "15bc2ec",
     "phase": 1
   },
   {
@@ -76,7 +76,7 @@
     "change": "New visual theme: charcoal + electric blue in plain Calibri; diagrams recoloured to match; font packages reduced from three to one",
     "type": "perfective",
     "closes": "—",
-    "commit": "d753d3c",
+    "commit": "f0d636b",
     "phase": 1
   },
   {
@@ -84,7 +84,7 @@
     "change": "ESLint, Prettier and Vitest tooling; whole codebase formatted",
     "type": "preventive",
     "closes": "Peer review",
-    "commit": "0c2a7b8",
+    "commit": "ea2004e",
     "phase": 2
   },
   {
@@ -92,7 +92,7 @@
     "change": "All page content moved to JSON files, loaded at run time and cached in a Redux content slice",
     "type": "perfective",
     "closes": "Brief: dynamic data",
-    "commit": "900222c",
+    "commit": "aecb2ae",
     "phase": 2
   },
   {
@@ -100,7 +100,7 @@
     "change": "Community feed and chat split into hooks and small components; named constants; JSDoc header on every file",
     "type": "preventive",
     "closes": "Peer review, lecturer",
-    "commit": "35f0e33",
+    "commit": "0f32028",
     "phase": 2
   },
   {
@@ -108,7 +108,7 @@
     "change": "API: comment and like author from the token, safe reads and atomic writes, 2 MB body limit; skip link fixed; API tests with assertions on a temp folder",
     "type": "corrective",
     "closes": "Peer review Table 3",
-    "commit": "2cb444f",
+    "commit": "ab43f7c",
     "phase": 2
   },
   {
@@ -116,7 +116,7 @@
     "change": "Personas, scenarios and user stories traced to every feature",
     "type": "perfective",
     "closes": "Lecturer, peer review",
-    "commit": "b2c8135",
+    "commit": "057274d",
     "phase": 2
   },
   {
@@ -124,7 +124,7 @@
     "change": "Unit and component tests with Vitest and coverage thresholds",
     "type": "preventive",
     "closes": "Peer review",
-    "commit": "e767569",
+    "commit": "bceda2f",
     "phase": 2
   },
   {
@@ -132,7 +132,7 @@
     "change": "README rewritten as the single source of documentation; Readme page renders it, with Requirements and Change log tabs; Phase 2 diagrams",
     "type": "preventive",
     "closes": "Peer review",
-    "commit": "a6a2dc9",
+    "commit": "aa672ec",
     "phase": 2
   },
   {
@@ -140,7 +140,7 @@
     "change": "CI/CD pipeline with GitHub Actions: lint, format, types, unit and API tests, build, browser walkthrough, deployment to GitHub Pages; Dependabot",
     "type": "preventive",
     "closes": "Brief iteration 4, peer review",
-    "commit": "bd75397",
+    "commit": "b8f7d7a",
     "phase": 2
   },
   {
@@ -148,7 +148,7 @@
     "change": "Lazy loading: each page is its own chunk loaded on first visit (main bundle 257 kB to 206 kB); error boundary for failed chunks; images decoded asynchronously",
     "type": "perfective",
     "closes": "Brief: lazy loading",
-    "commit": "224575e",
+    "commit": "13224d0",
     "phase": 2
   },
   {
@@ -156,7 +156,7 @@
     "change": "GSAP interactivity: page entrance, scroll reveals, count-up numbers, Flip-animated filters; technology and text filter for case studies; reduced motion respected and GSAP lazy-loaded",
     "type": "perfective",
     "closes": "Brief: GSAP, search and filter",
-    "commit": "f805fd0",
+    "commit": "59a0e73",
     "phase": 2
   },
   {
@@ -164,7 +164,7 @@
     "change": "Innovation: smart search engine (BM25 ranking, prefix and typo matching, highlighting, type filter) over the whole site, plus concept location in the source code from a build-time code index; '/' shortcut",
     "type": "perfective",
     "closes": "Brief: search; innovation",
-    "commit": "824416c",
+    "commit": "f608a83",
     "phase": 2
   },
   {
@@ -172,7 +172,7 @@
     "change": "Innovation: Dashboard page with live GitHub data (repositories, languages, CI/CD runs, commits) from the GitHub REST API, ETag caching, rate-limit and offline handling; parked starter GitHub page removed",
     "type": "perfective",
     "closes": "Brief: API connection; innovation",
-    "commit": "0c9accd",
+    "commit": "443f790",
     "phase": 2
   },
   {
@@ -180,7 +180,7 @@
     "change": "Innovation: installable offline app (PWA): manifest and icons, Workbox service worker precaching the shell and all content, install button, update prompt, offline notice",
     "type": "perfective",
     "closes": "Innovation; user story US10",
-    "commit": "924cac0",
+    "commit": "b0a163d",
     "phase": 2
   },
   {
@@ -188,7 +188,7 @@
     "change": "Innovation: code quality dashboard written by the pipeline (tests, coverage, lint, complexity, documentation, bundle, evolution) with an architecture conformance check (reflexion model)",
     "type": "preventive",
     "closes": "Innovation; peer review (reflexion model); user story US6",
-    "commit": "87017ae",
+    "commit": "67ae6f3",
     "phase": 2
   },
   {
@@ -196,7 +196,7 @@
     "change": "Defects D1–D9 from the inspection of the Phase 2 code and the two architecture divergences (A1, A2) fixed; regression tests added",
     "type": "corrective",
     "closes": "Evaluation: own code inspection, reflexion model",
-    "commit": "2dc4fa8",
+    "commit": "711db78",
     "phase": 2
   },
   {
@@ -204,7 +204,7 @@
     "change": "Release v2.0: site scheme diagram, README structure tree, change-log commit references",
     "type": "preventive",
     "closes": "Documentation",
-    "commit": "7c4d1ad",
+    "commit": "c267699",
     "phase": 2
   },
   {
@@ -212,7 +212,7 @@
     "change": "Fixes found by the pipeline check and the persona walkthrough: unformatted file; 'works offline' notice now hides itself; table ids no longer wrap",
     "type": "perfective",
     "closes": "Evaluation: walkthrough",
-    "commit": "3d00bd4, 3662548",
+    "commit": "e4aaf71, 1e3c182",
     "phase": 2
   },
   {
@@ -220,7 +220,7 @@
     "change": "Pipeline runs once per change (push to main, or pull request); Dependabot grouped, patch and minor only, after its first major-version proposal failed the lint check",
     "type": "adaptive",
     "closes": "Evaluation: first live pipeline runs",
-    "commit": "df7777e",
+    "commit": "84b9fc9",
     "phase": 2
   },
   {
@@ -228,7 +228,7 @@
     "change": "Dashboard lists only the CI/CD workflow's runs; on the live site the general runs list also showed Dependabot's own update jobs",
     "type": "corrective",
     "closes": "Evaluation: live site check",
-    "commit": "4e37192",
+    "commit": "6eff454",
     "phase": 2
   },
   {
@@ -236,7 +236,7 @@
     "change": "Leaner site from my LinkedIn profile: 7 menu items, Pictures and Videos merged into Gallery, shorter text everywhere, Blog excerpts, fewer animations",
     "type": "perfective",
     "closes": "Owner feedback: 'too bulky'",
-    "commit": "c68c618",
+    "commit": "6895c04",
     "phase": 2
   },
   {
@@ -244,7 +244,7 @@
     "change": "Shared community feed and visitor lounge on Firebase: anonymous sign-in, Cloud Firestore with live listeners, security rules tested in the emulator in CI; falls back to this browser when no project is set",
     "type": "adaptive",
     "closes": "F18, F19, F20 (planned in Phase 1)",
-    "commit": "26a3bf3",
+    "commit": "e42dec5",
     "phase": 2
   },
   {
@@ -252,7 +252,7 @@
     "change": "Visitor lounge: the empty-room hint describes the shared lounge, not the old 'open a second tab' test",
     "type": "corrective",
     "closes": "Found while testing CR-31 on the live site",
-    "commit": "1eee387",
+    "commit": "8aacc70",
     "phase": 2
   },
   {
@@ -260,7 +260,7 @@
     "change": "Engineer's portfolio: live system status panel on Home, new visual theme (ink grid, Space Grotesk, JetBrains Mono, signal colour); Education merged into About; repeated Other projects, Skills and What I do lists removed; simpler Contact",
     "type": "perfective",
     "closes": "Owner feedback: 'feels like a basic portfolio'",
-    "commit": "38c6cc8",
+    "commit": "55b85c8",
     "phase": 2
   },
   {
@@ -268,6 +268,14 @@
     "change": "The portfolio shows what I really do: photo from LinkedIn; How I work in three tracks (engineering, leadership and presales, AI adoption and teaching); seven case studies with my role and real results (team of 15, about 1,000 documents); talks and awards in the gallery; two articles from my LinkedIn posts. All client and bank names removed",
     "type": "perfective",
     "closes": "Owner feedback: 'this is not what I do, it is really less'; no client names in public material",
+    "commit": "c4787e1",
+    "phase": 2
+  },
+  {
+    "id": "CR-35",
+    "change": "Client names removed from the whole git history, not only from the latest files; commit IDs from CR-03 onwards changed, and the change log was updated to the new IDs",
+    "type": "preventive",
+    "closes": "Confidentiality: no client names in public material",
     "commit": "this commit",
     "phase": 2
   }

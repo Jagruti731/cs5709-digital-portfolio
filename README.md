@@ -526,6 +526,12 @@ instead, because it is versioned with the code and checked by a unit test.
 
 ## 15. Change log
 
+**History rewritten for confidentiality (CR-35, 15 Nov 2026).** Early versions of some content files
+named clients. CR-34 removed the names from the site; CR-35 also removed them from every earlier
+version in the git history. The lecturer's starter commits (up to `v0-starter`) are unchanged, but
+every commit from CR-03 onwards has a new ID, so IDs quoted in the Phase 1 report refer to the old
+history. The commit messages, dates, order and tags are the same.
+
 The full list, with a filter by phase and maintenance type, is on the Readme page under **Change log**
 (`public/data/changelog.json`).
 
