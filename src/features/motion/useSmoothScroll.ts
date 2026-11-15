@@ -6,6 +6,33 @@
 import { useEffect } from 'react';
 import { loadMotion, reducedMotion } from './gsap';
 
+interface Scroller {
+  scrollTo: (target: number, options?: { immediate?: boolean; force?: boolean }) => void;
+  resize: () => void;
+  stop: () => void;
+  start: () => void;
+}
+let restart = 0;
+let active: Scroller | null = null;
+
+/**
+ * Jumps to the top of a new page (CR-44). With Lenis running, the jump must go through Lenis,
+ * or Lenis would glide back to the old position. Lenis is also paused for a moment, so the
+ * leftover momentum of a trackpad swipe on the old page cannot scroll the new page down.
+ */
+export function scrollToTop(): void {
+  if (!active) {
+    window.scrollTo(0, 0);
+    return;
+  }
+  const lenis = active;
+  lenis.stop();
+  lenis.resize();
+  lenis.scrollTo(0, { immediate: true, force: true });
+  window.clearTimeout(restart);
+  restart = window.setTimeout(() => lenis.start(), 450);
+}
+
 function magnetic(e: MouseEvent) {
   const b = (e.target as Element | null)?.closest?.<HTMLElement>('.magnetic');
   document.querySelectorAll<HTMLElement>('.magnetic').forEach((m) => {
@@ -24,6 +51,7 @@ export function useSmoothScroll() {
     Promise.all([loadMotion(), import('lenis')]).then(([{ gsap, ScrollTrigger }, { default: Lenis }]) => {
       if (cancelled) return;
       const lenis = new Lenis({ lerp: 0.1 });
+      active = lenis;
       lenis.on('scroll', ScrollTrigger.update);
       const raf = (time: number) => lenis.raf(time * 1000);
       gsap.ticker.add(raf);
@@ -31,6 +59,7 @@ export function useSmoothScroll() {
       stop = () => {
         gsap.ticker.remove(raf);
         lenis.destroy();
+        active = null;
       };
     });
     window.addEventListener('mousemove', magnetic);

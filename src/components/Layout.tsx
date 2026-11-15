@@ -6,13 +6,19 @@
  * GSAP scroll reveals for every page start here (CR-20). The page entrance and count-up
  * animations were removed in CR-30 to make the site feel lighter.
  * CR-43: smooth scrolling (Lenis), magnetic buttons and the scanner cursor start here too.
+ * CR-44: smoother page changes: the jump to the top goes through Lenis, each new page enters with a
+ * short scan wipe, and the other pages are preloaded in the background.
  */
 import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { SITE } from '../config/site';
 import { AppStatus } from '../features/pwa/AppStatus';
 import { useScrollReveal } from '../features/motion/useScrollReveal';
-import { useSmoothScroll } from '../features/motion/useSmoothScroll';
+import { loadMotion, reducedMotion } from '../features/motion/gsap';
+import { scrollToTop, useSmoothScroll } from '../features/motion/useSmoothScroll';
+import { useAppDispatch } from '../hooks/redux';
+import { fetchContent } from '../store/contentSlice';
+import { preloadPages } from '../routes';
 import { pages } from '../lib/navigation';
 import { Footer } from './Footer';
 import { LoadState } from './LoadState';
@@ -31,8 +37,23 @@ export function Layout() {
   useEffect(() => {
     const page = pages.find((p) => p.path === pathname);
     document.title = page && page.path !== '/' ? `${page.title} | ${SITE.owner}` : `${SITE.owner} | Portfolio`;
-    window.scrollTo(0, 0);
+    scrollToTop();
+    // New content changes the page height, so scroll animations measure again once it has rendered.
+    if (reducedMotion()) return;
+    const timer = window.setTimeout(() => void loadMotion().then(({ ScrollTrigger }) => ScrollTrigger.refresh()), 400);
+    return () => window.clearTimeout(timer);
   }, [pathname]);
+
+  // CR-44: when the first page is idle, fetch the other pages and their main content files,
+  // so every later page change is instant.
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200));
+    idle(() => {
+      preloadPages();
+      (['profile', 'projects', 'career', 'education', 'gallery', 'blog', 'videos'] as const).forEach((n) => void dispatch(fetchContent(n)));
+    });
+  }, [dispatch]);
 
   // Keyboard shortcut: "/" anywhere (outside a text field) opens Search (CR-21).
   useEffect(() => {
@@ -67,7 +88,11 @@ export function Layout() {
       <main id="main" tabIndex={-1} ref={mainRef}>
         <PageErrorBoundary resetKey={pathname}>
           <Suspense fallback={<LoadState status="loading" />}>
-            <Outlet />
+            {/* Keyed by route, so each new page plays the entrance and the scan wipe (CR-44). */}
+            <div className="page" key={pathname}>
+              <i className="route-wipe" aria-hidden="true" />
+              <Outlet />
+            </div>
           </Suspense>
         </PageErrorBoundary>
       </main>

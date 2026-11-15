@@ -340,6 +340,14 @@
     "change": "Custom \"Scan\" design researched from top portfolios and chosen from a live prototype: the hero reads my profile like a scanned document; a section on readiness for agentic AI work; all eight systems (seven case studies and this site) shown as live automated runs with agent and human steps; the tech stack as a radar (core, growing, learning now); career path; smooth scrolling, magnetic buttons and a scanner cursor; footer credits Claude as AI pair programmer. Home content moved to showcase.json; the editorial layer and its fonts were replaced",
     "type": "perfective",
     "closes": "Owner feedback: show readiness for agentic AI work, all case studies and the tech stack, livelier, with workflows automated",
+    "commit": "c3911a9",
+    "phase": 2
+  },
+  {
+    "id": "CR-44",
+    "change": "Smoother page changes: every page and its main content file are preloaded in the background, so there is no loading flash; the jump to the top of a new page goes through the smooth scroller and pauses it briefly, so trackpad momentum from the old page no longer scrolls the new one; each new page rises in with a short scan-line wipe; browser smooth scrolling is turned off while the smooth scroller runs",
+    "type": "corrective",
+    "closes": "Owner feedback: navigation between pages did not feel smooth",
     "commit": "this commit",
     "phase": 2
   }

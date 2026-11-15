@@ -4080,3 +4080,59 @@ select {
     display: none;
   }
 }
+
+/* Page changes (CR-44): the new page rises in, and a scan line wipes down once. Off for reduced motion. */
+.page {
+  position: relative;
+}
+.route-wipe {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page {
+    animation: page-in 0.55s var(--ease) backwards;
+  }
+  .route-wipe {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    z-index: 90;
+    pointer-events: none;
+    background: var(--accent);
+    box-shadow: 0 0 24px 6px color-mix(in srgb, var(--accent) 40%, transparent);
+    animation: route-wipe 0.7s var(--ease) both;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes route-wipe {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Lenis smooth scrolling (CR-44): Lenis animates the scroll itself, so the browser's own smooth
+ * scrolling must be off while it runs, and a paused Lenis also pauses native scrolling. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis,
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+html.lenis.lenis-stopped {
+  overflow: clip;
+}
