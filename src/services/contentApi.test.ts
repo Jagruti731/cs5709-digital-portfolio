@@ -24,6 +24,15 @@ describe('every content file in public/data', () => {
     for (const file of files) expect(() => readFileSync(new URL(`../../public/images/${file}`, import.meta.url))).not.toThrow();
   });
 
+  it('every video has its file, a poster and a text alternative (WCAG 1.2.1, the videos are silent)', () => {
+    const videos = readFile('videos') as { id: string; transcript?: string[] }[];
+    for (const v of videos) {
+      for (const ext of ['mp4', 'jpg'])
+        expect(() => readFileSync(new URL(`../../public/videos/${v.id}.${ext}`, import.meta.url))).not.toThrow();
+      expect(v.transcript?.length).toBeGreaterThan(1);
+    }
+  });
+
   it('every user story traces to a persona and to features that exist', () => {
     const { personas, stories, features } = readFile('requirements');
     const personaIds = new Set(personas.map((p: { id: string }) => p.id));

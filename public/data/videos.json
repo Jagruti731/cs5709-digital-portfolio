@@ -2,19 +2,52 @@
   {
     "id": "portfolio-evolution",
     "title": "This portfolio: version 0 to 1.0",
-    "description": "The commits that turned the lecturer's starter into this site, played back as a change log.",
-    "duration": "0:15"
+    "description": "The commits that took this site from its first version to 1.0, played back as a change log.",
+    "duration": "0:15",
+    "transcript": [
+      "The video has no sound. It shows a git log of this site, one commit at a time:",
+      "8931a37 (preventive): remove dead code and committed dead weight.",
+      "00e0000 (perfective): URL routing with React Router.",
+      "72be324 (perfective): Home page and four content pages from typed data.",
+      "d76a532 (perfective): one hand-written stylesheet for every page, with dark mode.",
+      "e0e52d9 (perfective): video gallery, blog and feed; instant messaging.",
+      "f8b856c (preventive): strict TypeScript in every build; unused dependencies removed.",
+      "1ccb78b (corrective): hash passwords and protect post deletion in the API server.",
+      "373e8df (adaptive): relative asset paths, page metadata, cross-platform deploy.",
+      "1264b4f (preventive): documentation, Readme page, diagrams, metrics and tests.",
+      "v1.0 (perfective): new visual theme."
+    ]
   },
   {
     "id": "ocr-pipeline-walkthrough",
     "title": "How a bank statement becomes data",
     "description": "A step-by-step walk through the OCR pipeline I worked on, from PDF upload to Excel export.",
-    "duration": "0:14"
+    "duration": "0:14",
+    "transcript": [
+      "The video has no sound. A diagram lights up one step at a time:",
+      "1. A statement arrives as a PDF.",
+      "2. The detector picks the bank layout.",
+      "3. Known layouts go to the positional extractor, which reads PdfPig word boxes.",
+      "4. Unclear pages fall back to Gemini.",
+      "5. Every row is validated and de-duplicated (balances and signs).",
+      "6. Clean transactions export to an Excel workbook (EPPlus)."
+    ]
   },
   {
     "id": "lehman-laws",
     "title": "Lehman's laws in under 30 seconds",
     "description": "The eight laws of software evolution, one card each.",
-    "duration": "0:28"
+    "duration": "0:28",
+    "transcript": [
+      "The video has no sound. Each of Lehman's eight laws gets one card:",
+      "I. Continuing change: a system in real use must keep changing, or it becomes less useful.",
+      "II. Increasing complexity: as a system changes, its complexity grows unless work is done to reduce it.",
+      "III. Self-regulation: system evolution is self-regulating, with trends that can be measured.",
+      "IV. Conservation of organisational stability: the average rate of work on an evolving system stays roughly constant.",
+      "V. Conservation of familiarity: the amount of change in each release stays roughly constant over time.",
+      "VI. Continuing growth: functional content must keep growing to keep users satisfied.",
+      "VII. Declining quality: quality appears to decline unless the system is adapted to its environment.",
+      "VIII. Feedback system: evolution processes are multi-level, multi-loop feedback systems."
+    ]
   }
 ]

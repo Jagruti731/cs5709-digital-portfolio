@@ -34,6 +34,17 @@ export function VideoGallery() {
               </span>
               <h2>{video.title}</h2>
               <p>{video.description}</p>
+              {video.transcript && (
+                <details className="transcript">
+                  <summary>What the video shows</summary>
+                  <p>{video.transcript[0]}</p>
+                  <ol>
+                    {video.transcript.slice(1).map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ol>
+                </details>
+              )}
               <div className="btn-row">
                 <button className="btn outline" type="button" onClick={() => choose((current - 1 + videos.length) % videos.length)}>
                   ← Previous

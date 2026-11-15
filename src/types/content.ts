@@ -112,6 +112,8 @@ export interface Video {
   title: string;
   description: string;
   duration: string;
+  /** Text alternative for the silent video (WCAG 1.2.1): what it shows, step by step. */
+  transcript?: string[];
 }
 
 export type ChangeType = 'corrective' | 'adaptive' | 'perfective' | 'preventive';

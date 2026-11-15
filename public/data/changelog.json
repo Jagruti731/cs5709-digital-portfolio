@@ -436,6 +436,14 @@
     "change": "Gallery photos checked against my LinkedIn posts: two titles corrected (OG Connect session, Town Hall medal) and client details blurred in both photos",
     "type": "corrective",
     "closes": "Wrong photo titles found in review",
+    "commit": "00c25c7",
+    "phase": 2
+  },
+  {
+    "id": "CR-56",
+    "change": "Each silent video has a text alternative (What the video shows), planned in Phase 1 as video captions; a unit test checks every video has its file, poster and text",
+    "type": "corrective",
+    "closes": "Phase 1 plan item: video captions (WCAG 1.2.1)",
     "commit": "this commit",
     "phase": 2
   }

@@ -131,7 +131,7 @@
     },
     {
       "id": "F06",
-      "name": "Gallery, Videos tab: player and playlist with local video files",
+      "name": "Gallery, Videos tab: player, playlist and a text alternative for each silent video",
       "group": "Media",
       "phase": 1,
       "status": "done"
