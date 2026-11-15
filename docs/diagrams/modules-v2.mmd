@@ -1,6 +1,6 @@
 flowchart TB
-  subgraph PAGES["pages/ (one per route, lazy loaded)"]
-    home[Home] --- about[About] --- edu[Education] --- know[Knowledge]
+  subgraph PAGES["pages/ (Home eager, the rest lazy loaded)"]
+    home[Home] --- about[About] --- know[Knowledge]
     gal[Gallery] --- blog[Blog] --- msg[Contact]
     rd[Readme] --- srch[Search] --- dash[Dashboard]
   end
@@ -9,8 +9,9 @@ flowchart TB
     chat["chat/<br/>useChat · answers · Chat"]
     search["search/<br/>searchIndex · useSearch"]
     github["github/<br/>useGitHub · RepoList · RunList"]
-    motion["motion/<br/>useScrollReveal · useFlip (GSAP)"]
-    media["media/<br/>PictureGallery · VideoGallery"]
+    motion["motion/<br/>useScrollReveal · useFlip · useSmoothScroll"]
+    media["media/<br/>PictureGallery"]
+    showcase["showcase/<br/>ScanHero · SystemsPlayer · TechStack"]
   end
   subgraph CORE["shared"]
     comps["components/<br/>Layout · Navbar · Section · Card · LoadState"]

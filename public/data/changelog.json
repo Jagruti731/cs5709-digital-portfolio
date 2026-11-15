@@ -396,6 +396,14 @@
     "change": "Evaluation and quality: Phase 1 and Phase 2 measured with Lighthouse (three runs each, median); performance fixes raised Home from 57 to 81 (animation code loads after the page, CSS skills ticker, no per-frame border repaint, Home in the main bundle, Home content preloaded, offscreen sections skipped, pages fetched when a link is pointed at); automated WCAG 2.2 AA checks (axe-core) on nine pages in light and dark added to the pipeline, and the contrast and tab-structure issues they found fixed; the retired AI-102 certification removed",
     "type": "perfective",
     "closes": "Evaluation needs measured before/after evidence; accessibility was only partly checked",
+    "commit": "e68a189",
+    "phase": 2
+  },
+  {
+    "id": "CR-51",
+    "change": "Readme diagrams display again: they are re-rendered as valid SVG (plain text labels, one style attribute) in the site's colours, the site scheme and module view show the current pages, and the table of contents shows apostrophes and quotes instead of HTML codes; a unit test checks the diagram files",
+    "type": "corrective",
+    "closes": "Owner: the Readme did not show its diagrams and images correctly",
     "commit": "this commit",
     "phase": 2
   }

@@ -29,6 +29,15 @@ export const slug = (text: string): string =>
 /** Fixes paths that point into public/ so they work from the built site. */
 export const sitePath = (href: string): string => href.replace(/^\.?\/?public\//, './');
 
+/** Turns the HTML entities marked writes (&#39; &quot; &amp; &lt; &gt;) back into characters for plain-text use (CR-51). */
+export const decodeEntities = (text: string): string =>
+  text
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+
 /** Renders Markdown and collects the level 2 and 3 headings for a table of contents. */
 export function renderMarkdown(source: string): { html: string; headings: Heading[] } {
   const headings: Heading[] = [];
@@ -40,7 +49,7 @@ export function renderMarkdown(source: string): { html: string; headings: Headin
         // The page banner already shows the title, and a page must have only one h1.
         if (depth === 1) return '';
         const id = slug(text);
-        if (depth === 2 || depth === 3) headings.push({ id, text: text.replace(/<[^>]+>/g, ''), level: depth });
+        if (depth === 2 || depth === 3) headings.push({ id, text: decodeEntities(text.replace(/<[^>]+>/g, '')), level: depth });
         return `<h${depth} id="${id}">${text}</h${depth}>\n`;
       },
       image({ href, title, text }) {

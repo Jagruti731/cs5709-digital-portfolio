@@ -1,12 +1,13 @@
 flowchart TB
-  home(["Home<br/>live system status"])
+  home(["Home<br/>scan hero · systems · tech stack"])
   subgraph MENU["Navigation bar: 6 items"]
     about["About<br/>experience + education"] --- know["Work<br/>case studies + filter"]
-    gal["Gallery<br/>Pictures · Videos"] --- blog["Blog<br/>articles + feed"] --- msg["Contact<br/>instant messaging"]
+    gal["Gallery<br/>pictures"] --- blog["Blog<br/>articles + feed"] --- msg["Contact<br/>instant messaging"]
   end
   subgraph FOOT["Footer"]
-    readme["Readme<br/>README · Requirements · Change log"] --- dash["Dashboard<br/>GitHub · Code quality"]
+    dash["Dashboard<br/>GitHub · Code quality"]
   end
+  readme["Readme (own address)<br/>README · Requirements · Change log"]
   search["Search<br/>site + source code"]
   home --> MENU
   home --> FOOT

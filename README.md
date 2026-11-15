@@ -97,8 +97,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 
 ![Site scheme](public/diagrams/site-scheme-v2.svg)
 
-**Site scheme.** Six menu items share one navigation bar (seven before CR-33, when Education became a section of About); Readme and Dashboard are linked from the
-footer; Search sits outside the menu and is
+**Site scheme.** Six menu items share one navigation bar (seven before CR-33, when Education became a section of About); Dashboard is linked from the footer and this Readme page has its own address (since CR-47); Search sits outside the menu and is
 opened with the Search button or the `/` key; unknown addresses show Not found.
 
 Every source file starts with an `@file` JSDoc comment that says what the file does and where its data
@@ -398,7 +397,7 @@ CR-41 replaced that with a "clean corporate" look (removed in CR-42), because th
 professional site ready to submit: white page, navy text, one blue accent, Inter only and soft cards. Home now
 speaks to employers and clients (intro, photo card, key numbers, selected work, how I build software, a contact
 band); the assignment material (lecturer feedback, peer review, iterations, change log) stays on this Readme
-page, linked from the footer, so the marker still finds it.
+page (at the time linked from the footer; since CR-47 it has its own address).
 
 CR-42 is the final look, which the owner chose from three real mockups (editorial, bento grid, dark
 aurora) after saying the site still felt basic and traditional. It was "editorial" (replaced in CR-43):
