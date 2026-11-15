@@ -142,7 +142,7 @@ export interface Feature {
   name: string;
   group: string;
   phase: 1 | 2 | 3;
-  status: 'done' | 'partial' | 'planned';
+  status: 'done' | 'partial' | 'planned' | 'removed';
 }
 
 /** requirements.json: personas, scenarios, user stories and the traced feature list. */

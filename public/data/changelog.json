@@ -412,6 +412,14 @@
     "change": "Pipeline fix: the Dashboard's \"in progress\" and \"failed\" run badges had too little colour contrast in dark mode, so the new WCAG check failed whenever a pipeline run was still going; badges now use high-contrast colours in both themes",
     "type": "corrective",
     "closes": "Failing CI/CD runs on main after CR-50",
+    "commit": "bc36a96",
+    "phase": 2
+  },
+  {
+    "id": "CR-53",
+    "change": "Requirements kept honest: the Videos feature is marked removed (CR-47) and the accessibility feature names the automated WCAG checks and the manual test still to do",
+    "type": "perfective",
+    "closes": "Final consistency check before submission",
     "commit": "this commit",
     "phase": 2
   }

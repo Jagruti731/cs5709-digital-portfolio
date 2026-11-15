@@ -15,7 +15,7 @@ const PHASES = [
   { value: 3, label: 'Future' },
 ] as const;
 
-const statusLabel: Record<Feature['status'], string> = { done: 'Done', partial: 'Partly done', planned: 'Planned' };
+const statusLabel: Record<Feature['status'], string> = { done: 'Done', partial: 'Partly done', planned: 'Planned', removed: 'Removed' };
 
 export function Requirements() {
   const { data, status, error, retry } = useContent('requirements');

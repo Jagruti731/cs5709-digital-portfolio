@@ -4312,3 +4312,7 @@ html.lenis.lenis-stopped {
   background: #b91c1c;
   color: #ffffff;
 }
+.status.removed {
+  color: var(--muted);
+  text-decoration: line-through;
+}

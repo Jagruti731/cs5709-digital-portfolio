@@ -131,10 +131,10 @@
     },
     {
       "id": "F06",
-      "name": "Gallery, Videos tab: player and playlist with local video files",
+      "name": "Gallery, Videos tab (Phase 1; removed in CR-47 so the gallery shows photos only)",
       "group": "Media",
       "phase": 1,
-      "status": "done"
+      "status": "removed"
     },
     {
       "id": "F07",
@@ -264,7 +264,7 @@
     },
     {
       "id": "F25",
-      "name": "Accessibility audit (WCAG 2.2 AA) and video captions",
+      "name": "Accessibility audit (WCAG 2.2 AA): automated axe checks in CI; manual screen-reader test still to do",
       "group": "Quality",
       "phase": 2,
       "status": "partial"
