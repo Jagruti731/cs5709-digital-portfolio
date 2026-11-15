@@ -10,6 +10,7 @@
  * Set PW_CHROMIUM to a Chromium binary if Playwright's own browser is not installed.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { AxeBuilder } from '@axe-core/playwright';
 import { chromium } from 'playwright';
 
 const base = process.argv[2] || 'http://localhost:4173/';
@@ -301,6 +302,31 @@ check(
   'Installable app: manifest, offline About page from the cache, offline notice',
   pwaParts.every(Boolean),
   `${pwaParts.filter(Boolean).length}/4`,
+);
+
+// 14. Accessibility: automated WCAG 2.2 A/AA checks (axe-core) on every page, light and dark (CR-50).
+const axePages = ['/', '/about', '/knowledge', '/gallery', '/blog', '/messages', '/search', '/dashboard', '/readme'];
+const axeIssues = [];
+for (const scheme of ['light', 'dark']) {
+  const axeContext = await browser.newContext({ reducedMotion: 'reduce', colorScheme: scheme });
+  await axeContext.addInitScript(() => localStorage.setItem('jb.backend', 'local'));
+  const axePage = await axeContext.newPage();
+  for (const path of axePages) {
+    await axePage.goto(`${base}#${path}`);
+    await axePage.waitForTimeout(1200);
+    const { violations } = await new AxeBuilder({ page: axePage })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    violations
+      .filter((v) => v.impact === 'serious' || v.impact === 'critical')
+      .forEach((v) => axeIssues.push(`${scheme} ${path}: ${v.id} (${v.nodes.length})`));
+  }
+  await axeContext.close();
+}
+check(
+  'Accessibility: no serious or critical WCAG 2.2 AA issues on 9 pages, light and dark (axe-core)',
+  axeIssues.length === 0,
+  axeIssues.length ? axeIssues.join(' | ') : `${axePages.length * 2} page checks`,
 );
 
 check('No JavaScript errors in the console during the run', errors.length === 0, errors.join(' | '));

@@ -18,6 +18,7 @@
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@eslint/js": "^9.39.5",
     "@firebase/rules-unit-testing": "^5.0.2",
     "@testing-library/dom": "^10.4.2",

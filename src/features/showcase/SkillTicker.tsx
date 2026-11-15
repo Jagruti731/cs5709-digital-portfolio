@@ -1,41 +1,12 @@
 /**
- * @file SkillTicker: a band of skills that scrolls sideways and speeds up with the page scroll (CR-43).
- * Still for visitors who ask for reduced motion.
+ * @file SkillTicker: a band of skills that scrolls sideways (CR-43). CR-50: the movement is a CSS
+ * animation, which runs off the main thread, instead of a script that moved it every frame.
+ * Still for visitors who ask for reduced motion, and paused on hover.
  */
-import { useEffect, useRef } from 'react';
-import { loadMotion, reducedMotion } from '../motion/gsap';
-
 export function SkillTicker({ skills }: { skills: string[] }) {
-  const track = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = track.current;
-    if (!el || reducedMotion()) return;
-    let stop = () => {};
-    loadMotion().then(({ gsap, ScrollTrigger }) => {
-      let x = 0;
-      let speed = 0.6;
-      const tick = () => {
-        x -= speed;
-        const half = el.scrollWidth / 2;
-        if (-x >= half) x += half;
-        if (x > 0) x -= half;
-        el.style.transform = `translateX(${x}px)`;
-        speed += (0.6 - speed) * 0.05;
-      };
-      gsap.ticker.add(tick);
-      const st = ScrollTrigger.create({
-        onUpdate: (self) => (speed = 0.6 + Math.min(Math.abs(self.getVelocity()) / 220, 12) * (self.direction || 1)),
-      });
-      stop = () => {
-        gsap.ticker.remove(tick);
-        st.kill();
-      };
-    });
-    return () => stop();
-  }, []);
   return (
     <div className="ticker" aria-label="Skills">
-      <div className="ticker-track" ref={track}>
+      <div className="ticker-track">
         {[0, 1].map((copy) =>
           skills.map((s, i) => (
             <span key={`${copy}-${s}`} className={i % 2 ? 'outline' : ''} aria-hidden={copy === 1}>

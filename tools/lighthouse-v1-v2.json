@@ -1,0 +1,46 @@
+{
+  "v1-home": {
+    "performance": 92,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100,
+    "fcp": 2.3320583999999998,
+    "lcp": 3.0070584,
+    "tbt": 18.5,
+    "cls": 0,
+    "kb": 505.8603515625
+  },
+  "v1-work": {
+    "performance": 90,
+    "accessibility": 96,
+    "best-practices": 100,
+    "seo": 100,
+    "fcp": 2.3164000000000002,
+    "lcp": 3.26075,
+    "tbt": 15,
+    "cls": 0,
+    "kb": 576.890625
+  },
+  "v2-home": {
+    "performance": 81,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100,
+    "fcp": 2.8816575,
+    "lcp": 4.0121965,
+    "tbt": 139,
+    "cls": 0.020598574448346785,
+    "kb": 623.9833984375
+  },
+  "v2-work": {
+    "performance": 80,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100,
+    "fcp": 2.94826,
+    "lcp": 4.249884,
+    "tbt": 81,
+    "cls": 0.01502999280999337,
+    "kb": 622.1904296875
+  }
+}

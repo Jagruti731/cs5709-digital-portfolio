@@ -4167,7 +4167,6 @@ select {
 }
 @keyframes swap {
   from {
-    opacity: 0;
     transform: translateY(10px);
   }
 }
@@ -4239,4 +4238,69 @@ html.lenis.lenis-smooth {
 }
 html.lenis.lenis-stopped {
   overflow: clip;
+}
+
+/* Accessibility fixes from the automated WCAG checks (CR-50). */
+:root {
+  --on-ok: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --on-ok: #06261a;
+  }
+}
+:root[data-theme='dark'] {
+  --on-ok: #06261a;
+}
+.badge.ok {
+  color: var(--on-ok);
+}
+.markdown pre {
+  background: var(--band-bg);
+  color: var(--band-fg);
+}
+.markdown pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+.trend[aria-pressed='true'],
+.layer-ic {
+  color: var(--on-primary);
+}
+
+/* Performance (CR-50): no entrance animation on the first page load, and a loading placeholder
+ * tall enough that the footer does not jump when the content arrives. */
+.page.first,
+.page.first .route-wipe {
+  animation: none;
+}
+.page.first .route-wipe {
+  display: none;
+}
+.skeleton {
+  min-height: 100vh;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-track {
+    animation: ticker-x 42s linear infinite;
+  }
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+}
+@keyframes ticker-x {
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* The AI layer keeps its gradient border but no longer repaints it every frame (CR-50). */
+.layer-0 {
+  animation: none !important;
+}
+/* Below-the-fold Home sections skip layout and paint until they come near the screen (CR-50). */
+.section,
+.cta-band {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }

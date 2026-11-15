@@ -196,7 +196,7 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 | Component | Vitest + Testing Library (jsdom) | PostCard, LoadState, Requirements and Change log tabs, both Dashboard tabs; the shared feed and lounge with a fake cloud service |
 | API | bash + curl (`tools/api-test.sh`) | 16 checks: accounts, ownership, comment author from the token, body limit, corrupt-file safety |
 | Security rules | Firestore emulator + `@firebase/rules-unit-testing` (`tools/rules-test.mjs`) | 28 checks of what a visitor may and may not read or write: posting in someone else's name, fake times, unknown fields, liking for someone else, editing comments, deleting other people's posts |
-| Browser | Playwright (`tools/browser-test.mjs`) | 14 walkthrough checks: every route, skip link, gallery, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, no console errors |
+| Browser | Playwright (`tools/browser-test.mjs`) | 15 walkthrough checks: every route, skip link, gallery, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, no console errors |
 
 All five levels run in the pipeline; the Dashboard shows the latest results (section 12.4).
 
@@ -426,6 +426,21 @@ the cursor only appears for a mouse. Section 9 of `global.css` is the only theme
 CR-47 made the site read as a personal portfolio: the videos were removed from the Gallery (the old `/videos`
 address opens the gallery), and the footer no longer shows the module name or the Readme link. This
 Readme page is still part of the site for anyone given its address.
+
+CR-50 measured the result. Lighthouse (default mobile settings, median of three runs, `tools/lighthouse-compare.sh`,
+results in `tools/lighthouse-v1-v2.json`):
+
+| Page | Version | Performance | Accessibility | Best practices | SEO | LCP | TBT |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Home | v1.0 | 92 | 100 | 100 | 100 | 3.0 s | 19 ms |
+| Home | v2.0 | 81 | 100 | 100 | 100 | 4.0 s | 139 ms |
+| Work | v1.0 | 90 | 96 | 100 | 100 | 3.3 s | 15 ms |
+| Work | v2.0 | 80 | 100 | 100 | 100 | 4.3 s | 81 ms |
+
+The richer Phase 2 site first scored 57 on Home; loading animation code after the page, a CSS ticker,
+no per-frame repaint, Home in the main bundle, preloaded content and skipped offscreen sections raised it
+to 81. The remaining gap is the cost of the motion and the larger feature set. The pipeline also runs
+axe-core WCAG 2.2 AA checks on nine pages in light and dark (`tools/browser-test.mjs`, check 14).
 
 ## 12. Innovation
 

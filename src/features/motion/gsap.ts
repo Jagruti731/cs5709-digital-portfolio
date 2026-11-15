@@ -22,12 +22,27 @@ export const reducedMotion = (): boolean =>
 
 let loading: Promise<Motion> | null = null;
 
+/**
+ * Resolves once the page has loaded and the browser is idle (CR-50), so animation code never
+ * competes with the first paint of the page or with the visitor's first taps.
+ */
+function afterLoad(): Promise<void> {
+  return new Promise((resolve) => {
+    const idle = () =>
+      window.requestIdleCallback ? window.requestIdleCallback(() => resolve(), { timeout: 1500 }) : window.setTimeout(resolve, 300);
+    if (document.readyState === 'complete') idle();
+    else window.addEventListener('load', idle, { once: true });
+  });
+}
+
 /** Imports GSAP once and registers the plugins. Every caller gets the same promise. */
 export function loadMotion(): Promise<Motion> {
-  loading ??= Promise.all([import('gsap'), import('gsap/ScrollTrigger'), import('gsap/Flip')]).then(([g, s, f]) => {
-    g.gsap.registerPlugin(s.ScrollTrigger, f.Flip);
-    return { gsap: g.gsap, ScrollTrigger: s.ScrollTrigger, Flip: f.Flip };
-  });
+  loading ??= afterLoad()
+    .then(() => Promise.all([import('gsap'), import('gsap/ScrollTrigger'), import('gsap/Flip')]))
+    .then(([g, s, f]) => {
+      g.gsap.registerPlugin(s.ScrollTrigger, f.Flip);
+      return { gsap: g.gsap, ScrollTrigger: s.ScrollTrigger, Flip: f.Flip };
+    });
   return loading;
 }
 

@@ -34,18 +34,16 @@ export function SystemsPlayer({ systems }: { systems: ShowcaseSystem[] }) {
 
   return (
     <div className="sys-player" ref={root}>
-      <ol className="sys-tabs" role="tablist" aria-label="Systems">
+      <div className="sys-tabs" role="tablist" aria-label="Systems">
         {systems.map((x, i) => (
-          <li key={x.id}>
-            <button className="sys-tab" role="tab" type="button" aria-selected={i === cur} onClick={() => setCur(i)}>
-              <span className="no">{String(i + 1).padStart(2, '0')}</span>
-              <b>{x.name}</b>
-              <small>{x.kind.split(' · ')[0]}</small>
-              <i className="sys-bar" style={{ transform: `scaleX(${i === cur ? progress : 0})` }} />
-            </button>
-          </li>
+          <button key={x.id} className="sys-tab" role="tab" type="button" aria-selected={i === cur} onClick={() => setCur(i)}>
+            <span className="no">{String(i + 1).padStart(2, '0')}</span>
+            <b>{x.name}</b>
+            <small>{x.kind.split(' · ')[0]}</small>
+            <i className="sys-bar" style={{ transform: `scaleX(${i === cur ? progress : 0})` }} />
+          </button>
         ))}
-      </ol>
+      </div>
       <div className="stage" role="tabpanel" aria-label={s.name}>
         <div className="stage-top" key={s.id}>
           <span className="mono-label">{s.kind}</span>

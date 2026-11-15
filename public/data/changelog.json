@@ -361,7 +361,7 @@
   },
   {
     "id": "CR-46",
-    "change": "Tech stack shown as AI-era layers (AI and agents, apps and APIs, cloud and data, delivery and automation) instead of a radar, with every name visible, a core / growing / learning-now level per technology, and a filter by 2026 trend (agentic AI, LLM integration, Document AI, AI-assisted development, cloud-native .NET, automation and CI/CD, responsible AI) that lights up the technologies behind the trend and shows one line of evidence; learning items follow the Azure AI Engineer skills (agents, RAG, content safety)",
+    "change": "Tech stack shown as AI-era layers (AI and agents, apps and APIs, cloud and data, delivery and automation) instead of a radar, with every name visible, a core / growing / learning-now level per technology, and a filter by 2026 trend (agentic AI, LLM integration, Document AI, AI-assisted development, cloud-native .NET, automation and CI/CD, responsible AI) that lights up the technologies behind the trend and shows one line of evidence; learning items cover agents, RAG and content safety",
     "type": "perfective",
     "closes": "Owner feedback: the tech presentation should be the best and match current tech trends",
     "commit": "d98ce51",
@@ -388,6 +388,14 @@
     "change": "Hero label shows where I am based (Limerick, Ireland) instead of the Nashik to Limerick route",
     "type": "perfective",
     "closes": "Owner feedback",
+    "commit": "c7bdfde",
+    "phase": 2
+  },
+  {
+    "id": "CR-50",
+    "change": "Evaluation and quality: Phase 1 and Phase 2 measured with Lighthouse (three runs each, median); performance fixes raised Home from 57 to 81 (animation code loads after the page, CSS skills ticker, no per-frame border repaint, Home in the main bundle, Home content preloaded, offscreen sections skipped, pages fetched when a link is pointed at); automated WCAG 2.2 AA checks (axe-core) on nine pages in light and dark added to the pipeline, and the contrast and tab-structure issues they found fixed; the retired AI-102 certification removed",
+    "type": "perfective",
+    "closes": "Evaluation needs measured before/after evidence; accessibility was only partly checked",
     "commit": "this commit",
     "phase": 2
   }

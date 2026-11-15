@@ -36,12 +36,11 @@ export function ScanHero({ hero, name, photo }: Props) {
     let ctx: { revert: () => void } | undefined;
     loadMotion().then(({ gsap }) => {
       ctx = gsap.context(() => {
-        gsap.from('.hero h1 .ln > span', { yPercent: 110, duration: 1.2, stagger: 0.09, ease: 'expo.out' });
-        gsap.from('.hero .lead, .hero .ctas, .greet', { y: 24, opacity: 0, duration: 1, stagger: 0.08, delay: 0.35, ease: 'expo.out' });
-        gsap.fromTo('.hero h1 em', { '--hls': 0 }, { '--hls': 1, duration: 0.9, delay: 0.95, ease: 'power3.inOut' });
+        // The headline itself is never hidden, so it paints at once (largest contentful paint, CR-50).
+        gsap.fromTo('.hero h1 em', { '--hls': 0 }, { '--hls': 1, duration: 0.9, delay: 0.2, ease: 'power3.inOut' });
         const counter = { v: 0 };
         gsap
-          .timeline({ delay: 0.6 })
+          .timeline({ delay: 0.2 })
           .set('.box', { opacity: 0, scale: 1.25 })
           .set('.stamp', { opacity: 0, scale: 2.2 })
           .set('.json', { clipPath: 'inset(0 0 100% 0)' })

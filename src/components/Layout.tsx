@@ -9,16 +9,15 @@
  * CR-44: smoother page changes: the jump to the top goes through Lenis, each new page enters with a
  * short scan wipe, and the other pages are preloaded in the background.
  */
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { SITE } from '../config/site';
 import { AppStatus } from '../features/pwa/AppStatus';
 import { useScrollReveal } from '../features/motion/useScrollReveal';
 import { loadMotion, reducedMotion } from '../features/motion/gsap';
 import { scrollToTop, useSmoothScroll } from '../features/motion/useSmoothScroll';
-import { useAppDispatch } from '../hooks/redux';
-import { fetchContent } from '../store/contentSlice';
-import { preloadPages } from '../routes';
+import { usePrefetchContent } from '../hooks/usePrefetchContent';
+import { preloadPages, preloadPath } from '../routes';
 import { pages } from '../lib/navigation';
 import { Footer } from './Footer';
 import { LoadState } from './LoadState';
@@ -44,16 +43,35 @@ export function Layout() {
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
-  // CR-44: when the first page is idle, fetch the other pages and their main content files,
-  // so every later page change is instant.
-  const dispatch = useAppDispatch();
+  // CR-44, CR-50: a page is fetched as soon as the visitor points at or focuses a link to it,
+  // and all pages and main content files are fetched a few seconds after load, so page changes
+  // are instant without slowing down the first page.
+  const prefetch = usePrefetchContent();
   useEffect(() => {
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200));
-    idle(() => {
+    const intent = (e: Event) => {
+      const href = (e.target as Element | null)?.closest?.('a[href^="#/"]')?.getAttribute('href');
+      if (href) preloadPath(href.slice(1).split('?')[0]);
+    };
+    document.addEventListener('pointerover', intent);
+    document.addEventListener('focusin', intent);
+    const timer = window.setTimeout(() => {
       preloadPages();
-      (['profile', 'projects', 'career', 'education', 'gallery', 'blog'] as const).forEach((n) => void dispatch(fetchContent(n)));
-    });
-  }, [dispatch]);
+      prefetch(['profile', 'projects', 'career', 'education', 'gallery', 'blog']);
+    }, 6000);
+    return () => {
+      document.removeEventListener('pointerover', intent);
+      document.removeEventListener('focusin', intent);
+      window.clearTimeout(timer);
+    };
+  }, [prefetch]);
+
+  // The page entrance plays only on page changes, not on the first load (CR-50).
+  const [first, setFirst] = useState(true);
+  useEffect(() => {
+    if (!first) return;
+    const t = window.setTimeout(() => setFirst(false), 50);
+    return () => window.clearTimeout(t);
+  }, [first]);
 
   // Keyboard shortcut: "/" anywhere (outside a text field) opens Search (CR-21).
   useEffect(() => {
@@ -89,7 +107,7 @@ export function Layout() {
         <PageErrorBoundary resetKey={pathname}>
           <Suspense fallback={<LoadState status="loading" />}>
             {/* Keyed by route, so each new page plays the entrance and the scan wipe (CR-44). */}
-            <div className="page" key={pathname}>
+            <div className={first ? 'page first' : 'page'} key={pathname}>
               <i className="route-wipe" aria-hidden="true" />
               <Outlet />
             </div>

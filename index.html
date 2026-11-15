@@ -6,11 +6,16 @@
     <title>Jagruti Badgujar | Portfolio</title>
     <meta
       name="description"
-      content="Portfolio of Jagruti Badgujar: software engineer and team lead, MSc Software Engineering student at the University of Limerick."
+      content="Jagruti Badgujar, tech consultant in Limerick: .NET, Azure and AI systems for finance, team leadership and agentic AI work."
     />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-    <meta name="theme-color" content="#1c1f26" />
+    <meta name="theme-color" content="#eceff4" />
+    <!-- CR-50: the Home content files start downloading with the page, not after the JavaScript. -->
+    <link rel="preload" href="./data/showcase.json" as="fetch" crossorigin="anonymous" />
+    <link rel="preload" href="./data/profile.json" as="fetch" crossorigin="anonymous" />
+    <link rel="preload" href="./data/projects.json" as="fetch" crossorigin="anonymous" />
+    <link rel="preload" href="./images/profile.jpg" as="image" />
   </head>
   <body>
     <div id="root"></div>
