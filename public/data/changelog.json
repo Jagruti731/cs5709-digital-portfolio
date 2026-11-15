@@ -284,6 +284,14 @@
     "change": "New 'Nashik to Limerick' design: warm paper, saffron and green (the colours both flags share), Fraunces serif headings, my photo in an arch on Home, the live pipeline status as a slim band; gallery keeps only real photos; new video thumbnails",
     "type": "perfective",
     "closes": "Owner feedback: change the design to something unique; remove the blank-looking gallery pictures",
+    "commit": "4d7d243",
+    "phase": 2
+  },
+  {
+    "id": "CR-37",
+    "change": "Motion in the style of motion-graphics prompts: kinetic name, the Nashik to Limerick line draws itself, the photo arch opens, banner bars sweep in; CSS only, off for reduced motion",
+    "type": "perfective",
+    "closes": "Owner request: motion-graphics ideas from Prompt Motion",
     "commit": "this commit",
     "phase": 2
   }

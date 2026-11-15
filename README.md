@@ -381,6 +381,11 @@ The live pipeline status from CR-33 stays, as a slim ink band under the hero. Th
 real photos (the four drawings and four diagrams were removed; the diagrams stay on Work), and the
 videos have new thumbnails. All of it is section 9 of `global.css`, so no component logic changed.
 
+CR-37 adds motion in the style of motion-graphics prompts (section 10 of `global.css`): the name rises
+line by line, the Nashik to Limerick route draws itself, the photo arch opens from the bottom, banner
+bars sweep in and the status dots pulse. It is CSS only (no new JavaScript), runs once, and is switched
+off completely when the visitor's system asks for reduced motion (WCAG 2.2, 2.3.3).
+
 ## 12. Innovation
 
 Four features go beyond a static GitHub Pages portfolio and beyond what was covered in class.
