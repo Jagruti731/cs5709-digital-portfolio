@@ -292,6 +292,14 @@
     "change": "Motion in the style of motion-graphics prompts: kinetic name, the Nashik to Limerick line draws itself, the photo arch opens, banner bars sweep in; CSS only, off for reduced motion",
     "type": "perfective",
     "closes": "Owner request: motion-graphics ideas from Prompt Motion",
+    "commit": "d40abc0",
+    "phase": 2
+  },
+  {
+    "id": "CR-38",
+    "change": "Diploma in Computer Engineering: awarding body corrected to the University of Mumbai",
+    "type": "corrective",
+    "closes": "Owner correction",
     "commit": "this commit",
     "phase": 2
   }
