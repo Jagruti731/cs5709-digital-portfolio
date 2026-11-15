@@ -1,7 +1,7 @@
 {
   "hero": {
     "greetings": ["Hello", "नमस्कार", "Dia duit"],
-    "lines": ["I build systems", "that read, reason", "and *deliver.*"],
+    "lines": ["Tech consultant.", "Engineer. Team lead.", "*AI-ready.*"],
     "lead": "Six years at Winjit Technologies (RIB Group), intern to consultant. I lead .NET and Azure teams, put AI to work on real finance documents, and keep a person in the loop. Now an MSc Software Engineering student at the University of Limerick.",
     "fields": [
       ["name", "Jagruti Badgujar", "0.99"],
@@ -12,10 +12,24 @@
   },
   "skills": [".NET", "Azure", "Document AI", "Microservices", "Team leadership", "Gemini", "Presales", "SQL Server"],
   "numbers": [
-    { "value": 6, "suffix": "+", "label": "years, intern to consultant" },
-    { "value": 15, "label": "people in the team I led" },
-    { "value": 1000, "prefix": "~", "label": "documents checked by AI" },
-    { "value": 3, "label": "Winspire awards" }
+    {
+      "value": 6,
+      "suffix": "+",
+      "label": "years, intern to consultant"
+    },
+    {
+      "value": 15,
+      "label": "people in the team I led"
+    },
+    {
+      "value": 1000,
+      "prefix": "~",
+      "label": "documents checked by AI"
+    },
+    {
+      "value": 3,
+      "label": "Winspire awards"
+    }
   ],
   "pillars": [
     {
@@ -172,9 +186,18 @@
   "radar": {
     "quadrants": ["Languages & frameworks", "Cloud & data", "AI & agents", "Delivery & practice"],
     "rings": [
-      { "name": "Core", "note": "Shipped in production at work." },
-      { "name": "Growing", "note": "Used on real work and getting deeper, mostly with AI agents." },
-      { "name": "Learning now", "note": "Where I am heading next." }
+      {
+        "name": "Core",
+        "note": "Shipped in production at work."
+      },
+      {
+        "name": "Growing",
+        "note": "Used on real work and getting deeper, mostly with AI agents."
+      },
+      {
+        "name": "Learning now",
+        "note": "Where I am heading next."
+      }
     ],
     "items": [
       ["C#", 0, 0],

@@ -23,7 +23,7 @@ describe('showcase components (at rest, as with reduced motion)', () => {
         <ScanHero hero={data.hero} name="Jagruti Badgujar" photo="profile.jpg" />
       </MemoryRouter>,
     );
-    expect(screen.getByRole('heading', { level: 1 }).getAttribute('aria-label')).toBe('I build systems that read, reason and deliver.');
+    expect(screen.getByRole('heading', { level: 1 }).getAttribute('aria-label')).toBe('Tech consultant. Engineer. Team lead. AI-ready.');
     data.hero.fields.forEach(([, v]) => expect(screen.getAllByText(v, { exact: false }).length).toBeGreaterThan(0));
     expect(screen.getByText(/"based_in": "Limerick, Ireland"/)).toBeTruthy();
     expect(screen.getByRole('link', { name: /See the work/ }).getAttribute('href')).toBe('/knowledge');

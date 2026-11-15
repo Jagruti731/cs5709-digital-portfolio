@@ -348,6 +348,14 @@
     "change": "Smoother page changes: every page and its main content file are preloaded in the background, so there is no loading flash; the jump to the top of a new page goes through the smooth scroller and pauses it briefly, so trackpad momentum from the old page no longer scrolls the new one; each new page rises in with a short scan-line wipe; browser smooth scrolling is turned off while the smooth scroller runs",
     "type": "corrective",
     "closes": "Owner feedback: navigation between pages did not feel smooth",
+    "commit": "6b85c04",
+    "phase": 2
+  },
+  {
+    "id": "CR-45",
+    "change": "Home headline is now about me as a tech consultant, not about one kind of system: \"Tech consultant. Engineer. Team lead. AI-ready.\"",
+    "type": "perfective",
+    "closes": "Owner feedback: the title should describe me as a tech consultant",
     "commit": "this commit",
     "phase": 2
   }
