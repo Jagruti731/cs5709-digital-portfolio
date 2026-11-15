@@ -4,7 +4,7 @@
     "change": "Removed the 43 MB saved web page, the committed .git backup, 40 unused UI primitives and 3 unrendered components",
     "type": "preventive",
     "closes": "TD-05, TD-08",
-    "commit": "8931a37",
+    "commit": "614981b",
     "phase": 1
   },
   {
@@ -12,7 +12,7 @@
     "change": "URL routing with React Router: one route per page, NotFound, menu generated from the page list",
     "type": "perfective",
     "closes": "TD-01, TD-02",
-    "commit": "00e0000",
+    "commit": "18c9a6e",
     "phase": 1
   },
   {
@@ -20,7 +20,7 @@
     "change": "Home page; About, Education, Professional Knowledge and Pictures rebuilt from typed data and shared components",
     "type": "perfective",
     "closes": "—",
-    "commit": "62a33a5",
+    "commit": "fd398f5",
     "phase": 1
   },
   {
@@ -28,7 +28,7 @@
     "change": "One hand-written stylesheet with dark mode replaces 58 KB of pre-compiled utilities",
     "type": "perfective",
     "closes": "TD-10",
-    "commit": "1a39adf",
+    "commit": "d7d4559",
     "phase": 1
   },
   {
@@ -36,7 +36,7 @@
     "change": "Video gallery, blog and feed evolved; instant messaging and search added; one storage path; API address setting",
     "type": "perfective",
     "closes": "TD-03, TD-04, TD-11",
-    "commit": "663d9bb",
+    "commit": "79117a5",
     "phase": 1
   },
   {
@@ -44,7 +44,7 @@
     "change": "Strict TypeScript in every build; matching type packages; 43 unused packages and 40 import aliases removed",
     "type": "preventive",
     "closes": "TD-05, TD-07",
-    "commit": "35050fa",
+    "commit": "c1e40cb",
     "phase": 1
   },
   {
@@ -52,7 +52,7 @@
     "change": "API server: salted password hashes; only the signed-in author can delete a post",
     "type": "corrective",
     "closes": "TD-06",
-    "commit": "7e1bf72",
+    "commit": "e6d9c34",
     "phase": 1
   },
   {
@@ -60,7 +60,7 @@
     "change": "Relative asset paths, page metadata, cross-platform deploy script",
     "type": "adaptive",
     "closes": "TD-09",
-    "commit": "8416643",
+    "commit": "82a5961",
     "phase": 1
   },
   {
@@ -68,7 +68,7 @@
     "change": "README and ARCHITECTURE rewritten; this Readme page, diagrams, metrics and tests",
     "type": "preventive",
     "closes": "TD-12",
-    "commit": "15bc2ec",
+    "commit": "f054870",
     "phase": 1
   },
   {
@@ -76,7 +76,7 @@
     "change": "New visual theme: charcoal + electric blue in plain Calibri; diagrams recoloured to match; font packages reduced from three to one",
     "type": "perfective",
     "closes": "—",
-    "commit": "f0d636b",
+    "commit": "4d42b43",
     "phase": 1
   },
   {
@@ -84,7 +84,7 @@
     "change": "ESLint, Prettier and Vitest tooling; whole codebase formatted",
     "type": "preventive",
     "closes": "Peer review",
-    "commit": "ea2004e",
+    "commit": "a058a74",
     "phase": 2
   },
   {
@@ -92,7 +92,7 @@
     "change": "All page content moved to JSON files, loaded at run time and cached in a Redux content slice",
     "type": "perfective",
     "closes": "Brief: dynamic data",
-    "commit": "aecb2ae",
+    "commit": "bcad4c5",
     "phase": 2
   },
   {
@@ -100,7 +100,7 @@
     "change": "Community feed and chat split into hooks and small components; named constants; JSDoc header on every file",
     "type": "preventive",
     "closes": "Peer review, lecturer",
-    "commit": "0f32028",
+    "commit": "df31958",
     "phase": 2
   },
   {
@@ -108,7 +108,7 @@
     "change": "API: comment and like author from the token, safe reads and atomic writes, 2 MB body limit; skip link fixed; API tests with assertions on a temp folder",
     "type": "corrective",
     "closes": "Peer review Table 3",
-    "commit": "ab43f7c",
+    "commit": "0a79aa3",
     "phase": 2
   },
   {
@@ -116,7 +116,7 @@
     "change": "Personas, scenarios and user stories traced to every feature",
     "type": "perfective",
     "closes": "Lecturer, peer review",
-    "commit": "057274d",
+    "commit": "3c93fa3",
     "phase": 2
   },
   {
@@ -124,7 +124,7 @@
     "change": "Unit and component tests with Vitest and coverage thresholds",
     "type": "preventive",
     "closes": "Peer review",
-    "commit": "bceda2f",
+    "commit": "3a13e06",
     "phase": 2
   },
   {
@@ -132,7 +132,7 @@
     "change": "README rewritten as the single source of documentation; Readme page renders it, with Requirements and Change log tabs; Phase 2 diagrams",
     "type": "preventive",
     "closes": "Peer review",
-    "commit": "aa672ec",
+    "commit": "cb5f55b",
     "phase": 2
   },
   {
@@ -140,7 +140,7 @@
     "change": "CI/CD pipeline with GitHub Actions: lint, format, types, unit and API tests, build, browser walkthrough, deployment to GitHub Pages; Dependabot",
     "type": "preventive",
     "closes": "Brief iteration 4, peer review",
-    "commit": "b8f7d7a",
+    "commit": "2994f9b",
     "phase": 2
   },
   {
@@ -148,7 +148,7 @@
     "change": "Lazy loading: each page is its own chunk loaded on first visit (main bundle 257 kB to 206 kB); error boundary for failed chunks; images decoded asynchronously",
     "type": "perfective",
     "closes": "Brief: lazy loading",
-    "commit": "13224d0",
+    "commit": "fa26144",
     "phase": 2
   },
   {
@@ -156,7 +156,7 @@
     "change": "GSAP interactivity: page entrance, scroll reveals, count-up numbers, Flip-animated filters; technology and text filter for case studies; reduced motion respected and GSAP lazy-loaded",
     "type": "perfective",
     "closes": "Brief: GSAP, search and filter",
-    "commit": "59a0e73",
+    "commit": "ebe8204",
     "phase": 2
   },
   {
@@ -164,7 +164,7 @@
     "change": "Innovation: smart search engine (BM25 ranking, prefix and typo matching, highlighting, type filter) over the whole site, plus concept location in the source code from a build-time code index; '/' shortcut",
     "type": "perfective",
     "closes": "Brief: search; innovation",
-    "commit": "f608a83",
+    "commit": "87cded0",
     "phase": 2
   },
   {
@@ -172,7 +172,7 @@
     "change": "Innovation: Dashboard page with live GitHub data (repositories, languages, CI/CD runs, commits) from the GitHub REST API, ETag caching, rate-limit and offline handling; parked starter GitHub page removed",
     "type": "perfective",
     "closes": "Brief: API connection; innovation",
-    "commit": "443f790",
+    "commit": "5d03e61",
     "phase": 2
   },
   {
@@ -180,7 +180,7 @@
     "change": "Innovation: installable offline app (PWA): manifest and icons, Workbox service worker precaching the shell and all content, install button, update prompt, offline notice",
     "type": "perfective",
     "closes": "Innovation; user story US10",
-    "commit": "b0a163d",
+    "commit": "c2631c9",
     "phase": 2
   },
   {
@@ -188,7 +188,7 @@
     "change": "Innovation: code quality dashboard written by the pipeline (tests, coverage, lint, complexity, documentation, bundle, evolution) with an architecture conformance check (reflexion model)",
     "type": "preventive",
     "closes": "Innovation; peer review (reflexion model); user story US6",
-    "commit": "67ae6f3",
+    "commit": "f75553d",
     "phase": 2
   },
   {
@@ -196,7 +196,7 @@
     "change": "Defects D1–D9 from the inspection of the Phase 2 code and the two architecture divergences (A1, A2) fixed; regression tests added",
     "type": "corrective",
     "closes": "Evaluation: own code inspection, reflexion model",
-    "commit": "711db78",
+    "commit": "b41f994",
     "phase": 2
   },
   {
@@ -204,7 +204,7 @@
     "change": "Release v2.0: site scheme diagram, README structure tree, change-log commit references",
     "type": "preventive",
     "closes": "Documentation",
-    "commit": "c267699",
+    "commit": "40be4cf",
     "phase": 2
   },
   {
@@ -212,7 +212,7 @@
     "change": "Fixes found by the pipeline check and the persona walkthrough: unformatted file; 'works offline' notice now hides itself; table ids no longer wrap",
     "type": "perfective",
     "closes": "Evaluation: walkthrough",
-    "commit": "e4aaf71, 1e3c182",
+    "commit": "83c6900, 0d4f27b",
     "phase": 2
   },
   {
@@ -220,7 +220,7 @@
     "change": "Pipeline runs once per change (push to main, or pull request); Dependabot grouped, patch and minor only, after its first major-version proposal failed the lint check",
     "type": "adaptive",
     "closes": "Evaluation: first live pipeline runs",
-    "commit": "84b9fc9",
+    "commit": "5e21a6d",
     "phase": 2
   },
   {
@@ -228,7 +228,7 @@
     "change": "Dashboard lists only the CI/CD workflow's runs; on the live site the general runs list also showed Dependabot's own update jobs",
     "type": "corrective",
     "closes": "Evaluation: live site check",
-    "commit": "6eff454",
+    "commit": "f43f8f7",
     "phase": 2
   },
   {
@@ -236,7 +236,7 @@
     "change": "Leaner site from my LinkedIn profile: 7 menu items, Pictures and Videos merged into Gallery, shorter text everywhere, Blog excerpts, fewer animations",
     "type": "perfective",
     "closes": "Owner feedback: 'too bulky'",
-    "commit": "6895c04",
+    "commit": "1f82999",
     "phase": 2
   },
   {
@@ -244,7 +244,7 @@
     "change": "Shared community feed and visitor lounge on Firebase: anonymous sign-in, Cloud Firestore with live listeners, security rules tested in the emulator in CI; falls back to this browser when no project is set",
     "type": "adaptive",
     "closes": "F18, F19, F20 (planned in Phase 1)",
-    "commit": "e42dec5",
+    "commit": "300c1ae",
     "phase": 2
   },
   {
@@ -252,7 +252,7 @@
     "change": "Visitor lounge: the empty-room hint describes the shared lounge, not the old 'open a second tab' test",
     "type": "corrective",
     "closes": "Found while testing CR-31 on the live site",
-    "commit": "8aacc70",
+    "commit": "ddfe720",
     "phase": 2
   },
   {
@@ -260,7 +260,7 @@
     "change": "Engineer's portfolio: live system status panel on Home, new visual theme (ink grid, Space Grotesk, JetBrains Mono, signal colour); Education merged into About; repeated Other projects, Skills and What I do lists removed; simpler Contact",
     "type": "perfective",
     "closes": "Owner feedback: 'feels like a basic portfolio'",
-    "commit": "55b85c8",
+    "commit": "a038db0",
     "phase": 2
   },
   {
@@ -268,7 +268,7 @@
     "change": "The portfolio shows what I really do: photo from LinkedIn; How I work in three tracks (engineering, leadership and presales, AI adoption and teaching); seven case studies with my role and real results (team of 15, about 1,000 documents); talks and awards in the gallery; two articles from my LinkedIn posts. All client and bank names removed",
     "type": "perfective",
     "closes": "Owner feedback: 'this is not what I do, it is really less'; no client names in public material",
-    "commit": "c4787e1",
+    "commit": "f8127a5",
     "phase": 2
   },
   {
@@ -276,7 +276,7 @@
     "change": "Client names removed from the whole git history, not only from the latest files; commit IDs from CR-03 onwards changed, and the change log was updated to the new IDs",
     "type": "preventive",
     "closes": "Confidentiality: no client names in public material",
-    "commit": "718e5d6",
+    "commit": "09d8d5d",
     "phase": 2
   },
   {
@@ -284,7 +284,7 @@
     "change": "New 'Nashik to Limerick' design: warm paper, saffron and green (the colours both flags share), Fraunces serif headings, my photo in an arch on Home, the live pipeline status as a slim band; gallery keeps only real photos; new video thumbnails",
     "type": "perfective",
     "closes": "Owner feedback: change the design to something unique; remove the blank-looking gallery pictures",
-    "commit": "4d7d243",
+    "commit": "b599486",
     "phase": 2
   },
   {
@@ -292,7 +292,7 @@
     "change": "Motion in the style of motion-graphics prompts: kinetic name, the Nashik to Limerick line draws itself, the photo arch opens, banner bars sweep in; CSS only, off for reduced motion",
     "type": "perfective",
     "closes": "Owner request: motion-graphics ideas from Prompt Motion",
-    "commit": "d40abc0",
+    "commit": "519572b",
     "phase": 2
   },
   {
@@ -300,7 +300,7 @@
     "change": "Diploma in Computer Engineering: awarding body corrected to the University of Mumbai",
     "type": "corrective",
     "closes": "Owner correction",
-    "commit": "29dd42b",
+    "commit": "ee38cde",
     "phase": 2
   },
   {
@@ -308,7 +308,7 @@
     "change": "Opening quality.json or a data file directly now shows the file; the offline app used to answer every address with the Home page",
     "type": "corrective",
     "closes": "Found by the owner on the live site",
-    "commit": "4c50076",
+    "commit": "603586d",
     "phase": 2
   },
   {
@@ -316,7 +316,7 @@
     "change": "Complete redesign as an \"evolution log\": dark engineered look with a lime accent, mono labels and the four maintenance types as colours; Home now tells the three assignments (A1, A2, A3), shows the change requests by maintenance type and the newest commits from the change log, with a git-log of versions; kinetic type, a log that writes itself and bars that fill (CSS only, off for reduced motion)",
     "type": "perfective",
     "closes": "Owner feedback: did not like the portfolio vibe; align with the assignments",
-    "commit": "0f3d0f8",
+    "commit": "a31db3a",
     "phase": 2
   },
   {
@@ -324,7 +324,7 @@
     "change": "Professional \"clean corporate\" redesign: white page, navy text, one blue accent, Inter only, soft cards; Home now speaks to employers (name, intro, photo card, key numbers, selected work, how I build software, contact band) and the assignment material stays on the Readme page; calm load animation, off for reduced motion",
     "type": "perfective",
     "closes": "Owner feedback: keep it professional and ready to submit; module and assignment details do not belong on a personal Home page",
-    "commit": "363fd86",
+    "commit": "c51926f",
     "phase": 2
   },
   {
@@ -332,7 +332,7 @@
     "change": "Final \"editorial\" design chosen from three real mockups: white page, Instrument Serif display type with orange italic emphasis, thin rules, work as a numbered index; typographic case-study covers replace the diagram pictures (deleted), new video posters; the four older theme layers (about 1,900 lines of CSS) and the unused Fraunces font deleted; masked headline reveal, arch photo, skills ticker and hover-fill rows, all CSS and off for reduced motion",
     "type": "perfective",
     "closes": "Owner feedback: the site looked basic and traditional; diagrams and motion felt old",
-    "commit": "7387941",
+    "commit": "f9baa0d",
     "phase": 2
   },
   {
@@ -340,7 +340,7 @@
     "change": "Custom \"Scan\" design researched from top portfolios and chosen from a live prototype: the hero reads my profile like a scanned document; a section on readiness for agentic AI work; all eight systems (seven case studies and this site) shown as live automated runs with agent and human steps; the tech stack as a radar (core, growing, learning now); career path; smooth scrolling, magnetic buttons and a scanner cursor. Home content moved to showcase.json; the editorial layer and its fonts were replaced",
     "type": "perfective",
     "closes": "Owner feedback: show readiness for agentic AI work, all case studies and the tech stack, livelier, with workflows automated",
-    "commit": "c3911a9",
+    "commit": "f3fcf50",
     "phase": 2
   },
   {
@@ -348,7 +348,7 @@
     "change": "Smoother page changes: every page and its main content file are preloaded in the background, so there is no loading flash; the jump to the top of a new page goes through the smooth scroller and pauses it briefly, so trackpad momentum from the old page no longer scrolls the new one; each new page rises in with a short scan-line wipe; browser smooth scrolling is turned off while the smooth scroller runs",
     "type": "corrective",
     "closes": "Owner feedback: navigation between pages did not feel smooth",
-    "commit": "6b85c04",
+    "commit": "a502590",
     "phase": 2
   },
   {
@@ -356,7 +356,7 @@
     "change": "Home headline is now about me as a tech consultant, not about one kind of system: \"Tech consultant. Engineer. Team lead. AI-ready.\"",
     "type": "perfective",
     "closes": "Owner feedback: the title should describe me as a tech consultant",
-    "commit": "01033af",
+    "commit": "e154926",
     "phase": 2
   },
   {
@@ -364,7 +364,7 @@
     "change": "Tech stack shown as AI-era layers (AI and agents, apps and APIs, cloud and data, delivery and automation) instead of a radar, with every name visible, a core / growing / learning-now level per technology, and a filter by 2026 trend (agentic AI, LLM integration, Document AI, AI-assisted development, cloud-native .NET, automation and CI/CD, responsible AI) that lights up the technologies behind the trend and shows one line of evidence; learning items follow the Azure AI Engineer skills (agents, RAG, content safety)",
     "type": "perfective",
     "closes": "Owner feedback: the tech presentation should be the best and match current tech trends",
-    "commit": "2cdc87e",
+    "commit": "d98ce51",
     "phase": 2
   },
   {
@@ -372,6 +372,14 @@
     "change": "Made the site read as a personal portfolio: videos removed from the Gallery (pictures only; /videos opens the gallery), the module name and Readme link removed from the footer and the status line, the chat answer about the site rewritten, and the 8th system now shows how I build and ship this site",
     "type": "perfective",
     "closes": "Owner feedback: remove the videos, the footer credit and the module wording",
+    "commit": "d8829cf",
+    "phase": 2
+  },
+  {
+    "id": "CR-48",
+    "change": "Moved to a fresh GitHub repository with the same name; commit messages tidied and the commit IDs in this change log updated to the new history (the lecturer's starter commits keep their IDs)",
+    "type": "preventive",
+    "closes": "Owner decision: start a clean repository",
     "commit": "this commit",
     "phase": 2
   }

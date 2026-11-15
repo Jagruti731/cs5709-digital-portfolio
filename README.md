@@ -589,6 +589,10 @@ version in the git history. The lecturer's starter commits (up to `v0-starter`) 
 every commit from CR-03 onwards has a new ID, so IDs quoted in the Phase 1 report refer to the old
 history. The commit messages, dates, order and tags are the same.
 
+**Fresh repository (CR-48).** The project moved to a new GitHub repository with the same name and
+address. Commit messages were tidied, so commit IDs after `v0-starter` changed again; the change log
+below lists the current IDs. Dates, order, authors and tags are unchanged.
+
 The full list, with a filter by phase and maintenance type, is on the Readme page under **Change log**
 (`public/data/changelog.json`).
 
