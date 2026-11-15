@@ -4,9 +4,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-// Calibri where installed (Windows, Office); Carlito, its metric-compatible open twin, elsewhere.
-import '@fontsource/carlito/400.css';
-import '@fontsource/carlito/700.css';
+// CR-33: self-hosted fonts, so the installed offline app looks the same with no network.
+// Space Grotesk for headings, JetBrains Mono for labels, numbers and the status panel.
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-500.css';
 import './styles/global.css';
 import App from './App';
 import { store } from './store/store';

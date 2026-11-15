@@ -39,7 +39,6 @@ export interface Profile {
   intro: string;
   facts: Fact[];
   numbers: { value: string; label: string }[];
-  roles: TitledText[];
   story: string[];
   quickFacts: [string, string][];
   /** Awards and recognition, shown on About. */
@@ -62,8 +61,6 @@ export interface CaseStudy {
 /** projects.json */
 export interface ProjectsData {
   caseStudies: CaseStudy[];
-  otherProjects: TitledText[];
-  skillGroups: { title: string; items: string[] }[];
 }
 
 /** One blog article. `date` is an ISO date (yyyy-mm-dd). */

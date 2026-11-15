@@ -33,15 +33,6 @@ const projectDocs = (p?: ProjectsData): SearchDoc[] =>
           tags: s.tools,
           body: [s.kind, s.problem, ...s.did].join(' '),
         })),
-        ...p.otherProjects.map((o) => ({ id: `project-${o.title}`, kind: 'Project', title: o.title, to: '/knowledge', text: o.text })),
-        ...p.skillGroups.map((g) => ({
-          id: `skills-${g.title}`,
-          kind: 'Skills',
-          title: `Skills: ${g.title}`,
-          to: '/knowledge',
-          text: g.items.join(', '),
-          tags: g.items,
-        })),
       ]
     : [];
 
@@ -63,11 +54,17 @@ const educationDocs = (e?: EducationData): SearchDoc[] =>
           id: `edu-${x.title}`,
           kind: 'Education',
           title: x.title,
-          to: '/education',
+          to: '/about?section=education',
           text: x.text,
           tags: x.badge ? [x.badge] : [],
         })),
-        ...e.certifications.map((x) => ({ id: `cert-${x.title}`, kind: 'Education', title: x.title, to: '/education', text: x.text })),
+        ...e.certifications.map((x) => ({
+          id: `cert-${x.title}`,
+          kind: 'Education',
+          title: x.title,
+          to: '/about?section=education',
+          text: x.text,
+        })),
       ]
     : [];
 

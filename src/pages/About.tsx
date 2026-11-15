@@ -1,7 +1,10 @@
 /**
- * @file About page: short story, quick facts, what I do, experience and recognition.
- * Content: profile.json and career.json (from my LinkedIn profile, CR-30).
+ * @file About page: short story, quick facts, experience, education, certifications and recognition.
+ * Content: profile.json, career.json and education.json (from my LinkedIn profile, CR-30).
+ * CR-33: the Education page was merged in here; /education and ?section=education scroll to it.
  */
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { LoadState } from '../components/LoadState';
 import { PageHeader } from '../components/PageHeader';
@@ -13,22 +16,35 @@ import { useContent } from '../hooks/useContent';
 export default function About() {
   const profileFile = useContent('profile');
   const careerFile = useContent('career');
+  const educationFile = useContent('education');
+  const [params] = useSearchParams();
+  const section = params.get('section');
   const profile = profileFile.data;
-  if (!profile || !careerFile.data) {
-    const failed = profileFile.status === 'error' ? profileFile : careerFile;
-    return <LoadState status={failed.status === 'error' ? 'error' : 'loading'} error={failed.error} retry={failed.retry} />;
+  const ready = Boolean(profile && careerFile.data && educationFile.data);
+
+  // Deep link: /about?section=education (old /education links land here too).
+  useEffect(() => {
+    if (!section || !ready) return;
+    const timer = window.setTimeout(() => document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' }), 60);
+    return () => window.clearTimeout(timer);
+  }, [section, ready]);
+
+  if (!profile || !careerFile.data || !educationFile.data) {
+    const failed = [profileFile, careerFile, educationFile].find((f) => f.status === 'error');
+    return <LoadState status={failed ? 'error' : 'loading'} error={failed?.error} retry={failed?.retry} />;
   }
+  const { education, certifications } = educationFile.data;
   return (
     <>
-      <PageHeader title="About me" crumb="About" intro="Systems that scale, software that thinks." />
+      <PageHeader title="About me" crumb="About" intro="Six years from intern to consultant, now an MSc student in Limerick." />
       <Section>
         <div className="grid g2 start">
-          <div className="prose">
+          <div className="prose lead">
             {profile.story.map((p) => (
               <p key={p.slice(0, 20)}>{p}</p>
             ))}
           </div>
-          <div className="card">
+          <div className="card facts-card">
             <table className="facts-table">
               <tbody>
                 {profile.quickFacts.map(([label, value]) => (
@@ -48,20 +64,23 @@ export default function About() {
           </div>
         </div>
       </Section>
-      <Section title="What I do" alt>
-        <div className="grid g4">
-          {profile.roles.map((r) => (
-            <Card key={r.title} title={r.title}>
-              <p>{r.text}</p>
-            </Card>
-          ))}
-        </div>
-      </Section>
-      <Section title="Experience">
+      <Section kicker="01 / experience" title="Experience" alt>
         <Timeline items={careerFile.data.experience} />
       </Section>
-      <Section title="Recognition" alt>
-        <div className="grid g4">
+      <Section kicker="02 / education" title="Education" id="education">
+        <Timeline items={education} />
+        <h3 className="sub-head">Certifications</h3>
+        <ul className="cert-list">
+          {certifications.map((c) => (
+            <li key={c.title}>
+              <b>{c.title}</b>
+              <span>{c.text}</span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+      <Section kicker="03 / recognition" title="Recognition" alt>
+        <div className="grid g3">
           {profile.extras.map((x) => (
             <Card key={x.code} title={x.title}>
               <p>{x.text}</p>

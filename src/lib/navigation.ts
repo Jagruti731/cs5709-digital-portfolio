@@ -4,6 +4,7 @@
  * One list drives the router, the navigation bar and the search index, so a
  * page cannot exist without a menu entry (the starter's menu had lost Blog).
  * Phase 2 (CR-30): seven menu items; Readme and Dashboard are linked from the footer.
+ * CR-33: six menu items; Education is now a section of About (/education redirects there).
  */
 // ---------------------------------------------------------------------------
 // Page metadata for the router, the navigation bar and Search (version 1.0).
@@ -34,17 +35,21 @@ export const pages: PageMeta[] = [
     path: '/about',
     label: 'About',
     title: 'About Me',
-    description: 'My story, what I do, experience and recognition.',
-    keywords: ['profile', 'experience', 'winjit', 'career', 'consultant', 'awards'],
-    inNav: true,
-  },
-  {
-    id: 'education',
-    path: '/education',
-    label: 'Education',
-    title: 'Education',
-    description: 'MSc, AI & ML diploma, BE, diploma and certifications.',
-    keywords: ['msc', 'be', 'diploma', 'university', 'limerick', 'nit warangal', 'certifications'],
+    description: 'My story, experience, education, certifications and recognition.',
+    keywords: [
+      'profile',
+      'experience',
+      'winjit',
+      'career',
+      'consultant',
+      'awards',
+      'education',
+      'msc',
+      'university',
+      'limerick',
+      'nit warangal',
+      'certifications',
+    ],
     inNav: true,
   },
   {
@@ -52,7 +57,7 @@ export const pages: PageMeta[] = [
     path: '/knowledge',
     label: 'Work',
     title: 'Professional Knowledge',
-    description: 'Case studies, other projects and skills.',
+    description: 'Case studies with a technology filter.',
     keywords: ['projects', 'skills', 'ocr', 'loan', '.net', 'professional knowledge', 'case studies'],
     inNav: true,
   },

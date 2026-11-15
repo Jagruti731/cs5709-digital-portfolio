@@ -14,7 +14,7 @@ shows the same file on its **Readme** page (`src/pages/Readme.tsx` imports it), 
 
 | Item | Detail |
 | --- | --- |
-| What | A personal portfolio: Home, About, Education, Professional Knowledge (Work), Gallery (pictures and videos), Blog with a community feed, Contact (instant messaging), plus Readme, Dashboard and Search |
+| What | A personal portfolio: Home, About (with education), Professional Knowledge (Work), Gallery (pictures and videos), Blog with a community feed, Contact (instant messaging), plus Readme, Dashboard and Search |
 | Stack | React 18, TypeScript (strict), Vite 6, React Router 6 (HashRouter), Redux Toolkit, plain CSS |
 | Phase 1 (v1.0) | Starter analysed and evolved: 10 typed change requests, CR-01 to CR-10 |
 | Phase 2 (v2.0) | Peer review and lecturer feedback applied, JSON content, CI/CD, live on GitHub Pages, innovation features |
@@ -97,7 +97,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 
 ![Site scheme](public/diagrams/site-scheme-v2.svg)
 
-**Site scheme.** Seven menu items share one navigation bar; Readme and Dashboard are linked from the
+**Site scheme.** Six menu items share one navigation bar (seven before CR-33, when Education became a section of About); Readme and Dashboard are linked from the
 footer; Search sits outside the menu and is
 opened with the Search button or the `/` key; unknown addresses show Not found.
 
@@ -168,7 +168,7 @@ component, and the files are fetched at run time, cached in the Redux store, and
 | `profile.json` | Home, About |
 | `projects.json` | Home, Professional Knowledge, Search |
 | `career.json` | Home, About |
-| `education.json` | Education |
+| `education.json` | About (Education section) |
 | `gallery.json` | Gallery → Pictures |
 | `videos.json` | Gallery → Videos |
 | `blog.json` | Blog |
@@ -328,6 +328,30 @@ required page:
 | Content written for Phase 1 | rewritten from my LinkedIn profile: current role (Consultant), dates, NIT Warangal diploma, awards |
 | Page entrance, count-up and reveal animations | scroll reveal on cards only |
 
+### 11.5 From a basic portfolio to an engineer's portfolio (CR-33)
+
+The leaner site still looked like a standard template: a dark banner, plain cards and grey. CR-33 is
+one perfective change with two parts.
+
+**Fewer, stronger sections.** Nothing the brief or the reviews ask for was removed; repeated content was.
+
+| Before | After |
+| --- | --- |
+| 7 menu items, Education as its own page | 6: Education is a section of About (`/education` redirects there, and search results link to it) |
+| Work: case studies, then *Other projects* and *Skills* lists | case studies only; every case study already lists its tools, so the lists repeated them |
+| About: story, *What I do* boxes, experience, recognition | story, experience, education, certifications, recognition |
+| Contact: chat and a table of contact facts | one LinkedIn button above the chat |
+
+**A look that shows engineering.** The hero now shows a live *system status* panel next to my name. It
+reads `quality.json`, which the pipeline writes for the exact commit that is live, and shows the
+checks passing, coverage, architecture rule breaks and whether the shared feed is connected, with
+links to the quality report, the pipeline run and this README. The rest is visual only and lives in
+section 9 of `global.css`: ink surfaces with a faint engineering grid, Space Grotesk headings,
+JetBrains Mono for labels and numbers, one signal colour, numbered section kickers, a timeline rail and
+hover lift on project cards. Both fonts are self-hosted, so the installed offline app looks the same
+with no network. Every test passed after the change, and the status logic (`statusRows`) has its own
+unit tests.
+
 ## 12. Innovation
 
 Four features go beyond a static GitHub Pages portfolio and beyond what was covered in class.
@@ -347,7 +371,7 @@ every step can be read and tested:
 
 Two collections can be searched:
 
-- **This site:** 51 items: pages, case studies, projects, skills, articles, qualifications, jobs, pictures and videos.
+- **This site:** pages, case studies, articles, qualifications, jobs, pictures and videos.
   Results can be filtered by type, and the query is kept in the URL, so a search can be shared.
 - **Source code:** *concept location*, a core software-evolution task (Rajlich & Wilde, 2002): given a
   concept, find the code that implements it. `tools/build-code-index.mjs` indexes every source file
@@ -395,7 +419,7 @@ Workbox service worker at build time (`vite.config.ts`):
 | Updates | after a new deployment the visitor sees *A new version is ready – Reload*; nothing reloads by surprise |
 | Offline notice | a banner says the site is offline and that live GitHub data needs a connection |
 
-The browser test switches the network off, reloads, and checks that the Education page still renders
+The browser test switches the network off, reloads, and checks that the About page still renders
 from the cache.
 
 ### 12.4 Code quality dashboard and architecture conformance

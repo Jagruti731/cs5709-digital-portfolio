@@ -48,53 +48,5 @@
       "did": ["Designed the portal and AI contract analysis", "Built prototype screens and the pitch"],
       "tools": ["React", "AI contract analysis", "Product design"]
     }
-  ],
-  "otherProjects": [
-    {
-      "title": "AI Assistant Portal",
-      "text": "Helps a finance team calculate and match transaction reports."
-    },
-    {
-      "title": "WhatsApp & Power Automate",
-      "text": "Automated manual steps for an international vehicle finance client."
-    },
-    {
-      "title": "Payroll module",
-      "text": "Tax, deduction and net pay logic for an HR platform."
-    },
-    {
-      "title": "WIP & ageing reports",
-      "text": "Reporting modules for a manufacturing client."
-    },
-    {
-      "title": "Sage–Maximo integration",
-      "text": "Kept finance and asset data in sync."
-    },
-    {
-      "title": "AI adoption tracker",
-      "text": "Measures Copilot use per sprint across the PMO."
-    }
-  ],
-  "skillGroups": [
-    {
-      "title": "Back end",
-      "items": ["C#", ".NET Core", "ASP.NET Web API", "Microservices"]
-    },
-    {
-      "title": "Front end",
-      "items": ["Angular", "React", "TypeScript", "Blazor"]
-    },
-    {
-      "title": "Cloud & data",
-      "items": ["Azure", "SQL Server", "Azure DevOps", "Blob Storage"]
-    },
-    {
-      "title": "AI",
-      "items": ["GitHub Copilot", "OpenAI API", "Google Gemini", "Agentic AI"]
-    },
-    {
-      "title": "Delivery",
-      "items": ["Agile", "Jira", "Code review", "Presales"]
-    }
   ]
 }

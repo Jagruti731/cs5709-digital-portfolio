@@ -94,7 +94,7 @@ const go = async (path) => {
 };
 
 // 1. Every route renders a heading; an unknown route renders NotFound.
-const routes = ['/', '/about', '/education', '/knowledge', '/gallery', '/videos', '/blog', '/messages', '/search', '/readme', '/dashboard'];
+const routes = ['/', '/about', '/knowledge', '/gallery', '/videos', '/blog', '/messages', '/search', '/readme', '/dashboard'];
 const failedRoutes = [];
 let rendered = 0;
 for (const r of routes) {
@@ -121,11 +121,15 @@ check(
   page.url().endsWith('#/about') && (await page.evaluate(() => document.activeElement?.id)) === 'main',
 );
 
-// 2. Navbar marks the current page; title follows the route.
+// 2. Navbar marks the current page; title follows the route. Old /education links land on About's Education section (CR-33).
 await go('/education');
+await page.waitForTimeout(600);
 check(
-  'Navbar marks the current page; title follows the route',
-  (await page.locator('.nav-links a[aria-current="page"]').textContent()) === 'Education' && (await page.title()).startsWith('Education'),
+  'Navbar marks the current page; title follows the route; /education redirects to About',
+  (await page.locator('.nav-links a[aria-current="page"]').textContent()) === 'About' &&
+    (await page.title()).startsWith('About') &&
+    page.url().includes('section=education') &&
+    (await page.locator('#education .timeline li').count()) > 0,
 );
 
 // 3. Home case-study link deep-links into Professional Knowledge.
@@ -289,14 +293,14 @@ await app.waitForTimeout(1500);
 const manifest = await app.evaluate(async () => (await fetch(document.querySelector('link[rel=manifest]').href)).json());
 await appContext.setOffline(true);
 await app.reload();
-await app.goto(`${base}#/education`);
+await app.goto(`${base}#/about`);
 await app.waitForTimeout(800);
 const offlinePage = (await app.locator('.timeline li').count()) > 0;
 const offlineNotice = (await app.locator('.toast', { hasText: 'You are offline' }).count()) === 1;
 await appContext.close();
 const pwaParts = [manifest.icons.length >= 2, manifest.display === 'standalone', offlinePage, offlineNotice];
 check(
-  'Installable app: manifest, offline Education page from the cache, offline notice',
+  'Installable app: manifest, offline About page from the cache, offline notice',
   pwaParts.every(Boolean),
   `${pwaParts.filter(Boolean).length}/4`,
 );

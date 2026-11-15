@@ -78,3 +78,34 @@ export function useQualityReport() {
 
 /** "passed / total" as a percentage, or null. */
 export const passRate = (p: PassCount | null): number | null => (p && p.total ? Math.round((p.passed / p.total) * 100) : null);
+
+const NONE = { passed: 0, total: 0 };
+
+/** One line of the Home "system status" panel (CR-33): label, value and whether it is healthy. */
+export interface StatusRow {
+  label: string;
+  value: string;
+  ok: boolean;
+}
+
+/** All automated checks added together: unit, API, security rules and browser. */
+export function totalChecks(t: QualityReport['tests']): PassCount {
+  const parts = [t.unit ?? NONE, t.api ?? NONE, t.rules ?? NONE, t.e2e ?? NONE];
+  return { passed: parts.reduce((n, p) => n + p.passed, 0), total: parts.reduce((n, p) => n + p.total, 0) };
+}
+
+/** The status panel rows. Without a report (a local build) every measured row says "–". */
+export function statusRows(r: QualityReport | undefined, sharedFeed: boolean): StatusRow[] {
+  const community = { label: 'community', value: sharedFeed ? 'shared live feed' : 'this browser only', ok: sharedFeed };
+  if (!r) return [{ label: 'pipeline', value: 'not measured yet', ok: false }, community];
+  const checks = totalChecks(r.tests);
+  const lines = r.coverage?.lines ?? 0;
+  const breaks = r.architecture.divergences.length;
+  return [
+    { label: 'pipeline', value: 'deployed by CI/CD', ok: true },
+    { label: 'checks', value: `${checks.passed}/${checks.total} passing`, ok: checks.total > 0 && checks.passed === checks.total },
+    { label: 'coverage', value: `${Math.round(lines)}% of logic`, ok: lines >= 60 },
+    { label: 'architecture', value: `${breaks} rule breaks`, ok: breaks === 0 },
+    community,
+  ];
+}

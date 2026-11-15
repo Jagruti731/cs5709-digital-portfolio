@@ -11,7 +11,6 @@ import { pages, type PageMeta } from './lib/navigation';
 const components: Record<string, LazyExoticComponent<ComponentType>> = {
   home: lazy(() => import('./pages/Home')),
   about: lazy(() => import('./pages/About')),
-  education: lazy(() => import('./pages/Education')),
   knowledge: lazy(() => import('./pages/Knowledge')),
   gallery: lazy(() => import('./pages/Gallery')),
   blog: lazy(() => import('./pages/Blog')),

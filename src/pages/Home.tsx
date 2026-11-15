@@ -1,10 +1,11 @@
 /**
- * @file Home page: one-line introduction, four key numbers and three featured projects.
- * Content: profile.json and projects.json. Kept short on purpose (CR-30): details live on About and Work.
+ * @file Home page: introduction with a live system status panel, four key numbers and three featured projects.
+ * Content: profile.json and projects.json; the status panel reads quality.json from the pipeline (CR-33).
  */
 import { Link } from 'react-router-dom';
 import { LoadState } from '../components/LoadState';
 import { Section } from '../components/Section';
+import { SiteStatus } from '../features/quality/SiteStatus';
 import { useContent } from '../hooks/useContent';
 import { imagePath } from '../lib/assets';
 
@@ -20,15 +21,19 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <div className="container">
+        <div className="container hero-grid">
           <div>
-            <p className="hello">Tech Consultant · MSc Software Engineering @ UL</p>
-            <h1>{profile.name}</h1>
+            <p className="hello">Consultant · .NET + Azure + AI · MSc @ UL</p>
+            <h1>
+              {profile.name.split(' ')[0]}
+              <br />
+              <span>{profile.name.split(' ').slice(1).join(' ')}</span>
+            </h1>
             <p className="intro">{profile.intro}</p>
             <ul className="quick-facts">
               {profile.facts.map((f) => (
                 <li key={f.label}>
-                  <b>{f.label}:</b> {f.value}
+                  <b>{f.label}</b> {f.value}
                 </li>
               ))}
             </ul>
@@ -41,6 +46,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
+          <SiteStatus />
         </div>
       </section>
 
@@ -55,15 +61,22 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section title="Selected work">
+      <Section kicker="01 / selected work" title="Systems I have built and led">
         <div className="grid g3">
-          {featured.map((c) => (
+          {featured.map((c, i) => (
             <article className="work-card" key={c.id}>
               <img src={imagePath(c.image)} alt={c.title} loading="lazy" decoding="async" width={1200} height={800} />
               <div className="body">
-                <span className="kind">{c.kind}</span>
+                <span className="kind">
+                  {String(i + 1).padStart(2, '0')} · {c.kind}
+                </span>
                 <h3>{c.title}</h3>
                 <p>{c.summary}</p>
+                <ul className="tags">
+                  {c.tools.slice(0, 3).map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
                 <Link className="more" to={`/knowledge?case=${c.id}`}>
                   Read the case study →
                 </Link>

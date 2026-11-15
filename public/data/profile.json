@@ -36,24 +36,6 @@
       "label": "Winspire team and Extra Miler"
     }
   ],
-  "roles": [
-    {
-      "title": "Build",
-      "text": ".NET Core, C#, Angular and microservices on Azure."
-    },
-    {
-      "title": "Lead",
-      "text": "Sprints, code reviews and coaching engineers."
-    },
-    {
-      "title": "Presales",
-      "text": "Proposals, solution design and plain-language demos."
-    },
-    {
-      "title": "AI-first delivery",
-      "text": "Copilot and LLM APIs across coding, reviews, testing and docs."
-    }
-  ],
   "story": [
     "I started at Winjit Technologies (RIB Group) in Nashik as an intern in 2020 and grew to Consultant, delivering enterprise platforms for lending, ERP integration, accounting and manufacturing.",
     "Along the way I brought AI into how my teams work. Now I am doing an MSc in Software Engineering at the University of Limerick and completing Azure AI Engineer (AI-102)."

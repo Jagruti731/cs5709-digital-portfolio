@@ -110,14 +110,14 @@
     },
     {
       "id": "F03",
-      "name": "Education: qualifications timeline, certifications",
+      "name": "Education: qualifications timeline and certifications (a section of About since CR-33)",
       "group": "Pages",
       "phase": 1,
       "status": "done"
     },
     {
       "id": "F04",
-      "name": "Professional Knowledge: case studies, projects, skills",
+      "name": "Professional Knowledge: case studies with their tools",
       "group": "Pages",
       "phase": 1,
       "status": "done"

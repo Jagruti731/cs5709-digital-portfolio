@@ -1,12 +1,13 @@
 /**
- * @file Professional Knowledge ("Work") page: case studies, other projects and skills.
+ * @file Professional Knowledge ("Work") page: case studies with a technology filter and text search.
  * Content: public/data/projects.json. Deep link: /knowledge?case=<id> scrolls to that case study.
  * Phase 2 (CR-20, user story US2): case studies can be filtered by technology and by text;
  * GSAP Flip moves the cards smoothly to their new places.
+ * CR-33: the "Other projects" and "Skills" lists were removed; they repeated the case studies,
+ * and each case study already lists its tools.
  */
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { LoadState } from '../components/LoadState';
@@ -33,7 +34,6 @@ export default function Knowledge() {
   }, [target, data]);
 
   if (!data) return <LoadState status={status} error={error} retry={retry} />;
-  const { otherProjects, skillGroups } = data;
   const caseStudies = filterCases(data.caseStudies, tech, text);
 
   return (
@@ -41,9 +41,9 @@ export default function Knowledge() {
       <PageHeader
         title="Professional knowledge"
         crumb="Professional Knowledge"
-        intro="Projects I have built and led, and the skills I use."
+        intro="Four systems I have built and led: the problem, what I did and the tools."
       />
-      <Section title="Case studies" intro="Filter by technology or search.">
+      <Section kicker="case studies" title="Filter by technology or search">
         <div className="filter-bar">
           <div className="filters" role="group" aria-label="Filter case studies by technology">
             {[ALL, ...techs].map((t) => (
@@ -91,22 +91,6 @@ export default function Knowledge() {
                 </dl>
               </div>
             </article>
-          ))}
-        </div>
-      </Section>
-      <Section title="Other projects" alt>
-        <div className="grid g3">
-          {otherProjects.map((p) => (
-            <Card key={p.title} title={p.title}>
-              <p>{p.text}</p>
-            </Card>
-          ))}
-        </div>
-      </Section>
-      <Section title="Skills">
-        <div className="skill-groups">
-          {skillGroups.map((g) => (
-            <Card key={g.title} title={g.title} tags={g.items} />
           ))}
         </div>
       </Section>

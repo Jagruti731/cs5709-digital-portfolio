@@ -11,7 +11,7 @@ import githubReducer, { type GitHubState } from '../../store/githubSlice';
 import { GitHubPanel } from '../github/GitHubPanel';
 import fixture from './quality.fixture.json';
 import { QualityPanel } from './QualityPanel';
-import { passRate } from './report';
+import { passRate, statusRows, type QualityReport } from './report';
 
 afterEach(() => {
   cleanup();
@@ -44,6 +44,26 @@ describe('QualityPanel', () => {
   it('computes pass rates', () => {
     expect(passRate({ passed: 3, total: 4 })).toBe(75);
     expect(passRate(null)).toBeNull();
+  });
+});
+
+describe('Home status panel (CR-33)', () => {
+  const report = fixture as unknown as QualityReport;
+
+  it('summarises the report and flags what is below target', () => {
+    // The fixture is an early real report: all checks pass, but coverage was 47% and there were 2 divergences.
+    const rows = statusRows(report, true);
+    expect(rows.map((r) => r.label)).toEqual(['pipeline', 'checks', 'coverage', 'architecture', 'community']);
+    expect(rows.map((r) => r.ok)).toEqual([true, true, false, false, true]);
+    expect(rows[1].value).toBe('101/101 passing');
+    expect(rows[3].value).toBe('2 rule breaks');
+  });
+
+  it('marks failing checks and a local build honestly', () => {
+    const failing = { ...report, tests: { ...report.tests, api: { passed: 15, total: 16 } } };
+    expect(statusRows(failing, false).find((r) => r.label === 'checks')?.ok).toBe(false);
+    expect(statusRows(failing, false).at(-1)).toEqual({ label: 'community', value: 'this browser only', ok: false });
+    expect(statusRows(undefined, false)[0]).toEqual({ label: 'pipeline', value: 'not measured yet', ok: false });
   });
 });
 

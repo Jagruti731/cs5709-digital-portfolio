@@ -8,7 +8,7 @@
  */
 import { Fragment } from 'react';
 import { LoadState } from '../../components/LoadState';
-import { passRate, useQualityReport, type QualityReport } from './report';
+import { passRate, totalChecks, useQualityReport, type QualityReport } from './report';
 
 const COVERAGE_THRESHOLD = 60; // same as vite.config.ts
 
@@ -35,17 +35,9 @@ function Bars({ rows, max, unit = '', marker }: { rows: [string, number][]; max:
   );
 }
 
-const ZERO = { passed: 0, total: 0 };
-
-/** All automated checks added together: unit, API, security rules and browser. */
-function allChecks(t: QualityReport['tests']) {
-  const parts = [t.unit ?? ZERO, t.api ?? ZERO, t.rules ?? ZERO, t.e2e ?? ZERO];
-  return { passed: parts.reduce((n, p) => n + p.passed, 0), total: parts.reduce((n, p) => n + p.total, 0) };
-}
-
 /** The six headline numbers: [value, label, meets the target]. */
 function headline(r: QualityReport): [string, string, boolean][] {
-  const checks = allChecks(r.tests);
+  const checks = totalChecks(r.tests);
   const lines = r.coverage?.lines;
   return [
     [`${checks.passed}/${checks.total}`, 'automated checks passed', checks.passed === checks.total],

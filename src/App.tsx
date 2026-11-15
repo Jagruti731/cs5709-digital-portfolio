@@ -19,6 +19,8 @@ export default function App() {
           )}
           {/* Pictures and Videos were merged into Gallery (CR-30); old links still work. */}
           <Route path="/videos" element={<Navigate to="/gallery?tab=videos" replace />} />
+          {/* Education became a section of About (CR-33). */}
+          <Route path="/education" element={<Navigate to="/about?section=education" replace />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
