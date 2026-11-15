@@ -380,6 +380,14 @@
     "change": "Moved to a fresh GitHub repository with the same name; commit messages tidied and the commit IDs in this change log updated to the new history (the lecturer's starter commits keep their IDs)",
     "type": "preventive",
     "closes": "Owner decision: start a clean repository",
+    "commit": "5b748be",
+    "phase": 2
+  },
+  {
+    "id": "CR-49",
+    "change": "Hero label shows where I am based (Limerick, Ireland) instead of the Nashik to Limerick route",
+    "type": "perfective",
+    "closes": "Owner feedback",
     "commit": "this commit",
     "phase": 2
   }

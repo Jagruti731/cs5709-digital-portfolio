@@ -2,7 +2,7 @@
  * @file ScanHero: the Home hero (CR-43). My profile is read like a scanned document, the way the
  * Document AI systems I build read bank statements: a beam sweeps the card, boxes snap round each
  * field with a confidence score, the extracted JSON appears and an EXTRACTED stamp lands.
- * The greeting cycles Hello / नमस्कार (Marathi, Nashik) / Dia duit (Irish, Limerick).
+ * The greeting cycles Hello / नमस्कार (Marathi) / Dia duit (Irish), next to where I am based.
  * With reduced motion everything is shown at rest and nothing moves.
  */
 import { useEffect, useRef, useState } from 'react';
@@ -63,7 +63,7 @@ export function ScanHero({ hero, name, photo }: Props) {
       <div className="container hero-grid">
         <div className="hero-text">
           <p className="greet">
-            <span>Nashik → Limerick</span>
+            <span>Limerick, Ireland</span>
             <span className="word" aria-live="off">
               {hero.greetings.map((g, i) => (
                 <span
