@@ -332,6 +332,14 @@
     "change": "Final \"editorial\" design chosen from three real mockups: white page, Instrument Serif display type with orange italic emphasis, thin rules, work as a numbered index; typographic case-study covers replace the diagram pictures (deleted), new video posters; the four older theme layers (about 1,900 lines of CSS) and the unused Fraunces font deleted; masked headline reveal, arch photo, skills ticker and hover-fill rows, all CSS and off for reduced motion",
     "type": "perfective",
     "closes": "Owner feedback: the site looked basic and traditional; diagrams and motion felt old",
+    "commit": "7387941",
+    "phase": 2
+  },
+  {
+    "id": "CR-43",
+    "change": "Custom \"Scan\" design researched from top portfolios and chosen from a live prototype: the hero reads my profile like a scanned document; a section on readiness for agentic AI work; all eight systems (seven case studies and this site) shown as live automated runs with agent and human steps; the tech stack as a radar (core, growing, learning now); career path; smooth scrolling, magnetic buttons and a scanner cursor; footer credits Claude as AI pair programmer. Home content moved to showcase.json; the editorial layer and its fonts were replaced",
+    "type": "perfective",
+    "closes": "Owner feedback: show readiness for agentic AI work, all case studies and the tech stack, livelier, with workflows automated",
     "commit": "this commit",
     "phase": 2
   }

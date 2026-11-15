@@ -1,0 +1,212 @@
+{
+  "hero": {
+    "greetings": ["Hello", "नमस्कार", "Dia duit"],
+    "lines": ["I build systems", "that read, reason", "and *deliver.*"],
+    "lead": "Six years at Winjit Technologies (RIB Group), intern to consultant. I lead .NET and Azure teams, put AI to work on real finance documents, and keep a person in the loop. Now an MSc Software Engineering student at the University of Limerick.",
+    "fields": [
+      ["name", "Jagruti Badgujar", "0.99"],
+      ["role", "Tech Consultant", "0.98"],
+      ["stack", ".NET · Azure · Gemini", "0.97"],
+      ["based in", "Limerick, Ireland", "0.99"]
+    ]
+  },
+  "skills": [".NET", "Azure", "Document AI", "Microservices", "Team leadership", "Gemini", "Presales", "SQL Server"],
+  "numbers": [
+    { "value": 6, "suffix": "+", "label": "years, intern to consultant" },
+    { "value": 15, "label": "people in the team I led" },
+    { "value": 1000, "prefix": "~", "label": "documents checked by AI" },
+    { "value": 3, "label": "Winspire awards" }
+  ],
+  "pillars": [
+    {
+      "label": "AI inside the product",
+      "title": "AI that ships",
+      "points": ["Gemini reading real finance documents", "AI assistants and contract analysis"],
+      "proof": "About 1,000 documents through OCR and Gemini checks",
+      "icon": "doc"
+    },
+    {
+      "label": "Agents in my workflow",
+      "title": "Agents on my team",
+      "points": ["Claude, Copilot, OpenAI and Gemini, daily", "Started Winjit's GitHub Copilot Community"],
+      "proof": "This site: built with Claude, every change tested",
+      "icon": "pair"
+    },
+    {
+      "label": "Guardrails",
+      "title": "Guardrails first",
+      "points": ["Built the PMO's AI adoption tracker", "Completing Azure AI Engineer (AI-102)"],
+      "proof": "A person checks every AI decision that matters",
+      "icon": "shield"
+    }
+  ],
+  "systems": [
+    {
+      "id": "loan",
+      "name": "Loan origination",
+      "kind": "Fintech · team lead · current",
+      "headline": "One platform. *15 people.* ~1,000 documents checked by AI.",
+      "tools": [".NET", "Microservices", "SQL Server", "Gemini"],
+      "steps": [
+        ["📝", "Application", "customer applies"],
+        ["🤖", "Documents", "OCR + Gemini check", "agent"],
+        ["⚖️", "Credit rules", "rules engine"],
+        ["🧑‍💼", "Decision", "credit team", "human"],
+        ["💸", "Payout", "loan paid out"]
+      ],
+      "log": [
+        "new application received",
+        "documents read by OCR + Gemini",
+        "credit rules passed",
+        "approved by credit team",
+        "payout sent ✓"
+      ]
+    },
+    {
+      "id": "ocr",
+      "name": "Bank statement AI",
+      "kind": "Document AI · designed & built",
+      "headline": "Statements in. Clean data out. *No more hand typing.*",
+      "tools": ["ASP.NET Core", "C#", "Gemini", "PdfPig"],
+      "steps": [
+        ["📄", "Statement PDF", "uploaded"],
+        ["🔎", "Detect layout", "4 known banks"],
+        ["🤖", "Extract", "positional or Gemini", "agent"],
+        ["✅", "Validate", "totals, duplicates"],
+        ["📊", "Excel", "ready for credit"]
+      ],
+      "log": [
+        "statement.pdf received",
+        "layout detected",
+        "unknown page → Gemini fallback",
+        "totals match · duplicates removed",
+        "Excel export ready ✓"
+      ]
+    },
+    {
+      "id": "legacy",
+      "name": "Legacy modernisation",
+      "kind": "Modernisation · developer",
+      "headline": "Paid controls out. Open source in. *Business logic untouched.*",
+      "tools": ["ASP.NET MVC", "AG Grid", "ApexCharts", "Bootstrap 5"],
+      "steps": [
+        ["🧱", "Old control", "paid, hard to update"],
+        ["🔁", "Swap", "one screen at a time"],
+        ["📈", "AG Grid + ApexCharts", "new UI"],
+        ["🧪", "Same logic", "checked screen by screen"]
+      ],
+      "log": ["paid grid found on screen", "swapped to AG Grid", "charts moved to ApexCharts", "business logic unchanged ✓"]
+    },
+    {
+      "id": "payslip",
+      "name": "Payslip extraction",
+      "kind": "Document AI · developer",
+      "headline": "Payslips read by AI, *straight into SQL Server.*",
+      "tools": [".NET", "Gemini", "OCR", "SQL Server"],
+      "steps": [
+        ["🧾", "Payslip", "uploaded"],
+        ["🤖", "Gemini reads", "fields found", "agent"],
+        ["🗂️", "Map fields", "pay, dates, employer"],
+        ["🗄️", "SQL Server", "stored"]
+      ],
+      "log": ["payslip received", "Gemini extracted the fields", "fields mapped", "saved to SQL Server ✓"]
+    },
+    {
+      "id": "assistant",
+      "name": "AI finance assistant",
+      "kind": "Applied AI · developer",
+      "headline": "Reconciliation help, *on demand.*",
+      "tools": [".NET", "LLM APIs"],
+      "steps": [
+        ["💬", "Question", "from finance team"],
+        ["🤖", "Assistant", "reads the context", "agent"],
+        ["🧩", "Suggestion", "how to reconcile"],
+        ["🧑‍💼", "Confirm", "finance team decides", "human"]
+      ],
+      "log": ["question received", "assistant read the context", "suggestion returned", "confirmed by finance team ✓"]
+    },
+    {
+      "id": "workflows",
+      "name": "WhatsApp automation",
+      "kind": "Automation · developer",
+      "headline": "Updates that used to be sent by hand *now send themselves.*",
+      "tools": ["Power Automate", "WhatsApp", ".NET"],
+      "steps": [
+        ["⚡", "Business event", "status changes"],
+        ["🔁", "Power Automate", "flow starts"],
+        ["📱", "WhatsApp", "message sent"],
+        ["✅", "Delivered", "no manual step"]
+      ],
+      "log": ["status changed", "flow triggered", "WhatsApp message sent", "delivered ✓"]
+    },
+    {
+      "id": "lexaura",
+      "name": "LexAura legal AI",
+      "kind": "Innovation · concept & prototype",
+      "headline": "Contracts read by AI. *Deadlines tracked for you.* Pitched at WinTank 2026.",
+      "tools": ["React", "AI contract analysis", "Product design"],
+      "steps": [
+        ["📑", "Contract", "uploaded"],
+        ["🤖", "AI analysis", "clauses and risks", "agent"],
+        ["⏰", "Deadlines", "tracked"],
+        ["📋", "Dashboard", "legal team view"]
+      ],
+      "log": ["contract uploaded", "clauses and risks found", "deadlines added", "dashboard updated ✓"]
+    },
+    {
+      "id": "portfolio",
+      "name": "This portfolio",
+      "kind": "Built with an AI pair programmer",
+      "headline": "*Every change typed, tested and shipped.* Built with Claude.",
+      "tools": ["React", "TypeScript", "GitHub Actions", "Claude"],
+      "steps": [
+        ["📝", "Change request", "typed and numbered"],
+        ["🤖", "Pair-program", "with Claude", "agent"],
+        ["🧑‍💻", "Review", "I decide what ships", "human"],
+        ["🧪", "Checks", "CI/CD pipeline"],
+        ["🚀", "Deploy", "GitHub Pages"]
+      ],
+      "log": ["change request opened", "code written with Claude", "reviewed by me", "all checks passed", "deployed ✓"]
+    }
+  ],
+  "radar": {
+    "quadrants": ["Languages & frameworks", "Cloud & data", "AI & agents", "Delivery & practice"],
+    "rings": [
+      { "name": "Core", "note": "Shipped in production at work." },
+      { "name": "Growing", "note": "Used on real work and getting deeper, mostly with AI agents." },
+      { "name": "Learning now", "note": "Where I am heading next." }
+    ],
+    "items": [
+      ["C#", 0, 0],
+      [".NET / ASP.NET Core", 0, 0],
+      ["Angular", 0, 0],
+      ["React", 0, 1],
+      ["TypeScript", 0, 1],
+      ["SQL Server", 1, 0],
+      ["Azure", 1, 0],
+      ["Microservices", 1, 0],
+      ["Firebase", 1, 1],
+      ["Google Gemini", 2, 0],
+      ["OCR (PdfPig)", 2, 0],
+      ["LLM APIs", 2, 1],
+      ["GitHub Copilot", 2, 1],
+      ["Claude", 2, 1],
+      ["Azure AI (AI-102)", 2, 2],
+      ["Agentic AI workflows", 2, 2],
+      ["Git", 3, 0],
+      ["Power Automate", 3, 0],
+      ["Sprint leadership", 3, 0],
+      ["CI/CD (GitHub Actions)", 3, 1],
+      ["Automated testing", 3, 1],
+      ["Software architecture", 3, 2]
+    ]
+  },
+  "path": [
+    ["Intern", "Loan origination, C# and SQL Server"],
+    ["Software Developer", ".NET MVC, Blazor, REST APIs"],
+    ["Software Engineer", "ASP.NET Core, Angular, microservices"],
+    ["Senior Engineer", "Document AI and modernisation"],
+    ["Project Engineer", "Team lead for 15"],
+    ["Consultant", "Architecture, delivery, AI adoption"]
+  ]
+}

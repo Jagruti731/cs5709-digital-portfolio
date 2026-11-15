@@ -69,6 +69,13 @@ export const contentRules: Record<ContentName, Check> = {
     features: arrayOf('id', 'name', 'group'),
   }),
   codeindex: objectWith({ commit: text, files: arrayOf('path', 'summary', 'url') }),
+  showcase: objectWith({
+    hero: objectWith({ lead: text, lines: list, greetings: list, fields: list }),
+    pillars: arrayOf('label', 'title', 'proof', 'icon'),
+    systems: arrayOf('id', 'name', 'kind', 'headline'),
+    radar: objectWith({ quadrants: list, rings: arrayOf('name', 'note'), items: list }),
+    path: list,
+  }),
 };
 
 /** Checks already-parsed data. Returns it typed, or throws a ContentError. */

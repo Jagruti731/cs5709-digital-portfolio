@@ -132,11 +132,14 @@ check(
     (await page.locator('#education .timeline li').count()) > 0,
 );
 
-// 3. Home case-study link deep-links into Professional Knowledge.
+// 3. Home: the systems player switches system, and "See the work" opens Professional Knowledge (CR-43).
 await go('/');
-await page.locator('.work-index a').nth(1).click();
+await page.locator('.sys-tab').nth(1).click();
+await page.waitForTimeout(400);
+const switched = (await page.locator('.stage .impact-big').textContent())?.includes('Statements in');
+await page.getByRole('link', { name: /See the work/ }).click();
 await page.waitForTimeout(800);
-check('Home work index opens that case study', page.url().includes('case=ocr') && (await page.locator('#ocr').isVisible()));
+check('Home systems player switches system; "See the work" opens the case studies', Boolean(switched) && page.url().includes('/knowledge'));
 
 // 4. Gallery filter and Lightbox.
 await go('/gallery');

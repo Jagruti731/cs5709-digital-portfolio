@@ -402,7 +402,7 @@ band); the assignment material (lecturer feedback, peer review, iterations, chan
 page, linked from the footer, so the marker still finds it.
 
 CR-42 is the final look, which the owner chose from three real mockups (editorial, bento grid, dark
-aurora) after saying the site still felt basic and traditional. It is "editorial" (section 9 of `global.css`):
+aurora) after saying the site still felt basic and traditional. It was "editorial" (replaced in CR-43):
 a white page, near-black ink, very large Instrument Serif headlines with orange italic emphasis, Inter for
 text, thin rules instead of boxes, and the selected work as a numbered index whose rows fill on hover. The
 diagram pictures of the case studies were replaced by typographic covers (`components/CaseCover.tsx`) and
@@ -411,6 +411,19 @@ lines of CSS that the newest layer overrode) and the unused Fraunces font were d
 maintenance, so there is one theme layer on top of the base styles. The motion follows motion-graphics
 prompts: headline lines slide up out of a mask, the photo arch opens, a skills ticker runs (paused on
 hover), the maintenance bars draw, and work rows fill on hover. It is CSS only and off for reduced motion.
+
+CR-43 is the final design. After researching award-winning portfolios, the owner chose a custom idea
+from a live prototype: the site reads like a scanner, because Document AI is her real work. The Home hero
+reads her profile like a scanned document (a beam sweeps the card, boxes snap round each field with a
+confidence score, the JSON appears and an EXTRACTED stamp lands). A section shows readiness for agentic AI
+work in three pillars, each with a line of proof. All eight systems (the seven case studies and this site)
+are shown as live automated runs: a document moves through the steps, agent and human steps are labelled,
+and a run log writes as it goes (`features/showcase`). The tech stack is a radar with three rings (core,
+growing, learning now), placed by a unit-tested function (`radarLayout.ts`). Home text lives in
+`showcase.json`, checked like every other content file. Motion uses GSAP (already a dependency) and Lenis
+for smooth scrolling, plus magnetic buttons and a scanner cursor; all of it is off for reduced motion and
+the cursor only appears for a mouse. The footer credits Claude (Anthropic) as the AI pair programmer the
+site was built with. Section 9 of `global.css` is the only theme layer.
 
 ## 12. Innovation
 

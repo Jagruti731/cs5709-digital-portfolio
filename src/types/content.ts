@@ -178,6 +178,40 @@ export interface CodeIndex {
   files: CodeFile[];
 }
 
+/** One step of a system run: icon, title, note and, optionally, who does it ("agent" or "human"). */
+export type ShowcaseStep = [icon: string, title: string, note: string, actor?: 'agent' | 'human'];
+
+/** One system shown as a live run on Home (CR-43). Text in *stars* is highlighted. */
+export interface ShowcaseSystem {
+  id: string;
+  name: string;
+  kind: string;
+  headline: string;
+  tools: string[];
+  steps: ShowcaseStep[];
+  log: string[];
+}
+
+/** One "ready for agentic work" pillar on Home. */
+export interface ShowcasePillar {
+  label: string;
+  title: string;
+  points: string[];
+  proof: string;
+  icon: 'doc' | 'pair' | 'shield';
+}
+
+/** Content of the Home page (CR-43): hero, skills, numbers, pillars, systems, tech radar and career path. */
+export interface Showcase {
+  hero: { greetings: string[]; lines: string[]; lead: string; fields: [label: string, value: string, confidence: string][] };
+  skills: string[];
+  numbers: { value: number; prefix?: string; suffix?: string; label: string }[];
+  pillars: ShowcasePillar[];
+  systems: ShowcaseSystem[];
+  radar: { quadrants: string[]; rings: { name: string; note: string }[]; items: [name: string, quadrant: number, ring: number][] };
+  path: [title: string, note: string][];
+}
+
 /** Every content file, by name. The key is the file name without ".json". */
 export interface ContentMap {
   profile: Profile;
@@ -190,6 +224,7 @@ export interface ContentMap {
   changelog: Change[];
   requirements: RequirementsData;
   codeindex: CodeIndex;
+  showcase: Showcase;
 }
 
 export type ContentName = keyof ContentMap;
