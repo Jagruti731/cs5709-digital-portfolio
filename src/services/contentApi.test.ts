@@ -19,11 +19,8 @@ describe('every content file in public/data', () => {
     expect(() => validateContent(name, readFile(name))).not.toThrow();
   });
 
-  it('every case study and gallery picture points to an image that exists', () => {
-    const files = [
-      ...readFile('projects').caseStudies.map((c: { image: string }) => c.image),
-      ...readFile('gallery').pictures.map((p: { file: string }) => p.file),
-    ];
+  it('every gallery picture points to an image that exists', () => {
+    const files = readFile('gallery').pictures.map((p: { file: string }) => p.file) as string[];
     for (const file of files) expect(() => readFileSync(new URL(`../../public/images/${file}`, import.meta.url))).not.toThrow();
   });
 

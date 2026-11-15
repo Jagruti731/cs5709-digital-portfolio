@@ -134,9 +134,9 @@ check(
 
 // 3. Home case-study link deep-links into Professional Knowledge.
 await go('/');
-await page.locator('.work-card a').nth(1).click();
+await page.locator('.work-index a').nth(1).click();
 await page.waitForTimeout(800);
-check('Home "Read the case study" opens that case study', page.url().includes('case=ocr') && (await page.locator('#ocr').isVisible()));
+check('Home work index opens that case study', page.url().includes('case=ocr') && (await page.locator('#ocr').isVisible()));
 
 // 4. Gallery filter and Lightbox.
 await go('/gallery');

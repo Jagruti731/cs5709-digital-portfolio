@@ -324,6 +324,14 @@
     "change": "Professional \"clean corporate\" redesign: white page, navy text, one blue accent, Inter only, soft cards; Home now speaks to employers (name, intro, photo card, key numbers, selected work, how I build software, contact band) and the assignment material stays on the Readme page; calm load animation, off for reduced motion",
     "type": "perfective",
     "closes": "Owner feedback: keep it professional and ready to submit; module and assignment details do not belong on a personal Home page",
+    "commit": "363fd86",
+    "phase": 2
+  },
+  {
+    "id": "CR-42",
+    "change": "Final \"editorial\" design chosen from three real mockups: white page, Instrument Serif display type with orange italic emphasis, thin rules, work as a numbered index; typographic case-study covers replace the diagram pictures (deleted), new video posters; the four older theme layers (about 1,900 lines of CSS) and the unused Fraunces font deleted; masked headline reveal, arch photo, skills ticker and hover-fill rows, all CSS and off for reduced motion",
+    "type": "perfective",
+    "closes": "Owner feedback: the site looked basic and traditional; diagrams and motion felt old",
     "commit": "this commit",
     "phase": 2
   }

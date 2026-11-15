@@ -6,16 +6,17 @@
  * CR-33: the "Other projects" and "Skills" lists were removed; they repeated the case studies,
  * and each case study already lists its tools.
  * CR-34: seven case studies, each with my role and, where I have them, real results.
+ * CR-42: typographic covers (CaseCover) replace the diagram pictures.
  */
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { CaseCover } from '../components/CaseCover';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { LoadState } from '../components/LoadState';
 import { useFlip } from '../features/motion/useFlip';
 import { ALL, filterCases, technologies } from '../features/projects/filterProjects';
 import { useContent } from '../hooks/useContent';
-import { imagePath } from '../lib/assets';
 
 export default function Knowledge() {
   const { data, status, error, retry } = useContent('projects');
@@ -66,7 +67,7 @@ export default function Knowledge() {
         <div ref={flip.ref}>
           {caseStudies.map((c) => (
             <article className="case" id={c.id} key={c.id}>
-              <img src={imagePath(c.image)} alt={c.title} loading="lazy" decoding="async" width={1200} height={800} />
+              <CaseCover index={data.caseStudies.indexOf(c) + 1} kind={c.kind} tools={c.tools} />
               <div>
                 <h3 className="case-title">{c.title}</h3>
                 <p className="meta">{c.meta}</p>

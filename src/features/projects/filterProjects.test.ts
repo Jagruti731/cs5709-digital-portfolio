@@ -10,7 +10,6 @@ const make = (id: string, tools: string[], summary = ''): CaseStudy => ({
   title: id,
   tools,
   summary,
-  image: '',
   kind: '',
   meta: '',
   problem: '',

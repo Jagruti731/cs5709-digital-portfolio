@@ -52,7 +52,6 @@ export interface Profile {
 /** One project in depth on the Professional Knowledge page. */
 export interface CaseStudy {
   id: string;
-  image: string;
   title: string;
   kind: string;
   meta: string;

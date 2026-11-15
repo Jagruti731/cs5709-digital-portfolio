@@ -2,7 +2,6 @@
   "caseStudies": [
     {
       "id": "loan",
-      "image": "loan-origination.jpg",
       "title": "Consumer vehicle loan origination",
       "kind": "Fintech · current project",
       "meta": "Winjit · flagship project · lead",
@@ -15,7 +14,6 @@
     },
     {
       "id": "ocr",
-      "image": "ocr-pipeline.jpg",
       "title": "Bank statement extraction pipeline",
       "kind": "Document AI",
       "meta": "Winjit · automotive finance client",
@@ -33,7 +31,6 @@
     },
     {
       "id": "legacy",
-      "image": "modernisation.jpg",
       "title": "Legacy .NET MVC modernisation",
       "kind": "Legacy modernisation",
       "meta": "Winjit · modernisation",
@@ -45,7 +42,6 @@
     },
     {
       "id": "payslip",
-      "image": "payslip-ocr.jpg",
       "title": "Payslip extraction to SQL Server",
       "kind": "Document AI",
       "meta": "Winjit · earlier OCR work",
@@ -57,7 +53,6 @@
     },
     {
       "id": "assistant",
-      "image": "ai-assistant.jpg",
       "title": "AI assistant portal for finance reconciliation",
       "kind": "Applied AI",
       "meta": "Winjit",
@@ -69,7 +64,6 @@
     },
     {
       "id": "workflows",
-      "image": "workflow-automation.jpg",
       "title": "WhatsApp and Power Automate workflows",
       "kind": "Automation",
       "meta": "Winjit",
@@ -81,7 +75,6 @@
     },
     {
       "id": "lexaura",
-      "image": "lexaura.jpg",
       "title": "LexAura: AI legal operations portal",
       "kind": "Innovation competition",
       "meta": "Winjit · innovation competition",

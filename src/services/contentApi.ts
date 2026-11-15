@@ -55,7 +55,7 @@ const list: Check = (v) => (Array.isArray(v) ? null : 'expected a list');
 export const contentRules: Record<ContentName, Check> = {
   profile: objectWith({ name: text, intro: text, facts: arrayOf('label', 'value'), story: list, tracks: arrayOf('title') }),
   projects: objectWith({
-    caseStudies: arrayOf('id', 'title', 'summary', 'image'),
+    caseStudies: arrayOf('id', 'title', 'summary', 'kind'),
   }),
   blog: arrayOf('id', 'title', 'date'),
   career: objectWith({ experience: arrayOf('when', 'title', 'text') }),

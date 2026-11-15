@@ -346,7 +346,7 @@ one perfective change with two parts.
 reads `quality.json`, which the pipeline writes for the exact commit that is live, and shows the
 checks passing, coverage, architecture rule breaks and whether the shared feed is connected, with
 links to the quality report, the pipeline run and this README. The rest is visual only and lives in
-section 9 of `global.css`: ink surfaces with a faint engineering grid, Space Grotesk headings,
+one section of `global.css` (later replaced): ink surfaces with a faint engineering grid, Space Grotesk headings,
 JetBrains Mono for labels and numbers, one signal colour, numbered section kickers, a timeline rail and
 hover lift on project cards. Both fonts are self-hosted, so the installed offline app looks the same
 with no network. Every test passed after the change, and the status logic (`statusRows`) has its own
@@ -379,27 +379,38 @@ soft serif) for headings, Inter for text and JetBrains Mono for small labels; a 
 to Limerick above my name; my photo in an arch; and a three-colour bar on banners, cards and the footer.
 The live pipeline status from CR-33 stays, as a slim ink band under the hero. The gallery keeps only
 real photos (the four drawings and four diagrams were removed; the diagrams stay on Work), and the
-videos have new thumbnails. All of it is section 9 of `global.css`, so no component logic changed.
+videos have new thumbnails. All of it was one section of `global.css` (removed in CR-42), so no component logic changed.
 
-CR-37 adds motion in the style of motion-graphics prompts (section 10 of `global.css`): the name rises
+CR-37 adds motion in the style of motion-graphics prompts (removed in CR-42): the name rises
 line by line, the Nashik to Limerick route draws itself, the photo arch opens from the bottom, banner
 bars sweep in and the status dots pulse. It is CSS only (no new JavaScript), runs once, and is switched
 off completely when the visitor's system asks for reduced motion (WCAG 2.2, 2.3.3).
 
 CR-40 is a complete redesign, after the owner said she did not like the vibe and wanted everything aligned
 with the assignments. The portfolio is a software-evolution project, so it now looks like one: a dark
-"evolution log" (section 11 of `global.css`) with a lime accent, mono labels and the four maintenance types
+"evolution log" (removed in CR-42) with a lime accent, mono labels and the four maintenance types
 (corrective, adaptive, perfective, preventive) as the only other colours. Home tells the story of the three
 assignments (A1 lecturer feedback, A2 peer review, A3 this site), draws a git log of the versions, and shows
 the change requests by maintenance type with the newest commits, all read from `changelog.json`
 (`features/evolution`). The motion is in the style of motion-graphics prompts: two kinetic type lines, an
 underline that draws, a log that writes itself and bars that fill. It is CSS only and is off for reduced motion.
 
-CR-41 replaced that with a "clean corporate" look (section 12 of `global.css`), because the owner wanted a
+CR-41 replaced that with a "clean corporate" look (removed in CR-42), because the owner wanted a
 professional site ready to submit: white page, navy text, one blue accent, Inter only and soft cards. Home now
 speaks to employers and clients (intro, photo card, key numbers, selected work, how I build software, a contact
 band); the assignment material (lecturer feedback, peer review, iterations, change log) stays on this Readme
 page, linked from the footer, so the marker still finds it.
+
+CR-42 is the final look, which the owner chose from three real mockups (editorial, bento grid, dark
+aurora) after saying the site still felt basic and traditional. It is "editorial" (section 9 of `global.css`):
+a white page, near-black ink, very large Instrument Serif headlines with orange italic emphasis, Inter for
+text, thin rules instead of boxes, and the selected work as a numbered index whose rows fill on hover. The
+diagram pictures of the case studies were replaced by typographic covers (`components/CaseCover.tsx`) and
+deleted, and the video posters were redrawn in the same style. The four older theme layers (about 1,900
+lines of CSS that the newest layer overrode) and the unused Fraunces font were deleted as preventive
+maintenance, so there is one theme layer on top of the base styles. The motion follows motion-graphics
+prompts: headline lines slide up out of a mask, the photo arch opens, a skills ticker runs (paused on
+hover), the maintenance bars draw, and work rows fill on hover. It is CSS only and off for reduced motion.
 
 ## 12. Innovation
 
