@@ -4304,3 +4304,11 @@ html.lenis.lenis-stopped {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
+.badge.wait {
+  background: var(--mark);
+  color: #10162b;
+}
+.badge.bad {
+  background: #b91c1c;
+  color: #ffffff;
+}
