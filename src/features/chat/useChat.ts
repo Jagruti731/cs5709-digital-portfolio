@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CHAT_TIMING, LIMITS } from '../../config/site';
 import { useStoredState } from '../../hooks/useStoredState';
-import { cloudEnabled, sendLoungeMessage, subscribeLounge } from '../../services/cloud';
+import { cloudEnabled, isCloudAdmin, removeLoungeMessage, sendLoungeMessage, subscribeLounge, TooSoonError } from '../../services/cloud';
 import { newId } from '../../lib/ids';
 import { answerFor } from './answers';
 
@@ -76,6 +76,8 @@ export function useChat() {
   const [cloud] = useState(cloudEnabled);
   const [shared, setShared] = useState<ChatMessage[]>([]);
   const [error, setError] = useState('');
+  /** True when this visitor may remove lounge messages (CR-58). */
+  const [admin, setAdmin] = useState(false);
 
   // Cloud lounge: newest messages from every visitor, live.
   useEffect(() => {
@@ -89,6 +91,9 @@ export function useChat() {
     }, fail)
       .then((s) => (closed ? s() : (stop = s)))
       .catch(fail);
+    isCloudAdmin()
+      .then(setAdmin)
+      .catch(() => undefined);
     return () => {
       closed = true;
       stop?.();
@@ -129,7 +134,9 @@ export function useChat() {
     if (!clean) return;
     const msg: ChatMessage = { id: newId(), from: me, text: clean, t: Date.now() };
     if (room === 'lounge' && cloud) {
-      sendLoungeMessage(me, clean).catch(() => setError('Your message was not sent.'));
+      sendLoungeMessage(me, clean).catch((err: unknown) =>
+        setError(err instanceof TooSoonError ? err.message : 'Your message was not sent.'),
+      );
       return;
     }
     append(room, msg);
@@ -159,5 +166,21 @@ export function useChat() {
   };
 
   const messages = room === 'lounge' && cloud ? shared : log[room];
-  return { me, room, switchRoom, messages, typing: room === 'lounge' && error ? error : typing, send, notifyTyping, cloud };
+  /** Moderation: an admin removes a lounge message for everyone. */
+  const remove = (id: string) => {
+    if (admin) removeLoungeMessage(id).catch(() => setError('Could not remove the message.'));
+  };
+
+  return {
+    me,
+    room,
+    switchRoom,
+    messages,
+    typing: room === 'lounge' && error ? error : typing,
+    send,
+    notifyTyping,
+    cloud,
+    canRemove: admin && room === 'lounge' && cloud,
+    remove,
+  };
 }

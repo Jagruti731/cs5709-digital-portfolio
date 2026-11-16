@@ -30,10 +30,7 @@ export function Navbar() {
           <span className="logo-mark">{SITE.initials}</span>
           <span className="logo-name">{SITE.owner}</span>
         </Link>
-        <Link className="icon-btn search-link" to="/search" title="Search (press /)" aria-keyshortcuts="/">
-          Search
-        </Link>
-        <ThemeToggle />
+        {/* DOM order = reading and Tab order (screen reader review, CR-58): menu button, links, search, theme. */}
         <button
           className="icon-btn menu-btn"
           type="button"
@@ -43,20 +40,26 @@ export function Navbar() {
         >
           {open ? 'Close' : 'Menu'}
         </button>
-        <ul className="nav-links" id="nav-links">
-          {pages
-            .filter((p) => p.inNav)
-            .map((p) => (
-              <li key={p.path}>
-                <NavLink to={p.path} end={p.path === '/'}>
-                  {p.label}
-                </NavLink>
-              </li>
-            ))}
-          <li className="nav-search">
-            <NavLink to="/search">Search</NavLink>
-          </li>
-        </ul>
+        <nav className="main-nav" aria-label="Main">
+          <ul className="nav-links" id="nav-links">
+            {pages
+              .filter((p) => p.inNav)
+              .map((p) => (
+                <li key={p.path}>
+                  <NavLink to={p.path} end={p.path === '/'}>
+                    {p.label}
+                  </NavLink>
+                </li>
+              ))}
+            <li className="nav-search">
+              <NavLink to="/search">Search</NavLink>
+            </li>
+          </ul>
+        </nav>
+        <Link className="icon-btn search-link" to="/search" title="Search (press /)" aria-keyshortcuts="/">
+          Search
+        </Link>
+        <ThemeToggle />
       </div>
     </header>
   );

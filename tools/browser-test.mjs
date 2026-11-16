@@ -335,6 +335,17 @@ check(
   axeIssues.length ? axeIssues.join(' | ') : `${axePages.length * 2} page checks`,
 );
 
+// Content Security Policy (CR-58): set on every page, and nothing the site needs is blocked
+// (a blocked script, style, image or request would show up as a console error above).
+await go('/');
+const csp = (await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content')) ?? '';
+const blocked = errors.filter((e) => /Content Security Policy/i.test(e));
+check(
+  'Content Security Policy: set, scripts only from this site, nothing blocked during the run',
+  csp.includes("script-src 'self'") && csp.includes("object-src 'none'") && blocked.length === 0,
+  blocked.length ? blocked.join(' | ') : 'policy present',
+);
+
 check('No JavaScript errors in the console during the run', errors.length === 0, errors.join(' | '));
 await browser.close();
 

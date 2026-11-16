@@ -236,10 +236,10 @@
     },
     {
       "id": "F21",
-      "name": "Admin role to moderate posts and messages",
+      "name": "Admin role to moderate posts, comments and lounge messages; rate limiting of writes and sign-ins",
       "group": "Platform",
-      "phase": 3,
-      "status": "planned"
+      "phase": 2,
+      "status": "done"
     },
     {
       "id": "F22",
@@ -322,6 +322,13 @@
       "id": "F33",
       "name": "Personas, scenarios and user stories traced to features",
       "group": "Docs",
+      "phase": 2,
+      "status": "done"
+    },
+    {
+      "id": "F34",
+      "name": "Content Security Policy for the built site (meta tag, as GitHub Pages cannot send headers)",
+      "group": "Quality",
       "phase": 2,
       "status": "done"
     }

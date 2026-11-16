@@ -10,13 +10,57 @@ rules_version = '2';
 //  - Every field is checked: only known fields, string lengths, image type and size,
 //    and the time must be the server's time, not one sent by the browser.
 //  - A like may add or remove only the caller's own id; nothing else in a post changes.
-//  - Comments and lounge messages cannot be edited or deleted; a post only by its author.
+//  - Comments and lounge messages cannot be edited; a post may be deleted by its author.
+//  - Rate limiting (CR-58): every new post, comment or lounge message must be written in
+//    one batch with the caller's limits/{uid} document, which records the server time of
+//    their last write of that kind. The limits document refuses a new time until the
+//    interval has passed: 30 s between posts, 10 s between comments, 3 s in the lounge.
+//  - Moderation (CR-58): a visitor whose id has a document in admins/ may delete any post,
+//    comment or lounge message. Nobody can write to admins/ from the site; an admin is
+//    added only in the Firebase console.
 //  - Everything else is closed.
 service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() {
       return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function limitsPath() {
+      return /databases/$(database)/documents/limits/$(request.auth.uid);
+    }
+
+    // True when this same batch stamps the caller's limits document for this kind of write.
+    function stamped(kind) {
+      let after = getAfter(limitsPath()).data;
+      return kind in after && after[kind] == request.time;
+    }
+
+    // A new limits document holds exactly one stamp.
+    function firstStamp(kind) {
+      return request.resource.data.keys().hasOnly([kind]) && request.resource.data.keys().size() == 1
+        && newStamp(kind, null);
+    }
+
+    // An update changes exactly one stamp.
+    function nextStamp(kind) {
+      return request.resource.data.diff(resource.data).affectedKeys() == [kind].toSet()
+        && newStamp(kind, resource.data);
+    }
+
+    // Seconds a visitor must wait between two writes of the same kind.
+    function interval(kind) {
+      return kind == 'post' ? 30 : (kind == 'comment' ? 10 : 3);
+    }
+
+    // The limits document may change one kind at a time, to the server time, after the interval.
+    function newStamp(kind, before) {
+      return request.resource.data[kind] == request.time
+        && (before == null || !(kind in before) || before[kind] + duration.value(interval(kind), 's') <= request.time);
     }
 
     function text(value, max) {
@@ -53,9 +97,10 @@ service cloud.firestore {
         && text(request.resource.data.content, 1000)
         && validImage(request.resource.data.image)
         && request.resource.data.createdAt == request.time
-        && request.resource.data.likedBy == [];
+        && request.resource.data.likedBy == []
+        && stamped('post');
       allow update: if signedIn() && onlyOwnLike();
-      allow delete: if signedIn() && resource.data.authorId == request.auth.uid;
+      allow delete: if (signedIn() && resource.data.authorId == request.auth.uid) || isAdmin();
     }
 
     match /comments/{commentId} {
@@ -66,8 +111,10 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/posts/$(request.resource.data.postId))
         && text(request.resource.data.author, 40)
         && text(request.resource.data.content, 400)
-        && request.resource.data.createdAt == request.time;
-      allow update, delete: if false;
+        && request.resource.data.createdAt == request.time
+        && stamped('comment');
+      allow update: if false;
+      allow delete: if isAdmin();
     }
 
     match /lounge/{messageId} {
@@ -77,8 +124,27 @@ service cloud.firestore {
         && request.resource.data.fromId == request.auth.uid
         && text(request.resource.data.from, 40)
         && text(request.resource.data.text, 1000)
-        && request.resource.data.t == request.time;
-      allow update, delete: if false;
+        && request.resource.data.t == request.time
+        && stamped('lounge');
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // One document per visitor: the server time of their last post, comment and lounge message.
+    match /limits/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid
+        && (firstStamp('post') || firstStamp('comment') || firstStamp('lounge'));
+      allow update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['post', 'comment', 'lounge'])
+        && (nextStamp('post') || nextStamp('comment') || nextStamp('lounge'));
+      allow delete: if false;
+    }
+
+    // Moderators. Read-only for the visitor it names, so the site can show the admin tools.
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
     }
 
     match /{document=**} {

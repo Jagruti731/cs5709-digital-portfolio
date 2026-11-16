@@ -7,7 +7,12 @@
  *   PostForm     – writing a post
  *   PostCard     – one post, its likes and comments
  * This file only wires them together.
+ *
+ * Moderation (CR-58): opening the Blog with ?moderate in the address shows this
+ * browser's visitor id. Adding that id as a document in admins/ (Firebase console)
+ * makes this browser a moderator, and Remove buttons appear on posts and comments.
  */
+import { useSearchParams } from 'react-router-dom';
 import { PostCard } from './PostCard';
 import { PostForm } from './PostForm';
 import { SignInForm } from './SignInForm';
@@ -21,8 +26,14 @@ const SAVED_WHERE: Record<FeedMode, string> = {
 
 export function CommunityFeed() {
   const feed = usePostFeed();
+  const [params] = useSearchParams();
   return (
     <div className="feed">
+      {params.has('moderate') && feed.mode === 'cloud' && (
+        <p className="note">
+          Moderation: this browser’s visitor id is <code>{feed.likeId || '…'}</code>. Moderator: {feed.admin ? 'yes' : 'no'}.
+        </p>
+      )}
       {feed.mode === 'server' && <SignInForm signedInAs={feed.signedInAs} onSignIn={feed.signIn} onSignOut={feed.signOut} />}
       <PostForm
         askName={!feed.signedInAs}
@@ -41,6 +52,7 @@ export function CommunityFeed() {
           me={feed.likeId}
           onLike={() => feed.like(post.id)}
           onComment={(text) => feed.comment(post.id, text)}
+          onRemove={feed.admin ? (commentId) => feed.remove(post.id, commentId) : undefined}
         />
       ))}
     </div>

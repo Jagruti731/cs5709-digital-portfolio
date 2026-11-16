@@ -21,7 +21,15 @@ export const FIREBASE = {
 export const BACKEND_FLAG = 'jb.backend';
 
 /** Firestore collection names. */
-export const COLLECTIONS = { posts: 'posts', comments: 'comments', lounge: 'lounge' } as const;
+export const COLLECTIONS = { posts: 'posts', comments: 'comments', lounge: 'lounge', limits: 'limits', admins: 'admins' } as const;
+
+/**
+ * Seconds a visitor must wait between two writes of the same kind (CR-58).
+ * firestore.rules enforces the same numbers on the server; the site checks them first
+ * only to show a friendly message instead of a refused write.
+ */
+export const RATE_LIMIT_SECONDS = { post: 30, comment: 10, lounge: 3 } as const;
+export type WriteKind = keyof typeof RATE_LIMIT_SECONDS;
 
 /** How many recent items each live subscription keeps. */
 export const CLOUD_LIMITS = { posts: 50, comments: 300, lounge: 100, imageChars: 400_000 } as const;

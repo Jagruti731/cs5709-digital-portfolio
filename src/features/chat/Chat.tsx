@@ -46,6 +46,16 @@ export function Chat() {
             {chat.room === 'lounge' && m.from !== chat.me && <b>{m.from}: </b>}
             {m.text}
             {m.t > 0 && <time>{clockTime(m.t)}</time>}
+            {chat.canRemove && (
+              <button
+                className="text-btn danger"
+                type="button"
+                onClick={() => chat.remove(m.id)}
+                aria-label={`Remove message from ${m.from}`}
+              >
+                Remove
+              </button>
+            )}
           </div>
         ))}
         <p className="typing">{chat.typing}</p>

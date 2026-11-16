@@ -13,9 +13,11 @@ interface PostCardProps {
   me: string;
   onLike: () => void;
   onComment: (text: string) => void;
+  /** Moderators only (CR-58): removes the post, or one comment when its id is given. */
+  onRemove?: (commentId?: string) => void;
 }
 
-export function PostCard({ post, me, onLike, onComment }: PostCardProps) {
+export function PostCard({ post, me, onLike, onComment, onRemove }: PostCardProps) {
   const [reply, setReply] = useState('');
   const likedBy = post.likedBy ?? [];
   const comments = post.comments ?? [];
@@ -32,10 +34,20 @@ export function PostCard({ post, me, onLike, onComment }: PostCardProps) {
           {liked ? 'Liked' : 'Like'} ({likedBy.length})
         </button>
         <span className="note">{comments.length} comments</span>
+        {onRemove && (
+          <button className="text-btn danger" type="button" onClick={() => onRemove()} aria-label={`Remove post by ${post.author}`}>
+            Remove
+          </button>
+        )}
       </div>
       {comments.map((c) => (
         <p className="comment" key={c.id}>
           <b>{c.author}</b> {c.content}
+          {onRemove && (
+            <button className="text-btn danger" type="button" onClick={() => onRemove(c.id)} aria-label={`Remove comment by ${c.author}`}>
+              Remove
+            </button>
+          )}
         </p>
       ))}
       <form

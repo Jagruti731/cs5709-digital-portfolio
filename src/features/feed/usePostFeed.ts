@@ -18,7 +18,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { LIMITS } from '../../config/site';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { newId } from '../../lib/ids';
-import { addCloudComment, addCloudPost, cloudEnabled, subscribeFeed, toggleCloudLike, visitorId } from '../../services/cloud';
+import {
+  addCloudComment,
+  addCloudPost,
+  cloudEnabled,
+  isCloudAdmin,
+  removeCloudComment,
+  removeCloudPost,
+  subscribeFeed,
+  toggleCloudLike,
+  TooSoonError,
+  visitorId,
+} from '../../services/cloud';
 import { authenticate, createPost, fetchPosts, saveLocal, sendComment, sendLike, usesServer } from '../../services/postsApi';
 import { login, logout } from '../../store/authSlice';
 import { shrinkImage } from './shrinkImage';
@@ -48,6 +59,8 @@ export function usePostFeed() {
   const [guestName, setGuestName] = useState('');
   const [status, setStatus] = useState('');
   const [viewer, setViewer] = useState('');
+  /** True when this visitor is a moderator of the shared feed (CR-58). */
+  const [admin, setAdmin] = useState(false);
   const mode: FeedMode = useMemo(() => (cloudEnabled() ? 'cloud' : usesServer ? 'server' : 'local'), []);
 
   // Cloud: listen live to everyone's posts. Server and local: load once.
@@ -68,6 +81,9 @@ export function usePostFeed() {
       .catch(() => setStatus('The shared feed is not reachable right now.'));
     visitorId()
       .then(setViewer)
+      .catch(() => undefined);
+    isCloudAdmin()
+      .then(setAdmin)
       .catch(() => undefined);
     return () => {
       closed = true;
@@ -107,7 +123,7 @@ export function usePostFeed() {
       return true;
     } catch (err) {
       const fallback = mode === 'server' ? 'Sign in to post.' : 'Could not save the post.';
-      setStatus(err instanceof Error && /image/i.test(err.message) ? err.message : fallback);
+      setStatus(err instanceof TooSoonError || (err instanceof Error && /image/i.test(err.message)) ? err.message : fallback);
       return false;
     }
   };
@@ -125,11 +141,21 @@ export function usePostFeed() {
   const comment = (postId: string, content: string) => {
     const item: CommentItem = { id: newId(), author: me, content, createdAt: new Date().toISOString() };
     if (mode === 'cloud') {
-      addCloudComment(postId, item).catch(() => setStatus('Your reply was not saved.'));
+      addCloudComment(postId, item).catch((err: unknown) =>
+        setStatus(err instanceof TooSoonError ? err.message : 'Your reply was not saved.'),
+      );
       return;
     }
     dispatch(addComment({ postId, comment: item }));
     sendComment(postId, item, auth.token).catch(() => setStatus('Sign in to reply.'));
+  };
+
+  /** Moderation (CR-58): an admin removes a post with its comments, or one comment. */
+  const remove = (postId: string, commentId?: string) => {
+    if (!admin) return;
+    (commentId ? removeCloudComment(commentId) : removeCloudPost(postId))
+      .then(() => setStatus(commentId ? 'Comment removed.' : 'Post removed.'))
+      .catch(() => setStatus('Could not remove it.'));
   };
 
   const signIn = async (mode: 'login' | 'register', username: string, password: string) => {
@@ -150,6 +176,8 @@ export function usePostFeed() {
     publish,
     like,
     comment,
+    admin,
+    remove,
     signIn,
     signOut: () => dispatch(logout()),
   };

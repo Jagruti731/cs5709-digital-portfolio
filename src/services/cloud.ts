@@ -10,8 +10,11 @@
  *  - The Firebase SDK is loaded with import() the first time the feed or lounge
  *    opens, so it is not part of the main bundle.
  *  - Nothing here trusts the database: documents pass through cloudMap first.
+ *  - Rate limiting (CR-58): each new post, comment or lounge message is written in one
+ *    batch with the visitor's limits/{uid} stamp; the rules refuse it if it comes too soon.
+ *  - Moderation (CR-58): a visitor listed in admins/ may remove any post, comment or message.
  */
-import { BACKEND_FLAG, CLOUD_LIMITS, COLLECTIONS, FIREBASE } from '../config/firebase';
+import { BACKEND_FLAG, CLOUD_LIMITS, COLLECTIONS, FIREBASE, RATE_LIMIT_SECONDS, type WriteKind } from '../config/firebase';
 import type { CommentItem, PostItem } from '../types/posts';
 import { toComment, toPost, withComments, millis, type Raw } from './cloudMap';
 
@@ -53,6 +56,74 @@ export function connect(): Promise<Connection> {
   return connection;
 }
 
+/** Thrown when a write comes before the visitor's rate-limit interval has passed. */
+export class TooSoonError extends Error {
+  constructor(readonly seconds: number) {
+    super(`Please wait ${seconds} s before sending again.`);
+    this.name = 'TooSoonError';
+  }
+}
+
+const lastWrite: Partial<Record<WriteKind, number>> = {};
+
+/** Seconds this visitor still has to wait before the next write of this kind (0 = may send now). */
+export function waitSeconds(kind: WriteKind, now = Date.now()): number {
+  const last = lastWrite[kind];
+  if (last === undefined) return 0;
+  return Math.max(0, Math.ceil((last + RATE_LIMIT_SECONDS[kind] * 1000 - now) / 1000));
+}
+
+/** Adds a document together with the visitor's rate-limit stamp, in one batch the rules check together. */
+async function addLimited(kind: WriteKind, collectionName: string, data: Record<string, unknown>): Promise<void> {
+  const wait = waitSeconds(kind);
+  if (wait > 0) throw new TooSoonError(wait);
+  const { fs, db, uid } = await connect();
+  const batch = fs.writeBatch(db);
+  batch.set(fs.doc(fs.collection(db, collectionName)), data);
+  batch.set(fs.doc(db, COLLECTIONS.limits, uid), { [kind]: fs.serverTimestamp() }, { merge: true });
+  try {
+    await batch.commit();
+  } catch (err) {
+    // Rules published before CR-58 know no limits/ collection. A plain write still works there,
+    // and the current rules refuse it, so this fallback never skips the rate limit.
+    if ((err as { code?: string }).code !== 'permission-denied') throw err;
+    await fs.addDoc(fs.collection(db, collectionName), data);
+  }
+  lastWrite[kind] = Date.now();
+}
+
+/** True when this visitor's id is listed in admins/ (set only in the Firebase console). */
+export async function isCloudAdmin(): Promise<boolean> {
+  const { fs, db, uid } = await connect();
+  try {
+    return (await fs.getDoc(fs.doc(db, COLLECTIONS.admins, uid))).exists();
+  } catch {
+    return false;
+  }
+}
+
+/** Admin: removes a post and its comments. */
+export async function removeCloudPost(postId: string): Promise<void> {
+  const { fs, db } = await connect();
+  const replies = await fs.getDocs(fs.query(fs.collection(db, COLLECTIONS.comments), fs.where('postId', '==', postId)));
+  const batch = fs.writeBatch(db);
+  replies.docs.forEach((d) => batch.delete(d.ref));
+  batch.delete(fs.doc(db, COLLECTIONS.posts, postId));
+  await batch.commit();
+}
+
+/** Admin: removes one comment. */
+export async function removeCloudComment(commentId: string): Promise<void> {
+  const { fs, db } = await connect();
+  await fs.deleteDoc(fs.doc(db, COLLECTIONS.comments, commentId));
+}
+
+/** Admin: removes one lounge message. */
+export async function removeLoungeMessage(messageId: string): Promise<void> {
+  const { fs, db } = await connect();
+  await fs.deleteDoc(fs.doc(db, COLLECTIONS.lounge, messageId));
+}
+
 /** The anonymous visitor id, used to show which posts this visitor liked. */
 export const visitorId = async (): Promise<string> => (await connect()).uid;
 
@@ -89,8 +160,8 @@ export async function subscribeFeed(onPosts: (posts: PostItem[]) => void, onErro
 }
 
 export async function addCloudPost(author: string, content: string, image: string | null): Promise<void> {
-  const { fs, db, uid } = await connect();
-  await fs.addDoc(fs.collection(db, COLLECTIONS.posts), {
+  const { fs, uid } = await connect();
+  await addLimited('post', COLLECTIONS.posts, {
     author,
     authorId: uid,
     content,
@@ -107,8 +178,8 @@ export async function toggleCloudLike(postId: string, liked: boolean): Promise<v
 }
 
 export async function addCloudComment(postId: string, comment: CommentItem): Promise<void> {
-  const { fs, db, uid } = await connect();
-  await fs.addDoc(fs.collection(db, COLLECTIONS.comments), {
+  const { fs, uid } = await connect();
+  await addLimited('comment', COLLECTIONS.comments, {
     postId,
     author: comment.author,
     authorId: uid,
@@ -145,6 +216,6 @@ export async function subscribeLounge(onMessages: (m: LoungeMessage[]) => void, 
 }
 
 export async function sendLoungeMessage(from: string, text: string): Promise<void> {
-  const { fs, db, uid } = await connect();
-  await fs.addDoc(fs.collection(db, COLLECTIONS.lounge), { from, fromId: uid, text, t: fs.serverTimestamp() });
+  const { fs, uid } = await connect();
+  await addLimited('lounge', COLLECTIONS.lounge, { from, fromId: uid, text, t: fs.serverTimestamp() });
 }

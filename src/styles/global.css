@@ -215,17 +215,16 @@ code {
   padding: 4px 5px 3px;
   letter-spacing: 0.08em;
 }
+.main-nav {
+  margin-left: auto;
+}
 .nav-links {
-  order: 2;
   display: flex;
   flex-wrap: nowrap;
   gap: 0;
   list-style: none;
-  margin: 0 0 0 auto;
+  margin: 0;
   padding: 0;
-}
-.navbar .icon-btn:not(.menu-btn) {
-  order: 3;
 }
 .nav-links a {
   display: block;
@@ -1081,9 +1080,12 @@ pre.code,
   .navbar .container {
     flex-wrap: wrap;
   }
-  .nav-links {
+  .main-nav {
     order: 3;
     flex: 1 0 100%;
+    margin: 0;
+  }
+  .nav-links {
     flex-direction: column;
     margin: 0;
     padding: 4px 0 14px;
@@ -1475,6 +1477,14 @@ pre.code,
 }
 .text-btn[aria-pressed='true'] {
   color: var(--clay);
+}
+.text-btn.danger {
+  margin-left: 12px;
+  color: var(--muted);
+}
+.text-btn.danger:hover,
+.text-btn.danger:focus-visible {
+  color: var(--text);
 }
 .comment {
   margin: 8px 0 0 18px;

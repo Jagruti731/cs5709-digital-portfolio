@@ -16,7 +16,7 @@ J='Content-Type: application/json'
 FAILED=0
 RESULTS=""
 
-(cd server && DATA_DIR="$DATA_DIR" PORT=$PORT exec node index.js >/dev/null 2>&1) &
+(cd server && DATA_DIR="$DATA_DIR" PORT=$PORT ADMIN_USERS=mod AUTH_PER_MINUTE=15 exec node index.js >/dev/null 2>&1) &
 PID=$!
 trap 'kill $PID 2>/dev/null; rm -rf "$DATA_DIR"' EXIT
 for _ in $(seq 1 30); do curl -s "$URL/posts" >/dev/null && break; sleep 0.2; done
@@ -46,12 +46,27 @@ check "1 MB image fits the body limit"         201 "$(echo "$IMAGE" | status -X 
 check "delete without a token"                 401 "$(status -X DELETE "$URL/posts/$ID")"
 check "delete by another user"                 403 "$(status -X DELETE "$URL/posts/$ID" -H "Authorization: Bearer $TB")"
 check "delete by the author"                   200 "$(status -X DELETE "$URL/posts/$ID" -H "Authorization: Bearer $TA")"
+
+# Moderation and sessions (CR-58).
+status -X POST "$URL/auth/register" -H "$J" -d '{"username":"mod","password":"pw-mod"}' >/dev/null
+TM=$(token mod pw-mod)
+ID2=$(curl -s -X POST "$URL/posts" -H "Authorization: Bearer $TB" -H "$J" -d '{"content":"from bob"}' | node -pe 'JSON.parse(require("fs").readFileSync(0)).id')
+CID=$(curl -s -X POST "$URL/posts/$ID2/comments" -H "Authorization: Bearer $TB" -H "$J" -d '{"content":"spam"}' | node -pe 'JSON.parse(require("fs").readFileSync(0)).id')
+check "remove someone else's comment"          403 "$(status -X DELETE "$URL/posts/$ID2/comments/$CID" -H "Authorization: Bearer $TA")"
+check "admin removes a comment"                200 "$(status -X DELETE "$URL/posts/$ID2/comments/$CID" -H "Authorization: Bearer $TM")"
+check "admin removes anyone's post"            200 "$(status -X DELETE "$URL/posts/$ID2" -H "Authorization: Bearer $TM")"
+node -e 'const f=process.argv[1];const s=JSON.parse(require("fs").readFileSync(f));s.old={user:"ann",expires:Date.now()-1000};require("fs").writeFileSync(f,JSON.stringify(s))' "$DATA_DIR/sessions.json"
+check "an expired session is refused"          401 "$(status -X POST "$URL/posts" -H "Authorization: Bearer old" -H "$J" -d '{"content":"late"}')"
 if grep -q 'pw-ann' "$DATA_DIR/users.json"; then check "passwords are hashed" hashed plain; else check "passwords are hashed" hashed hashed; fi
 
 # A corrupt posts file must be left alone, not replaced with an empty list.
 printf '[{"id":"keep-me"' > "$DATA_DIR/posts.json"
 check "corrupt data file: request refused"     500 "$(status -X POST "$URL/posts" -H "Authorization: Bearer $TA" -H "$J" -d '{"content":"x"}')"
 check "corrupt data file: left unchanged"      '[{"id":"keep-me"' "$(cat "$DATA_DIR/posts.json")"
+
+# Rate limiting (CR-58): repeated sign-in attempts from one client are refused with 429.
+LAST=""; for _ in $(seq 1 15); do LAST=$(status -X POST "$URL/auth/login" -H "$J" -d '{"username":"ann","password":"guess"}'); done
+check "too many sign-in attempts are refused"  429 "$LAST"
 
 [ -f server/users.json ] && check "real data folder untouched" absent present || check "real data folder untouched" absent absent
 [ $FAILED -eq 0 ] && echo "All API checks passed." || echo "Some API checks FAILED."

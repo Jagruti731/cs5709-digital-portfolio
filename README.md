@@ -194,9 +194,9 @@ must survive a reload (theme, chat history, local posts) is saved with `useStore
 | --- | --- | --- |
 | Unit | Vitest | reducers; every real JSON file against its shape rule; search engine (tokens, BM25, typos, highlighting); case-study filter; GitHub service with a fake `fetch`; chat answers and limits; README renderer |
 | Component | Vitest + Testing Library (jsdom) | PostCard, LoadState, Requirements and Change log tabs, both Dashboard tabs; the shared feed and lounge with a fake cloud service |
-| API | bash + curl (`tools/api-test.sh`) | 16 checks: accounts, ownership, comment author from the token, body limit, corrupt-file safety |
-| Security rules | Firestore emulator + `@firebase/rules-unit-testing` (`tools/rules-test.mjs`) | 28 checks of what a visitor may and may not read or write: posting in someone else's name, fake times, unknown fields, liking for someone else, editing comments, deleting other people's posts |
-| Browser | Playwright (`tools/browser-test.mjs`) | 16 walkthrough checks: every route, skip link, gallery, video, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, no console errors |
+| API | bash + curl (`tools/api-test.sh`) | 21 checks: accounts, ownership, comment author from the token, body limit, corrupt-file safety, admin moderation, expired sessions, rate limiting (429) |
+| Security rules | Firestore emulator + `@firebase/rules-unit-testing` (`tools/rules-test.mjs`) | 41 checks of what a visitor may and may not read or write: posting in someone else's name, fake times, unknown fields, liking for someone else, editing comments, deleting other people's posts, rate limits, admin moderation |
+| Browser | Playwright (`tools/browser-test.mjs`) | 17 walkthrough checks: every route, skip link, gallery, video, feed, chat, Readme tabs, smart search, Dashboard, dark mode, mobile width, the offline app, WCAG 2.2 AA (axe-core), Content Security Policy, no console errors |
 
 All five levels run in the pipeline; the Dashboard shows the latest results (section 12.4).
 
@@ -552,11 +552,27 @@ new posts, likes, comments and messages within about a second (Firestore listene
 | --- | --- |
 | Who wrote it | Visitors are signed in **anonymously** (Firebase Authentication). The anonymous id is saved with each post, comment and message. |
 | Protecting the data | The web config is public, so the protection is in `firestore.rules`, checked by Firebase for every request: public reading; writing only as yourself; only known fields; text lengths; image type and size; server time only; a like adds or removes only your own id; no editing of comments or messages; only the author deletes a post. |
-| Testing the rules | `tools/rules-test.mjs` runs 28 allowed/refused checks in the Firestore emulator in the `rules` CI job. The browser test switches the cloud off (`jb.backend = local`) so CI never writes to the real database. |
+| Testing the rules | `tools/rules-test.mjs` runs 41 allowed/refused checks in the Firestore emulator in the `rules` CI job. The browser test switches the cloud off (`jb.backend = local`) so CI never writes to the real database. |
 | Untrusted input | Documents pass through `services/cloudMap.ts` (types forced, lengths capped, only `data:image/…` pictures) before React sees them. |
 | Picture size | `features/feed/shrinkImage.ts` redraws a picture at most 1000 px and saves it as JPEG under 400 KB, as a Firestore document holds at most 1 MiB. |
 | Page weight | The Firebase SDK is loaded with `import()` only when the feed or lounge opens, so the main bundle did not grow. |
 | Design | `usePostFeed` picks one of three modes (cloud, server, local). No component changed, which is what the CR-13 split was meant to allow. Without a Firebase project (for example in a fork) the site keeps the Phase 1 behaviour. |
+
+### 12.6 Security hardening (CR-58)
+
+The last open items of the Phase 1 plan were closed in Phase 2 instead of being left for later.
+
+| Item | How it is done | Tested by |
+| --- | --- | --- |
+| Rate limiting, shared feed | Every new post, comment or lounge message is written in one batch with the visitor's `limits/{uid}` stamp (server time). `firestore.rules` refuses a stamp that comes too soon: 30 s between posts, 10 s between comments, 3 s in the lounge. The site checks the same numbers first to show "Please wait N s". | rules tests: second post within 30 s refused, missing stamp refused, browser time refused, someone else's record refused, deleting your record refused |
+| Rate limiting, API | In-memory limiter per client: 10 sign-in attempts and 30 writes a minute, then `429 Too Many Requests` with `Retry-After`. | API test: repeated wrong passwords end in 429 |
+| Admin moderation | A visitor whose id has a document in `admins/` may remove any post (with its comments), comment or lounge message; Remove buttons appear only for them. Nobody can write to `admins/` from the site, so an admin is added only in the Firebase console. Open the Blog with `?moderate` to see this browser's visitor id. In the API, users named in `ADMIN_USERS` may remove any post or comment. | rules tests: admin removes post, comment and message; nobody makes themselves admin; component tests for the Remove buttons |
+| Expiring sessions (API) | Sign-ins last `SESSION_HOURS` (24 by default); expired sessions are refused and cleaned up. | API test: expired token gets 401 |
+| Content Security Policy | GitHub Pages cannot send headers, so the build adds the policy as a `<meta http-equiv>` tag (`src/config/csp.ts`): scripts only from this site (no inline scripts, no eval), no plugins or frames, connections only to the site, the GitHub API and Google APIs (Firebase). | unit test of the policy; browser check that it is present and blocks nothing the site needs |
+| Screen-reader structure | Review of the accessibility tree that screen readers read, on all 10 pages: one h1 per page, named landmarks, no unnamed buttons or links, no images without alt text. It found two problems, now fixed: the main menu was not a navigation landmark, and the Tab order (Search and Dark mode before the menu) did not match the screen. | browser and axe-core checks |
+
+**Publishing the rules.** The pipeline tests `firestore.rules` in the emulator; publishing them to the live
+Firebase project is a manual step (Firebase console → Firestore → Rules, paste the file, Publish).
 
 ## 13. Response to the reviews
 

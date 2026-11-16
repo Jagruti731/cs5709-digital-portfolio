@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
 import { readFileSync } from 'node:fs';
+import { contentSecurityPolicy } from './src/config/csp';
 
 export default defineConfig({
   // Relative asset paths: the same build works on GitHub Pages under any
@@ -14,6 +15,14 @@ export default defineConfig({
   define: { __APP_VERSION__: JSON.stringify(JSON.parse(readFileSync('./package.json', 'utf8')).version) },
   plugins: [
     react(),
+    // Content Security Policy as a meta tag in the built page only (CR-58, src/config/csp.ts).
+    {
+      name: 'content-security-policy',
+      apply: 'build',
+      transformIndexHtml: () => [
+        { tag: 'meta', attrs: { 'http-equiv': 'Content-Security-Policy', content: contentSecurityPolicy() }, injectTo: 'head-prepend' },
+      ],
+    },
     // Progressive Web App (CR-23, innovation): installable, and works offline.
     VitePWA({
       registerType: 'prompt', // a new version is offered to the visitor, never forced mid-read

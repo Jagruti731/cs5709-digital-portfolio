@@ -6,6 +6,7 @@
 import { act, cleanup, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PostItem } from '../../types/posts';
 import { fitInside } from './shrinkImage';
@@ -17,7 +18,13 @@ const fake = vi.hoisted(() => ({
   toggleCloudLike: vi.fn(async () => {}),
   addCloudComment: vi.fn(async () => {}),
   sendLoungeMessage: vi.fn(async () => {}),
+  admin: false,
+  removeCloudPost: vi.fn(async () => {}),
+  removeCloudComment: vi.fn(async () => {}),
+  removeLoungeMessage: vi.fn(async () => {}),
 }));
+
+class FakeTooSoon extends Error {}
 
 vi.mock('../../services/cloud', () => ({
   cloudEnabled: () => true,
@@ -34,13 +41,21 @@ vi.mock('../../services/cloud', () => ({
   toggleCloudLike: fake.toggleCloudLike,
   addCloudComment: fake.addCloudComment,
   sendLoungeMessage: fake.sendLoungeMessage,
+  isCloudAdmin: async () => fake.admin,
+  removeCloudPost: fake.removeCloudPost,
+  removeCloudComment: fake.removeCloudComment,
+  removeLoungeMessage: fake.removeLoungeMessage,
+  TooSoonError: FakeTooSoon,
 }));
 
 const { store } = await import('../../store/store');
 const { CommunityFeed } = await import('./CommunityFeed');
 const { useChat } = await import('../chat/useChat');
 
-beforeEach(() => vi.clearAllMocks());
+beforeEach(() => {
+  vi.clearAllMocks();
+  fake.admin = false;
+});
 afterEach(cleanup);
 
 const shared: PostItem = {
@@ -57,7 +72,9 @@ describe('shared feed (cloud mode)', () => {
   it('shows posts pushed by the database and says they are shared', async () => {
     render(
       <Provider store={store}>
-        <CommunityFeed />
+        <MemoryRouter>
+          <CommunityFeed />
+        </MemoryRouter>
       </Provider>,
     );
     expect(screen.getByText('Posts are shared live with every visitor.')).toBeTruthy();
@@ -73,7 +90,9 @@ describe('shared feed (cloud mode)', () => {
   it('sends posts and comments to the cloud instead of the local store', async () => {
     render(
       <Provider store={store}>
-        <CommunityFeed />
+        <MemoryRouter>
+          <CommunityFeed />
+        </MemoryRouter>
       </Provider>,
     );
     act(() => fake.emitPosts([shared]));
@@ -84,6 +103,56 @@ describe('shared feed (cloud mode)', () => {
     fireEvent.change(box, { target: { value: 'Nice' } });
     fireEvent.submit(box.closest('form')!);
     expect(fake.addCloudComment).toHaveBeenCalledWith('p1', expect.objectContaining({ content: 'Nice', author: 'Guest' }));
+  });
+});
+
+describe('moderation and rate limiting (CR-58)', () => {
+  const withComment: PostItem = { ...shared, comments: [{ id: 'c1', author: 'Bob', content: 'spam', createdAt: shared.createdAt }] };
+  const show = () =>
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <CommunityFeed />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+  it('shows no Remove buttons to ordinary visitors', async () => {
+    show();
+    act(() => fake.emitPosts([withComment]));
+    await waitFor(() => expect(screen.getByText('spam')).toBeTruthy());
+    expect(screen.queryByRole('button', { name: /Remove/ })).toBeNull();
+  });
+
+  it('lets an admin remove a comment and a post', async () => {
+    fake.admin = true;
+    show();
+    act(() => fake.emitPosts([withComment]));
+    fireEvent.click(await screen.findByRole('button', { name: 'Remove comment by Bob' }));
+    expect(fake.removeCloudComment).toHaveBeenCalledWith('c1');
+    fireEvent.click(screen.getByRole('button', { name: 'Remove post by Ann' }));
+    expect(fake.removeCloudPost).toHaveBeenCalledWith('p1');
+  });
+
+  it('shows the visitor id to a would-be moderator with ?moderate', async () => {
+    fake.admin = true;
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/blog?moderate']}>
+          <CommunityFeed />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(await screen.findByText(/Moderator: yes/)).toBeTruthy();
+    expect(screen.getByText('me-uid')).toBeTruthy();
+  });
+
+  it('tells the visitor to wait when they post too soon', async () => {
+    fake.addCloudPost.mockRejectedValueOnce(new FakeTooSoon('Please wait 25 s before sending again.'));
+    show();
+    fireEvent.change(screen.getByLabelText('Write a post'), { target: { value: 'again' } });
+    fireEvent.submit(screen.getByLabelText('Write a post').closest('form')!);
+    expect(await screen.findByText('Please wait 25 s before sending again.')).toBeTruthy();
   });
 });
 
@@ -98,6 +167,16 @@ describe('shared lounge (cloud mode)', () => {
     expect(result.current.messages[0].text).toHaveLength(1000); // capped like any untrusted message
     act(() => result.current.send('  hi all  '));
     expect(fake.sendLoungeMessage).toHaveBeenCalledWith(result.current.me, 'hi all');
+    expect(result.current.canRemove).toBe(false);
+  });
+
+  it('lets an admin remove a lounge message', async () => {
+    fake.admin = true;
+    const { result } = renderHook(() => useChat(), { wrapper: ({ children }: { children: ReactNode }) => <>{children}</> });
+    act(() => result.current.switchRoom('lounge'));
+    await waitFor(() => expect(result.current.canRemove).toBe(true));
+    act(() => result.current.remove('m1'));
+    expect(fake.removeLoungeMessage).toHaveBeenCalledWith('m1');
   });
 });
 

@@ -452,6 +452,14 @@
     "change": "Dashboard added to the main menu, so the live GitHub data and pipeline runs are one click away from every page",
     "type": "perfective",
     "closes": "Final review: Dashboard was only in the footer",
+    "commit": "f584390",
+    "phase": 2
+  },
+  {
+    "id": "CR-58",
+    "change": "Security and accessibility hardening: rate limiting (Firestore rules and API), admin moderation of posts, comments and lounge, expiring API sessions, a Content Security Policy, and a screen-reader structure review that made the menu a navigation landmark and fixed the Tab order",
+    "type": "preventive",
+    "closes": "Phase 1 plan items: rate limiting, admin moderation, expiring sessions (F21); CSP; screen-reader review",
     "commit": "this commit",
     "phase": 2
   }
