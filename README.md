@@ -97,7 +97,7 @@ VITE_API_URL=http://localhost:5000 npm run dev
 
 ![Site scheme](public/diagrams/site-scheme-v2.svg)
 
-**Site scheme.** Six menu items share one navigation bar (seven before CR-33, when Education became a section of About); Dashboard is linked from the footer and this Readme page has its own address (since CR-47); Search sits outside the menu and is
+**Site scheme.** Seven menu items share one navigation bar: Home, About, Work, Gallery, Blog, Contact and Dashboard (Education became a section of About in CR-33, and Dashboard joined the menu in CR-57); this Readme page has its own address (since CR-47); Search sits outside the menu and is
 opened with the Search button or the `/` key; unknown addresses show Not found.
 
 Every source file starts with an `@file` JSDoc comment that says what the file does and where its data

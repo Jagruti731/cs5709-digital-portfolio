@@ -444,6 +444,14 @@
     "change": "Each silent video has a text alternative (What the video shows), planned in Phase 1 as video captions; a unit test checks every video has its file, poster and text",
     "type": "corrective",
     "closes": "Phase 1 plan item: video captions (WCAG 1.2.1)",
+    "commit": "49f84b2",
+    "phase": 2
+  },
+  {
+    "id": "CR-57",
+    "change": "Dashboard added to the main menu, so the live GitHub data and pipeline runs are one click away from every page",
+    "type": "perfective",
+    "closes": "Final review: Dashboard was only in the footer",
     "commit": "this commit",
     "phase": 2
   }

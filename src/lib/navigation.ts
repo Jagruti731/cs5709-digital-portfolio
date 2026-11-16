@@ -95,7 +95,7 @@ export const pages: PageMeta[] = [
     title: 'Dashboard',
     description: 'Live GitHub activity, CI/CD pipeline runs and the code quality report.',
     keywords: ['github', 'repositories', 'pipeline', 'ci', 'cd', 'actions', 'quality', 'coverage', 'tests'],
-    inNav: false,
+    inNav: true,
   },
   {
     id: 'readme',
